@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+const { lang } = Astro.props;
+const en = lang === 'en';
+const t = en ? {
+  nav:['About','Events','Join'], skip:'Skip to content', eyebrow:'AACHEN CHINESE FINANCE CLUB',
+  title:['A wider perspective.','A shared curiosity.'], intro:'Explore finance. Exchange ideas. Grow together in Aachen.',
+  discover:'Discover ACFC', join:'Join the conversation', location:'Aachen, Germany',
+  about:'Curiosity brings us together.', aboutText:'ACFC is Aachen Chinese Finance Club. We bring an interest in finance into a shared space for learning, thoughtful questions and open conversation.',
+  values:[['01','Learn with clarity.','Start with the fundamentals. Build a clearer understanding of finance and the economic world around us.'],['02','Think independently.','Ask better questions, compare perspectives and develop your own judgment.'],['03','Connect through ideas.','Meet people who share your curiosity and make learning a conversation.']],
+  events:'Ideas worth gathering for.', eventText:'Our next chapter starts with a conversation. Confirmed dates and participation details will be published here.',
+  soon:'To be announced', eventTitle:'The next ACFC event', eventBody:'The programme, venue and registration details are being prepared. Check back for the official announcement.',
+  note:'No registration is open at the moment.',
+  joinTitle:'Your curiosity belongs here.', joinText:'Interested in learning, exchanging ideas or helping shape ACFC? The official joining channel will be published here once confirmed.', joinStatus:'Joining details coming soon',
+  faq:'A few things to know.', questions:[['Do I need a finance background?','You can explore the website without prior knowledge. Any requirements for a specific event will appear in its announcement.'],['Where can I find the next event?','Confirmed events will be listed in the Events section, together with the date, venue and official registration link.'],['How can I join or collaborate?','The official contact and joining channel are awaiting confirmation. We will publish them here when available.']],
+  photo:'Aachen photograph by Daniel von Appen · CC0', footer:'Learning starts with a question.', home:'ACFC home', menu:'Menu',
+} : {
+  nav:['关于我们','活动','加入我们'], skip:'跳至正文', eyebrow:'AACHEN CHINESE FINANCE CLUB',
+  title:['让视野，更开阔。','让思考，有回响。'], intro:'在亚琛，一起探索金融、交流想法、共同成长。',
+  discover:'认识 ACFC', join:'一起参与', location:'德国 · 亚琛',
+  about:'以好奇心为起点。', aboutText:'ACFC，Aachen Chinese Finance Club。我们希望把对金融的兴趣，变成共同学习、认真提问与开放交流的空间。',
+  values:[['01','把知识，理解透。','从基础出发，理解金融与身边的经济世界，让每一次学习都多一点清晰。'],['02','把问题，想深入。','保持提问，交换不同视角，在讨论中形成自己的判断。'],['03','把想法，连接起来。','认识同样好奇的人，让学习成为一场可以持续的对话。']],
+  events:'让想法，在这里相遇。', eventText:'下一次交流，正在酝酿。确认后的时间与参与方式将在这里公布。',
+  soon:'即将公布', eventTitle:'下一场 ACFC 活动', eventBody:'活动主题、地点与报名信息正在准备中，请以之后发布的正式公告为准。', note:'目前暂无开放报名的活动。',
+  joinTitle:'带着好奇心，加入我们。', joinText:'想一起学习、交流想法，或参与 ACFC 的建设？正式加入渠道将在确认后公布。', joinStatus:'加入方式 · 待公布',
+  faq:'你可能想知道。', questions:[['需要金融背景吗？','你可以从了解 ACFC 开始，无需预备知识。具体活动如有参与要求，会在正式公告中说明。'],['在哪里查看下一场活动？','已确认的活动将发布在本页活动区，包括时间、地点与正式报名链接。'],['如何加入或开展合作？','官方联系方式与加入渠道尚待确认，确认后会在这里公布。']],
+  photo:'亚琛摄影：Daniel von Appen · CC0', footer:'每一次学习，都从一个问题开始。', home:'ACFC 首页', menu:'菜单',
+};
+const canonical = `https://acfc-aachen.github.io${en ? '/en/' : '/'}`;
+---
+<!doctype html>
+<html lang={en ? 'en' : 'zh-CN'}>
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{en ? 'ACFC — Aachen Chinese Finance Club' : 'ACFC 亚琛华人金融俱乐部'}</title>
+    <meta name="description" content={t.intro} /><meta name="theme-color" content="#f5f5f3" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="zh-CN" href="https://acfc-aachen.github.io/" />
+    <link rel="alternate" hreflang="en" href="https://acfc-aachen.github.io/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://acfc-aachen.github.io/" />
+    <meta property="og:title" content="ACFC — Aachen Chinese Finance Club" /><meta property="og:description" content={t.intro} />
+    <meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://acfc-aachen.github.io/aachen.jpg" />
+  </head>
+  <body>
+    <a class="skip" href="#main">{t.skip}</a>
+    <header><nav class="nav wrap" aria-label={t.menu}>
+      <a class="brand" href={en ? '/en/' : '/'} aria-label={t.home}>ACFC<span> AACHEN</span></a>
+      <div class="navlinks">{t.nav.map((label,i) => <a href={`#${['about','events','join'][i]}`}>{label}</a>)}</div>
+      <a class="language" href={en ? '/' : '/en/'} lang={en ? 'zh-CN' : 'en'} aria-label={en ? '切换至中文' : 'Switch to English'}>中文 <span>/</span> EN <span aria-hidden="true">↗</span></a>
+    </nav></header>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <p class="eyebrow">{t.eyebrow}</p>
+        <h1 id="hero-title">{t.title[0]}<br/><span>{t.title[1]}</span></h1>
+        <p class="intro">{t.intro}</p>
+        <div class="actions"><a class="button" href="#about">{t.discover}<span aria-hidden="true">↗</span></a><a class="textlink" href="#join">{t.join}<span aria-hidden="true"> →</span></a></div>
+        <figure class="hero-image"><img src="/aachen.jpg" width="4272" height="2856" alt={en ? 'Historic architecture in Aachen, Germany' : '德国亚琛的历史建筑'} fetchpriority="high" /><div class="image-label"><span>{t.location}</span><span aria-hidden="true">50°46′ N · 06°05′ E</span></div></figure>
+        <a class="credit" href="https://commons.wikimedia.org/wiki/File:Aachen,_Germany_(Unsplash).jpg">{t.photo} ↗</a>
+      </section>
+      <section class="section wrap" id="about" aria-labelledby="about-title">
+        <p class="eyebrow">01 / ABOUT ACFC</p><div class="section-heading"><h2 id="about-title">{t.about}</h2><p>{t.aboutText}</p></div>
+        <div class="values">{t.values.map(([number,title,text]) => <article><span class="number">{number}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
+      </section>
+      <section class="events-bg" id="events"><div class="section wrap">
+        <p class="eyebrow">02 / EVENTS</p><div class="section-heading"><h2>{t.events}</h2><p>{t.eventText}</p></div>
+        <article class="event"><div class="date-block" aria-hidden="true">—<span>ACFC / NEXT</span></div><div class="event-body"><span class="pill">{t.soon}</span><h3>{t.eventTitle}</h3><p>{t.eventBody}</p></div><span class="event-arrow" aria-hidden="true">↗</span></article>
+        <p class="small">{t.note}</p>
+      </div></section>
+      <section class="join-section wrap" id="join"><p class="eyebrow">03 / JOIN ACFC</p><h2>{t.joinTitle}</h2><p>{t.joinText}</p><span class="pending">{t.joinStatus}</span></section>
+      <section class="faq section wrap"><p class="eyebrow">GOOD TO KNOW</p><h2>{t.faq}</h2><div>{t.questions.map(([question,answer]) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></section>
+    </main>
+    <footer class="wrap"><div><a class="brand" href={en ? '/en/' : '/'}>ACFC</a><p>{t.footer}</p></div><div class="footer-right"><span>Aachen Chinese Finance Club</span><span>© {new Date().getFullYear()} ACFC</span><a href="https://github.com/acfc-aachen/acfc-aachen.github.io">GitHub ↗</a></div></footer>
+    <script>
+      document.querySelector('.language')?.addEventListener('click', (event) => {
+        const link = event.currentTarget as HTMLAnchorElement;
+        if (['#about','#events','#join'].includes(location.hash)) link.hash = location.hash;
+      });
+    </script>
+  </body>
+</html>
