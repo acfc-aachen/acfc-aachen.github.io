@@ -67,10 +67,10 @@ const canonical = `https://acfc-aachen.github.io${en ? '/en/' : '/'}`;
         <article class="event"><div class="date-block" aria-hidden="true">—<span>ACFC / NEXT</span></div><div class="event-body"><span class="pill">{t.soon}</span><h3>{t.eventTitle}</h3><p>{t.eventBody}</p></div><span class="event-arrow" aria-hidden="true">↗</span></article>
         <p class="small">{t.note}</p>
       </div></section>
-      <section class="join-section wrap" id="join"><p class="eyebrow">03 / JOIN ACFC</p><h2>{t.joinTitle}</h2><p>{t.joinText}</p><a class="button" href="mailto:aachen_acfc@126.com">{en ? 'Contact ACFC' : '邮件联系 ACFC'} <span aria-hidden="true">↗</span></a><p class="contact-email"><a href="mailto:aachen_acfc@126.com">aachen_acfc@126.com</a></p></section>
+      <section class="join-section wrap" id="join"><p class="eyebrow">03 / JOIN ACFC</p><h2>{t.joinTitle}</h2><p>{t.joinText}</p><a class="button" href="mailto:aachen_acfc@126.com">{en ? 'Contact ACFC' : '邮件联系 ACFC'} <span aria-hidden="true">↗</span></a></section>
       <section class="faq section wrap"><p class="eyebrow">GOOD TO KNOW</p><h2>{t.faq}</h2><div>{t.questions.map(([question,answer]) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></section>
     </main>
-    <footer class="wrap"><div><a class="brand" href={en ? '/en/' : '/'} aria-label={t.home}><img src="/acfc-logo.png" width="56" height="56" alt="" /><span class="brand-name">ACFC<small>AACHEN</small></span></a><p>{t.footer}</p></div><div class="footer-right"><span>Aachen Chinese Finance Club</span><span>© {new Date().getFullYear()} ACFC</span><a href="mailto:aachen_acfc@126.com">aachen_acfc@126.com</a><a href="/impressum/" lang="de">Impressum{en ? ' · Legal notice' : ' · 法律声明'}</a><a href="/datenschutz/" lang="de">Datenschutz{en ? ' · Privacy' : ' · 隐私声明'}</a><a href="/bildnachweise/" lang="de">{en ? 'Image credits' : '图片来源'}</a><a href="https://github.com/acfc-aachen/acfc-aachen.github.io">GitHub ↗</a></div></footer>
+    <footer class="wrap"><div><a class="brand" href={en ? '/en/' : '/'} aria-label={t.home}><img src="/acfc-logo.png" width="56" height="56" alt="" /><span class="brand-name">ACFC<small>AACHEN</small></span></a><p>{t.footer}</p></div><div class="footer-right"><span>Aachen Chinese Finance Club</span><span>© {new Date().getFullYear()} ACFC</span><a href="/impressum/" lang="de">Impressum{en ? ' · Legal notice' : ' · 法律声明'}</a><a href="/datenschutz/" lang="de">Datenschutz{en ? ' · Privacy' : ' · 隐私声明'}</a><a href="/bildnachweise/" lang="de">{en ? 'Image credits' : '图片来源'}</a><a href="https://github.com/acfc-aachen/acfc-aachen.github.io">GitHub ↗</a></div></footer>
     <script>
       document.querySelector('.language')?.addEventListener('click', (event) => {
         const link = event.currentTarget as HTMLAnchorElement;
@@ -79,4 +79,5 @@ const canonical = `https://acfc-aachen.github.io${en ? '/en/' : '/'}`;
     </script>
   </body>
 </html>
+
 
