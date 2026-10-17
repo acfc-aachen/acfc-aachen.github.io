@@ -8,3 +8,4 @@
 
 .hero-image::after{content:'';position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(16,37,54,.5));pointer-events:none}.image-label{z-index:1}.hero>.eyebrow{color:#366da0}.join-section h2{color:#176c95}.values article:nth-child(2) .number{color:#8b5db0}.values article:nth-child(3) .number{color:#207963}.pill{background:#e3effb;border-color:#b6d2ed;color:#285c8d}.button:hover{background:#0066cc;opacity:1}
 
+.brand{display:inline-flex;align-items:center;gap:10px;color:#071e49;flex-shrink:0}.brand img{display:block;object-fit:contain;flex-shrink:0}.brand .brand-name{font-size:24px;letter-spacing:-1px;font-weight:750;margin:0}.brand-name small{display:block;font-size:8px;letter-spacing:2.5px;font-weight:500;margin-top:2px}footer .brand .brand-name{display:block}@media(max-width:700px){.nav .brand img{width:44px;height:44px}.nav .brand .brand-name{display:none}}
