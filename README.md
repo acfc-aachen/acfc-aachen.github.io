@@ -17,4 +17,5 @@ Pending owner input: official contact/joining channel; confirmed event programme
 
 ## Photograph
 
-`public/aachen.jpg` and its optimized `public/aachen.webp` derivative: Daniel von Appen, “Aachen, Germany”, 2017-05-01. Source: https://commons.wikimedia.org/wiki/File:Aachen,_Germany_(Unsplash).jpg (original Unsplash photo W_eHhfC8GUY). Wikimedia Commons records this pre-5 June 2017 photograph as **CC0 1.0**. The website displays a grayscale crop. Architecture is city photography, not club photography.
+`public/aachen.jpg` and its optimized `public/aachen.webp` derivative: Daniel von Appen, “Aachen, Germany”, 2017-05-01. Source: https://commons.wikimedia.org/wiki/File:Aachen,_Germany_(Unsplash).jpg (original Unsplash photo W_eHhfC8GUY). Wikimedia Commons records this pre-5 June 2017 photograph as **CC0 1.0**. The website displays a color crop with light brightness and saturation adjustments. Architecture is city photography, not club photography.
+
