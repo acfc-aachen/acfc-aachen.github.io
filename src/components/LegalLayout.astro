@@ -1,0 +1,22 @@
+---
+import '../styles/global.css';
+const { title, description, path } = Astro.props;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — ACFC</title><meta name="description" content={description} />
+    <link rel="icon" href="/favicon.png" type="image/png" /><link rel="apple-touch-icon" href="/acfc-logo.png" />
+    <link rel="canonical" href={`https://acfc-aachen.github.io${path}`} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Zum Inhalt</a>
+    <header><nav class="nav wrap" aria-label="Navigation">
+      <a class="brand" href="/" aria-label="ACFC Startseite"><img src="/acfc-logo.png" width="48" height="48" alt="" /><span class="brand-name">ACFC<small>AACHEN</small></span></a>
+      <div class="navlinks"><a href="/" lang="zh-CN">中文首页</a><a href="/en/" lang="en">English home</a></div>
+    </nav></header>
+    <main id="main" class="legal-page wrap"><p class="eyebrow">ACFC / INFORMATIONEN</p><h1>{title}</h1><p class="legal-date">Stand: 17. Oktober 2026</p><slot /></main>
+    <footer class="wrap"><div><a class="brand" href="/" aria-label="ACFC Startseite"><img src="/acfc-logo.png" width="56" height="56" alt="" /><span class="brand-name">ACFC<small>AACHEN</small></span></a><p>Aachen Chinese Finance Club</p></div><div class="footer-right"><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a><a href="/bildnachweise/">Bildnachweise</a><a href="mailto:aachen_acfc@126.com">aachen_acfc@126.com</a></div></footer>
+  </body>
+</html>
