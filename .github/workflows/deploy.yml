@@ -22,7 +22,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Refresh CNN Fear & Greed data
+      - name: Refresh CNN and Eurostat market data
         run: npm run update:market-data
       - run: npm run build
       - uses: actions/configure-pages@v5
