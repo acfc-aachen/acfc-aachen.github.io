@@ -3,7 +3,7 @@ import '../styles/global.css';
 const { lang } = Astro.props;
 const en = lang === 'en';
 const t = en ? {
-  nav:['About','Events','Join'], skip:'Skip to content', eyebrow:'AACHEN CHINESE FINANCE CLUB',
+  nav:['About','Events','Market Watch','Join'], skip:'Skip to content', eyebrow:'AACHEN CHINESE FINANCE CLUB',
   title:['A wider perspective.','A shared curiosity.'], intro:'Explore finance. Exchange ideas. Grow together in Aachen.',
   discover:'Discover ACFC', join:'Join the conversation', location:'Aachen, Germany',
   about:'Curiosity brings us together.', aboutText:'ACFC is Aachen Chinese Finance Club. We bring an interest in finance into a shared space for learning, thoughtful questions and open conversation.',
@@ -15,7 +15,7 @@ const t = en ? {
   faq:'A few things to know.', questions:[['Do I need a finance background?','You can explore the website without prior knowledge. Any requirements for a specific event will appear in its announcement.'],['Where can I find the next event?','Confirmed events will be listed in the Events section, together with the date, venue and official registration link.'],['How can I join or collaborate?','Contact us at aachen_acfc@126.com about joining or collaboration. Event registration is announced separately.']],
   photo:'Aachen photograph by Daniel von Appen · CC0', footer:'Learning starts with a question.', home:'ACFC home', menu:'Menu',
 } : {
-  nav:['关于我们','活动','加入我们'], skip:'跳至正文', eyebrow:'AACHEN CHINESE FINANCE CLUB',
+  nav:['关于我们','活动','市场监控','加入我们'], skip:'跳至正文', eyebrow:'AACHEN CHINESE FINANCE CLUB',
   title:['让视野，更开阔。','让思考，有回响。'], intro:'在亚琛，一起探索金融、交流想法、共同成长。',
   discover:'认识 ACFC', join:'一起参与', location:'德国 · 亚琛',
   about:'以好奇心为起点。', aboutText:'ACFC，Aachen Chinese Finance Club。我们希望把对金融的兴趣，变成共同学习、认真提问与开放交流的空间。',
@@ -27,6 +27,7 @@ const t = en ? {
   photo:'亚琛摄影：Daniel von Appen · CC0', footer:'每一次学习，都从一个问题开始。', home:'ACFC 首页', menu:'菜单',
 };
 const canonical = `https://acfc-aachen.github.io${en ? '/en/' : '/'}`;
+const navHrefs = en ? ['#about','#events','/en/market-watch/','#join'] : ['#about','#events','/market-watch/','#join'];
 ---
 <!doctype html>
 <html lang={en ? 'en' : 'zh-CN'}>
@@ -46,7 +47,7 @@ const canonical = `https://acfc-aachen.github.io${en ? '/en/' : '/'}`;
     <a class="skip" href="#main">{t.skip}</a>
     <header><nav class="nav wrap" aria-label={t.menu}>
       <a class="brand" href={en ? '/en/' : '/'} aria-label={t.home}><img src="/acfc-logo.png" width="48" height="48" alt="" /><span class="brand-name">ACFC<small>AACHEN</small></span></a>
-      <div class="navlinks">{t.nav.map((label,i) => <a href={`#${['about','events','join'][i]}`}>{label}</a>)}</div>
+      <div class="navlinks">{t.nav.map((label,i) => <a href={navHrefs[i]}>{label}</a>)}</div>
       <a class="language" href={en ? '/' : '/en/'} lang={en ? 'zh-CN' : 'en'} aria-label={en ? '切换至中文' : 'Switch to English'}>中文 <span>/</span> EN <span aria-hidden="true">↗</span></a>
     </nav></header>
     <main id="main">

@@ -1,0 +1,233 @@
+---
+import '../styles/global.css';
+
+const { lang = 'zh' } = Astro.props;
+const en = lang === 'en';
+
+const t = en ? {
+  home: 'Back to ACFC', language: '中文', eyebrow: 'ACFC QUANTITATIVE RESEARCH',
+  title: 'Market Watch', subtitle: 'A compact view of macro conditions, market structure and model signals.',
+  demo: 'DEMO DATA', demoText: 'Illustrative dashboard · proprietary indicators can be connected next',
+  overview: 'System overview', composite: 'Composite signal', range: 'Selected range',
+  regime: 'Regime map', regimeLabel: 'Disinflationary growth', regimeText: 'Growth remains positive while inflation pressure is cooling.',
+  matrix: 'Cross-asset signal matrix', matrixText: 'Standardised model scores from −2 to +2',
+  model: 'Model stack', modelText: 'Contribution to the composite signal',
+  snapshot: 'Market snapshot', snapshotText: 'Illustrative values for interface design',
+  asset: 'Asset', level: 'Level', move: 'Move', signal: 'Signal',
+  notes: 'Methodology notes', noteItems: ['Scores are demonstration values and are not live market data.','Each indicator can later be connected to your own calculation or data pipeline.','Nothing on this page constitutes investment advice.'],
+  updated: 'Demo dataset', status: 'SYSTEM ONLINE', positive: 'Positive', neutral: 'Neutral', negative: 'Negative',
+  growth: 'Growth', inflation: 'Inflation', cooling: 'Cooling', accelerating: 'Accelerating', contraction: 'Contraction', expansion: 'Expansion',
+  footer: 'ACFC Market Watch · Research interface', legal: 'Illustrative data · Not investment advice',
+} : {
+  home: '返回 ACFC', language: 'EN', eyebrow: 'ACFC QUANTITATIVE RESEARCH',
+  title: '市场监控', subtitle: '把宏观环境、市场结构和量化信号集中在一个清晰的监控界面里。',
+  demo: '演示数据', demoText: '当前为界面示例 · 下一步可接入你的自有量化指标',
+  overview: '系统概览', composite: '综合信号', range: '当前区间',
+  regime: '市场环境地图', regimeLabel: '增长与通胀回落', regimeText: '增长仍为正，通胀压力正在缓和。',
+  matrix: '跨资产信号矩阵', matrixText: '模型分数标准化至 −2 到 +2',
+  model: '模型组合', modelText: '各模型对综合信号的贡献',
+  snapshot: '市场快照', snapshotText: '用于界面设计的示例数值',
+  asset: '资产', level: '点位', move: '变化', signal: '信号',
+  notes: '方法说明', noteItems: ['页面中的分数均为演示值，不是实时市场数据。','后续可以把每个指标连接到你的计算结果或数据管线。','本页面内容不构成任何投资建议。'],
+  updated: '演示数据集', status: '系统运行中', positive: '偏多', neutral: '中性', negative: '偏空',
+  growth: '增长', inflation: '通胀', cooling: '降温', accelerating: '加速', contraction: '收缩', expansion: '扩张',
+  footer: 'ACFC Market Watch · 量化研究界面', legal: '演示数据 · 不构成投资建议',
+};
+
+const kpis = en ? [
+  { label:'ACFC Composite', value:'62.4', unit:'/ 100', delta:'+4.8', tone:'cyan', path:'M2 31 C20 30 28 16 45 20 S72 35 91 22 S118 9 142 14 S171 28 198 8' },
+  { label:'Macro Regime', value:'G2', unit:'growth', delta:'stable', tone:'blue', path:'M2 29 C25 27 35 25 55 25 S90 18 112 18 S150 11 198 13' },
+  { label:'Market Breadth', value:'58', unit:'%', delta:'+6 pts', tone:'green', path:'M2 34 C25 35 35 28 55 30 S85 22 108 25 S144 13 165 17 S182 11 198 9' },
+  { label:'Portfolio Stress', value:'27', unit:'/ 100', delta:'−3.2', tone:'amber', path:'M2 12 C22 13 30 20 51 17 S78 8 101 16 S133 30 151 23 S173 19 198 27' },
+] : [
+  { label:'ACFC 综合信号', value:'62.4', unit:'/ 100', delta:'+4.8', tone:'cyan', path:'M2 31 C20 30 28 16 45 20 S72 35 91 22 S118 9 142 14 S171 28 198 8' },
+  { label:'宏观环境', value:'G2', unit:'增长', delta:'稳定', tone:'blue', path:'M2 29 C25 27 35 25 55 25 S90 18 112 18 S150 11 198 13' },
+  { label:'市场广度', value:'58', unit:'%', delta:'+6 点', tone:'green', path:'M2 34 C25 35 35 28 55 30 S85 22 108 25 S144 13 165 17 S182 11 198 9' },
+  { label:'组合压力', value:'27', unit:'/ 100', delta:'−3.2', tone:'amber', path:'M2 12 C22 13 30 20 51 17 S78 8 101 16 S133 30 151 23 S173 19 198 27' },
+];
+
+const tickers = [
+  ['MSCI WORLD','3,742.1','+0.42%','up'],['BUND 10Y','2.61%','+3 bp','warn'],['EUR / USD','1.084','−0.16%','down'],
+  ['GOLD','2,734','+0.57%','up'],['BTC','68,420','+1.83%','up'],['VIX','16.8','−0.7','up'],
+];
+
+const heatmap = en ? [
+  ['Equities',[0.82,0.48,-0.24,0.35]],['Rates',[-0.18,0.12,0.65,-0.42]],['Credit',[0.56,0.31,-0.08,0.18]],['FX',[-0.32,0.26,0.14,-0.15]],['Commodities',[0.44,0.72,-0.36,0.51]],
+] : [
+  ['股票',[0.82,0.48,-0.24,0.35]],['利率',[-0.18,0.12,0.65,-0.42]],['信用',[0.56,0.31,-0.08,0.18]],['外汇',[-0.32,0.26,0.14,-0.15]],['大宗商品',[0.44,0.72,-0.36,0.51]],
+];
+const heatHeaders = en ? ['Trend','Momentum','Valuation','Volatility'] : ['趋势','动量','估值','波动'];
+const tone = (v) => v > .5 ? 'hot-positive' : v > .12 ? 'positive' : v < -.3 ? 'hot-negative' : v < -.1 ? 'negative' : 'flat';
+
+const models = en ? [
+  ['Macro cycle',74,'cyan'],['Trend',68,'blue'],['Liquidity',61,'green'],['Breadth',58,'violet'],['Valuation',43,'amber'],
+] : [
+  ['宏观周期',74,'cyan'],['趋势模型',68,'blue'],['流动性',61,'green'],['市场广度',58,'violet'],['估值模型',43,'amber'],
+];
+
+const markets = en ? [
+  ['MSCI World','3,742.1','+0.42%','Positive','up'],['S&P 500','5,892.6','+0.31%','Positive','up'],['STOXX 600','521.4','−0.18%','Neutral','neutral'],['Gold','2,734','+0.57%','Positive','up'],['Bitcoin','68,420','+1.83%','Neutral','neutral'],['EUR / USD','1.084','−0.16%','Negative','down'],
+] : [
+  ['MSCI World','3,742.1','+0.42%','偏多','up'],['S&P 500','5,892.6','+0.31%','偏多','up'],['STOXX 600','521.4','−0.18%','中性','neutral'],['黄金','2,734','+0.57%','偏多','up'],['比特币','68,420','+1.83%','中性','neutral'],['EUR / USD','1.084','−0.16%','偏空','down'],
+];
+
+const canonical = `https://acfc-aachen.github.io${en ? '/en/market-watch/' : '/market-watch/'}`;
+---
+<!doctype html>
+<html lang={en ? 'en' : 'zh-CN'} class="watch-page">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{en ? 'Market Watch — ACFC' : '市场监控 Market Watch — ACFC'}</title>
+    <meta name="description" content={t.subtitle} />
+    <meta name="theme-color" content="#07111f" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="zh-CN" href="https://acfc-aachen.github.io/market-watch/" />
+    <link rel="alternate" hreflang="en" href="https://acfc-aachen.github.io/en/market-watch/" />
+    <link rel="alternate" hreflang="x-default" href="https://acfc-aachen.github.io/market-watch/" />
+  </head>
+  <body class="watch-body">
+    <a class="watch-skip" href="#dashboard">{en ? 'Skip to dashboard' : '跳至数据面板'}</a>
+    <header class="watch-header">
+      <nav class="watch-nav" aria-label={en ? 'Market Watch navigation' : '市场监控导航'}>
+        <a class="watch-brand" href={en ? '/en/' : '/'} aria-label={t.home}>
+          <img src="/acfc-logo.png" width="44" height="44" alt="" />
+          <span>ACFC<small>MARKET WATCH</small></span>
+        </a>
+        <div class="watch-nav-actions">
+          <a href={en ? '/en/' : '/'}>{t.home}</a>
+          <a class="language-switch" href={en ? '/market-watch/' : '/en/market-watch/'}>{t.language} ↗</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="dashboard" class="watch-shell">
+      <section class="watch-intro">
+        <div>
+          <p class="watch-eyebrow">{t.eyebrow}</p>
+          <h1>{t.title}<span aria-hidden="true">/</span></h1>
+          <p>{t.subtitle}</p>
+        </div>
+        <div class="system-block" aria-label={t.status}>
+          <span class="system-dot"></span><strong>{t.status}</strong><small>{t.updated}</small>
+        </div>
+      </section>
+
+      <div class="demo-banner"><strong>{t.demo}</strong><span>{t.demoText}</span></div>
+
+      <section class="ticker-rail" aria-label={en ? 'Illustrative market ticker' : '示例市场行情'}>
+        {tickers.map(([name,value,change,state]) => <div class="ticker"><span>{name}</span><strong>{value}</strong><em class={state}>{change}</em></div>)}
+      </section>
+
+      <div class="section-label"><span>01</span><h2>{t.overview}</h2><div></div></div>
+
+      <section class="kpi-grid">
+        {kpis.map((kpi) => <article class={`panel kpi ${kpi.tone}`}>
+          <div class="panel-top"><span>{kpi.label}</span><span class="live-mark">LIVE</span></div>
+          <div class="kpi-reading"><strong>{kpi.value}</strong><small>{kpi.unit}</small><em>{kpi.delta}</em></div>
+          <svg class="spark" viewBox="0 0 200 42" role="img" aria-label={`${kpi.label} trend`}><path d={kpi.path} /></svg>
+        </article>)}
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel composite-panel">
+          <div class="panel-heading"><div><span class="panel-kicker">ACFC / SIGNAL ENGINE</span><h2>{t.composite}</h2></div><div class="range-tabs" role="group" aria-label={t.range}><button data-range="1m">1M</button><button data-range="3m">3M</button><button data-range="6m">6M</button><button class="active" data-range="1y">1Y</button></div></div>
+          <div class="chart-summary"><strong id="signal-score">62.4</strong><span>/ 100</span><em id="signal-change">+4.8</em></div>
+          <svg class="signal-chart" viewBox="0 0 760 260" preserveAspectRatio="none" role="img" aria-label={en ? 'Composite signal history' : '综合信号历史走势'}>
+            <defs><linearGradient id="signal-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3ee6c1" stop-opacity=".30"/><stop offset="1" stop-color="#3ee6c1" stop-opacity="0"/></linearGradient></defs>
+            <g class="chart-grid"><line x1="0" y1="30" x2="760" y2="30"/><line x1="0" y1="90" x2="760" y2="90"/><line x1="0" y1="150" x2="760" y2="150"/><line x1="0" y1="210" x2="760" y2="210"/></g>
+            <path class="area" d="M0 205 C55 192 92 210 135 174 S220 119 276 142 S354 179 413 124 S510 72 568 92 S664 130 760 48 L760 260 L0 260 Z" />
+            <path id="signal-line" class="line" d="M0 205 C55 192 92 210 135 174 S220 119 276 142 S354 179 413 124 S510 72 568 92 S664 130 760 48" />
+            <circle cx="760" cy="48" r="6"/><circle class="pulse" cx="760" cy="48" r="12"/>
+          </svg>
+          <div class="chart-axis"><span>−12M</span><span>−9M</span><span>−6M</span><span>−3M</span><span>NOW</span></div>
+        </article>
+
+        <article class="panel regime-panel">
+          <div class="panel-heading"><div><span class="panel-kicker">MACRO / NOWCAST</span><h2>{t.regime}</h2></div><span class="confidence">74%</span></div>
+          <div class="regime-map" role="img" aria-label={t.regimeLabel}>
+            <span class="axis-y top">{t.accelerating}</span><span class="axis-y bottom">{t.cooling}</span><span class="axis-x left">{t.contraction}</span><span class="axis-x right">{t.expansion}</span>
+            <div class="regime-dot"><i></i><span>G2</span></div>
+          </div>
+          <h3>{t.regimeLabel}</h3><p>{t.regimeText}</p>
+          <div class="regime-legend"><span><i class="growth"></i>{t.growth}</span><span><i class="inflation"></i>{t.inflation}</span></div>
+        </article>
+
+        <article class="panel matrix-panel">
+          <div class="panel-heading"><div><span class="panel-kicker">CROSS ASSET / Z-SCORE</span><h2>{t.matrix}</h2><p>{t.matrixText}</p></div><span class="matrix-scale">−2&nbsp;&nbsp; 0&nbsp;&nbsp; +2</span></div>
+          <div class="heatmap" role="table" aria-label={t.matrix}>
+            <div class="heatmap-row heatmap-head" role="row"><span></span>{heatHeaders.map((h)=><strong role="columnheader">{h}</strong>)}</div>
+            {heatmap.map(([asset,values]) => <div class="heatmap-row" role="row"><strong role="rowheader">{asset}</strong>{values.map((v)=><span role="cell" class={tone(Number(v))}>{Number(v)>0?'+':''}{Number(v).toFixed(2)}</span>)}</div>)}
+          </div>
+        </article>
+
+        <article class="panel model-panel">
+          <div class="panel-heading"><div><span class="panel-kicker">MODEL / CONTRIBUTION</span><h2>{t.model}</h2><p>{t.modelText}</p></div></div>
+          <div class="model-list">{models.map(([name,value,color]) => <div class="model-row"><div><span>{name}</span><strong>{value}</strong></div><div class="model-track"><i class={color} style={`width:${value}%`}></i></div></div>)}</div>
+          <div class="model-total"><span>{en ? 'Signal confidence' : '信号置信度'}</span><strong>71.6%</strong></div>
+        </article>
+
+        <article class="panel table-panel">
+          <div class="panel-heading"><div><span class="panel-kicker">MARKETS / SNAPSHOT</span><h2>{t.snapshot}</h2><p>{t.snapshotText}</p></div><span class="timestamp">T+0</span></div>
+          <div class="market-table" role="table" aria-label={t.snapshot}>
+            <div class="market-row market-head" role="row"><span role="columnheader">{t.asset}</span><span role="columnheader">{t.level}</span><span role="columnheader">{t.move}</span><span role="columnheader">{t.signal}</span></div>
+            {markets.map(([asset,level,move,signal,state]) => <div class="market-row" role="row"><strong role="cell">{asset}</strong><span role="cell">{level}</span><span role="cell" class={state}>{move}</span><span role="cell"><i class={`signal-pill ${state}`}>{signal}</i></span></div>)}
+          </div>
+        </article>
+
+        <aside class="panel notes-panel">
+          <div><span class="panel-kicker">READ ME / 00</span><h2>{t.notes}</h2></div>
+          <ol>{t.noteItems.map((item,i)=><li><span>0{i+1}</span><p>{item}</p></li>)}</ol>
+          <a href="mailto:aachen_acfc@126.com">{en ? 'Discuss a data connection' : '讨论数据接入'} <span>↗</span></a>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="watch-footer"><span>{t.footer}</span><span>{t.legal}</span></footer>
+
+    <script>
+      const series = {
+        '1m': { score:'62.4', change:'+1.6', path:'M0 181 C80 190 120 153 186 161 S292 117 370 132 S505 74 590 95 S690 73 760 48' },
+        '3m': { score:'62.4', change:'+3.1', path:'M0 198 C52 174 92 184 150 155 S260 173 318 126 S430 96 493 112 S614 69 760 48' },
+        '6m': { score:'62.4', change:'+5.7', path:'M0 215 C70 196 118 212 174 174 S283 126 342 149 S456 102 519 119 S632 87 760 48' },
+        '1y': { score:'62.4', change:'+4.8', path:'M0 205 C55 192 92 210 135 174 S220 119 276 142 S354 179 413 124 S510 72 568 92 S664 130 760 48' },
+      };
+      const line = document.querySelector('#signal-line');
+      const score = document.querySelector('#signal-score');
+      const change = document.querySelector('#signal-change');
+      document.querySelectorAll('.range-tabs button').forEach((button) => button.addEventListener('click', () => {
+        const key = button.getAttribute('data-range');
+        if (!key || !(key in series) || !line || !score || !change) return;
+        document.querySelectorAll('.range-tabs button').forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        const point = series[key as keyof typeof series];
+        line.setAttribute('d', point.path); score.textContent = point.score; change.textContent = point.change;
+      }));
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root{--watch-bg:#07111f;--watch-panel:#0c192a;--watch-panel-2:#101f33;--watch-line:#203249;--watch-text:#edf7ff;--watch-muted:#7f93aa;--watch-cyan:#3ee6c1;--watch-blue:#5b8cff;--watch-green:#7be495;--watch-amber:#ffbf69;--watch-red:#ff6b81;--watch-violet:#a98cff}
+  .watch-page{background:var(--watch-bg);color:var(--watch-text);color-scheme:dark;scroll-padding-top:82px}
+  .watch-body{margin:0;background:radial-gradient(circle at 74% -10%,rgba(91,140,255,.13),transparent 34%),var(--watch-bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
+  .watch-body *{box-sizing:border-box}.watch-body a{color:inherit;text-decoration:none}.watch-skip{position:fixed;left:20px;top:-100px;z-index:50;background:#fff;color:#07111f;padding:12px 16px}.watch-skip:focus{top:10px}
+  .watch-header{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(123,147,170,.18);background:rgba(7,17,31,.86);backdrop-filter:blur(18px)}
+  .watch-nav{height:72px;width:min(1440px,calc(100% - 48px));margin:auto;display:flex;align-items:center;justify-content:space-between}.watch-brand{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:750;letter-spacing:-.6px}.watch-brand img{object-fit:contain}.watch-brand small{display:block;color:var(--watch-muted);font-size:8px;letter-spacing:2.2px;margin-top:2px}.watch-nav-actions{display:flex;align-items:center;gap:28px;font-size:12px;color:var(--watch-muted)}.watch-nav-actions a:hover{color:var(--watch-text)}.language-switch{border:1px solid var(--watch-line);border-radius:999px;padding:9px 13px}
+  .watch-shell{width:min(1440px,calc(100% - 48px));margin:auto;padding:52px 0 80px}.watch-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:32px}.watch-eyebrow,.panel-kicker{margin:0 0 14px;color:var(--watch-cyan);font-size:10px;letter-spacing:2.2px;font-weight:700}.watch-intro h1{margin:0;font-size:clamp(46px,6vw,84px);line-height:.95;letter-spacing:-4px;font-weight:680}.watch-intro h1 span{color:var(--watch-cyan);margin-left:8px}.watch-intro>div>p:last-child{color:var(--watch-muted);font-size:15px;max-width:620px;margin:25px 0 0}.system-block{display:grid;grid-template-columns:10px auto;column-gap:10px;align-items:center;text-align:right}.system-dot{width:8px;height:8px;border-radius:50%;background:var(--watch-cyan);box-shadow:0 0 14px var(--watch-cyan)}.system-block strong{font-size:11px;letter-spacing:1.4px}.system-block small{grid-column:2;color:var(--watch-muted);font-size:10px;margin-top:5px}.demo-banner{display:flex;align-items:center;gap:16px;border:1px solid rgba(255,191,105,.28);background:rgba(255,191,105,.07);padding:11px 15px;border-radius:5px;color:#d9c29f;font-size:11px}.demo-banner strong{color:var(--watch-amber);font-size:9px;letter-spacing:1.5px;border:1px solid rgba(255,191,105,.35);border-radius:3px;padding:4px 6px}
+  .ticker-rail{margin:18px 0 45px;border-block:1px solid var(--watch-line);display:flex;overflow-x:auto;scrollbar-width:none}.ticker{min-width:210px;flex:1;display:grid;grid-template-columns:1fr auto;gap:5px 12px;padding:16px 18px;border-right:1px solid var(--watch-line)}.ticker:first-child{padding-left:0}.ticker:last-child{border:0}.ticker span{grid-column:1/-1;color:var(--watch-muted);font-size:9px;letter-spacing:1.5px}.ticker strong{font-size:17px}.ticker em{font-size:11px;font-style:normal;align-self:end}.up{color:var(--watch-green)}.down{color:var(--watch-red)}.warn{color:var(--watch-amber)}.neutral{color:var(--watch-muted)}
+  .section-label{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:12px;margin-bottom:15px}.section-label span{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--watch-cyan);font-size:10px}.section-label h2{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;margin:0}.section-label div{height:1px;background:var(--watch-line)}
+  .panel{background:linear-gradient(145deg,rgba(17,34,55,.94),rgba(10,24,41,.96));border:1px solid var(--watch-line);border-radius:7px;box-shadow:0 18px 50px rgba(0,0,0,.18)}.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}.kpi{padding:18px 18px 12px;overflow:hidden;position:relative}.panel-top{display:flex;justify-content:space-between;color:var(--watch-muted);font-size:10px;letter-spacing:.6px}.live-mark{font-size:8px;border:1px solid var(--watch-line);padding:3px 5px;border-radius:2px}.kpi-reading{display:flex;align-items:baseline;gap:8px;margin-top:15px}.kpi-reading strong{font-size:34px;letter-spacing:-1.5px}.kpi-reading small{color:var(--watch-muted);font-size:10px}.kpi-reading em{font-size:10px;font-style:normal;margin-left:auto;color:var(--watch-cyan)}.spark{width:100%;height:42px;margin-top:9px;overflow:visible}.spark path{fill:none;stroke:currentColor;stroke-width:2}.kpi.cyan{color:var(--watch-cyan)}.kpi.blue{color:var(--watch-blue)}.kpi.green{color:var(--watch-green)}.kpi.amber{color:var(--watch-amber)}.kpi .panel-top,.kpi .kpi-reading strong{color:var(--watch-text)}
+  .dashboard-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.dashboard-grid>.panel{padding:22px}.composite-panel{grid-column:span 8}.regime-panel{grid-column:span 4}.matrix-panel{grid-column:span 7}.model-panel{grid-column:span 5}.table-panel{grid-column:span 8}.notes-panel{grid-column:span 4}.panel-heading{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.panel-heading h2,.notes-panel h2{font-size:20px;letter-spacing:-.5px;margin:0}.panel-heading p{color:var(--watch-muted);font-size:11px;margin:7px 0 0}.range-tabs{display:flex;border:1px solid var(--watch-line);border-radius:4px;overflow:hidden}.range-tabs button{appearance:none;border:0;border-right:1px solid var(--watch-line);background:transparent;color:var(--watch-muted);padding:7px 10px;font-size:9px;cursor:pointer}.range-tabs button:last-child{border:0}.range-tabs button.active{background:var(--watch-cyan);color:#04120f}.chart-summary{display:flex;align-items:baseline;gap:8px;margin:17px 0 -3px}.chart-summary strong{font-size:30px}.chart-summary span{color:var(--watch-muted);font-size:10px}.chart-summary em{font-style:normal;font-size:10px;color:var(--watch-green);margin-left:auto}.signal-chart{width:100%;height:250px;overflow:visible}.chart-grid line{stroke:var(--watch-line);stroke-width:1}.signal-chart .area{fill:url(#signal-fill)}.signal-chart .line{fill:none;stroke:var(--watch-cyan);stroke-width:3;transition:d .35s ease}.signal-chart circle{fill:var(--watch-cyan)}.signal-chart .pulse{fill:none;stroke:var(--watch-cyan);stroke-width:1;opacity:.45}.chart-axis{display:flex;justify-content:space-between;color:var(--watch-muted);font-size:9px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+  .confidence,.timestamp,.matrix-scale{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--watch-cyan);font-size:11px}.regime-map{height:255px;margin:20px 0 17px;position:relative;border:1px solid var(--watch-line);background:linear-gradient(90deg,transparent 49.8%,var(--watch-line) 50%,transparent 50.2%),linear-gradient(transparent 49.8%,var(--watch-line) 50%,transparent 50.2%),radial-gradient(circle at 72% 31%,rgba(62,230,193,.09),transparent 22%)}.regime-map:before,.regime-map:after{content:'';position:absolute;background:var(--watch-line)}.regime-map:before{width:4px;height:4px;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}.axis-y,.axis-x{position:absolute;color:var(--watch-muted);font-size:8px;letter-spacing:1px;text-transform:uppercase}.axis-y{left:10px}.axis-y.top{top:9px}.axis-y.bottom{bottom:9px}.axis-x{bottom:9px}.axis-x.left{left:54px}.axis-x.right{right:54px}.regime-dot{position:absolute;left:70%;top:28%;transform:translate(-50%,-50%);display:grid;place-items:center}.regime-dot i{position:absolute;width:34px;height:34px;border:1px solid var(--watch-cyan);border-radius:50%;background:rgba(62,230,193,.18);box-shadow:0 0 22px rgba(62,230,193,.35)}.regime-dot span{z-index:1;color:var(--watch-text);font-size:9px}.regime-panel h3{font-size:15px;margin:0 0 5px}.regime-panel>p{font-size:11px;color:var(--watch-muted);margin:0}.regime-legend{display:flex;gap:20px;margin-top:16px;color:var(--watch-muted);font-size:9px}.regime-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}.regime-legend .growth{background:var(--watch-cyan)}.regime-legend .inflation{background:var(--watch-amber)}
+  .heatmap{display:grid;gap:7px;margin-top:22px}.heatmap-row{display:grid;grid-template-columns:1.25fr repeat(4,1fr);gap:7px;align-items:center}.heatmap-row>strong{font-size:10px;color:var(--watch-muted);font-weight:500}.heatmap-row>span{border:1px solid var(--watch-line);border-radius:3px;padding:12px 8px;text-align:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px}.heatmap-head strong{text-align:center;font-size:8px;letter-spacing:.5px}.heatmap .hot-positive{background:rgba(62,230,193,.28);border-color:rgba(62,230,193,.4);color:#9dffe9}.heatmap .positive{background:rgba(91,140,255,.18);color:#a9c1ff}.heatmap .flat{background:rgba(127,147,170,.08);color:#a9b7c5}.heatmap .negative{background:rgba(255,191,105,.15);color:#ffd19a}.heatmap .hot-negative{background:rgba(255,107,129,.22);color:#ff9dad}
+  .model-list{display:grid;gap:18px;margin-top:28px}.model-row>div:first-child{display:flex;justify-content:space-between;font-size:10px}.model-row strong{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.model-track{height:5px;background:#172942;border-radius:999px;margin-top:8px;overflow:hidden}.model-track i{display:block;height:100%;border-radius:999px}.model-track .cyan{background:var(--watch-cyan)}.model-track .blue{background:var(--watch-blue)}.model-track .green{background:var(--watch-green)}.model-track .violet{background:var(--watch-violet)}.model-track .amber{background:var(--watch-amber)}.model-total{border-top:1px solid var(--watch-line);display:flex;justify-content:space-between;margin-top:24px;padding-top:18px;color:var(--watch-muted);font-size:10px}.model-total strong{color:var(--watch-text);font-size:16px}
+  .market-table{margin-top:20px}.market-row{display:grid;grid-template-columns:1.5fr 1fr .9fr .8fr;align-items:center;border-bottom:1px solid var(--watch-line);min-height:47px;font-size:11px}.market-row>*:not(:first-child){text-align:right}.market-row strong{font-size:11px}.market-head{min-height:30px;color:var(--watch-muted);font-size:8px;text-transform:uppercase;letter-spacing:1px}.signal-pill{display:inline-block;font-style:normal;font-size:8px;padding:4px 7px;border-radius:999px;border:1px solid var(--watch-line)}.signal-pill.up{background:rgba(123,228,149,.08)}.signal-pill.down{background:rgba(255,107,129,.08)}
+  .notes-panel{display:flex;flex-direction:column}.notes-panel ol{list-style:none;margin:24px 0;padding:0;display:grid;gap:0}.notes-panel li{display:grid;grid-template-columns:28px 1fr;gap:12px;border-top:1px solid var(--watch-line);padding:17px 0}.notes-panel li>span{color:var(--watch-cyan);font-size:9px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.notes-panel p{font-size:11px;color:var(--watch-muted);line-height:1.7;margin:0}.notes-panel>a{margin-top:auto;border:1px solid var(--watch-line);border-radius:4px;padding:13px 14px;display:flex;justify-content:space-between;font-size:10px;color:var(--watch-cyan)}
+  .watch-footer{width:min(1440px,calc(100% - 48px));margin:auto;border-top:1px solid var(--watch-line);padding:24px 0 38px;display:flex;justify-content:space-between;color:var(--watch-muted);font-size:9px;letter-spacing:.5px}
+  @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.composite-panel,.regime-panel,.matrix-panel,.model-panel,.table-panel,.notes-panel{grid-column:span 12}.regime-panel{display:grid;grid-template-columns:1fr 1.4fr;gap:24px}.regime-panel .panel-heading{grid-column:1/-1}.regime-map{grid-row:2/5;grid-column:2;margin:0}.regime-legend{grid-column:1}}
+  @media(max-width:700px){.watch-nav,.watch-shell,.watch-footer{width:calc(100% - 28px)}.watch-nav{height:64px}.watch-brand span{font-size:16px}.watch-nav-actions{gap:12px;font-size:10px}.watch-intro{align-items:flex-start;flex-direction:column}.watch-intro h1{font-size:52px;letter-spacing:-3px}.system-block{text-align:left}.demo-banner{align-items:flex-start;flex-direction:column}.ticker{min-width:170px}.kpi-grid{grid-template-columns:1fr 1fr;gap:8px}.dashboard-grid{gap:8px}.dashboard-grid>.panel{padding:16px}.panel-heading{gap:10px}.range-tabs button{padding:6px 7px}.signal-chart{height:210px}.regime-panel{display:block}.regime-map{height:220px;margin-top:18px}.heatmap-row{grid-template-columns:1.1fr repeat(4,1fr);gap:4px}.heatmap-row>span{padding:10px 2px;font-size:9px}.heatmap-head strong{font-size:7px}.market-row{grid-template-columns:1.25fr .9fr .85fr .8fr;font-size:9px}.watch-footer{gap:20px;line-height:1.6}.watch-footer span:last-child{text-align:right}}
+  @media(max-width:470px){.kpi-grid{grid-template-columns:1fr}.watch-nav-actions>a:first-child{display:none}.watch-intro h1{font-size:46px}.composite-panel .panel-heading{flex-direction:column}.range-tabs{align-self:flex-start}.matrix-scale{display:none}.market-row{grid-template-columns:1.25fr .9fr .85fr}.market-row>*:last-child{display:none}.watch-footer{flex-direction:column}.watch-footer span:last-child{text-align:left}}
+  @media(prefers-reduced-motion:reduce){.signal-chart .line{transition:none}}
+</style>
