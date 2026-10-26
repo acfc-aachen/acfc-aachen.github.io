@@ -1,1 +1,1 @@
-{"name":"acfc-website","private":true,"type":"module","scripts":{"dev":"astro dev --host 127.0.0.1","build":"astro build","preview":"astro preview --host 127.0.0.1"},"dependencies":{"astro":"^7.4.0"}}
+{"name":"acfc-website","private":true,"type":"module","scripts":{"dev":"astro dev --host 127.0.0.1","build":"astro build","preview":"astro preview --host 127.0.0.1","update:market-data":"node scripts/update-market-data.mjs"},"dependencies":{"astro":"^7.4.0"}}

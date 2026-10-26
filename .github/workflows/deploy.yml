@@ -2,6 +2,8 @@ name: Build and deploy ACFC
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '17 5 * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,6 +22,8 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Refresh CNN Fear & Greed data
+        run: npm run update:market-data
       - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
