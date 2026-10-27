@@ -61,7 +61,7 @@ const fetchCnn = async () => {
     previousMonth: rounded(headline.previous_1_month), previousYear: rounded(headline.previous_1_year),
     history: (raw.fear_and_greed_historical?.data ?? [])
       .map((point) => ({ date: toIso(point.x), value: rounded(point.y), rating: cleanRating(point.rating) }))
-      .filter((point) => point.value !== null).slice(-120),
+      .filter((point) => point.value !== null).slice(-1500),
   };
 };
 
@@ -126,11 +126,11 @@ const fetchYahooChart = async (symbol, range = '6mo') => {
 
 const fetchGoldDebtRatio = async () => {
   const startDate = new Date();
-  startDate.setUTCFullYear(startDate.getUTCFullYear() - 5);
+  startDate.setUTCFullYear(startDate.getUTCFullYear() - 20);
   const start = startDate.toISOString().slice(0, 10);
   const treasuryEndpoint = `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?fields=record_date,tot_pub_debt_out_amt&filter=record_date:gte:${start}&sort=record_date&page[size]=10000`;
   const [goldChart, debtRaw] = await Promise.all([
-    fetchYahooChart('GC=F', '5y'),
+    fetchYahooChart('GC=F', 'max'),
     requestJson(treasuryEndpoint, { headers: { accept: 'application/json', 'user-agent': 'ACFC-Market-Watch/1.0 (aachen_acfc@126.com)' } }),
   ]);
   const debts = (debtRaw?.data ?? [])
@@ -153,7 +153,7 @@ const fetchGoldDebtRatio = async () => {
   }
   if (!matched.length) throw new Error('Gold and Treasury observations could not be aligned');
   const monthly = [...matched.reduce((months, point) => months.set(point.date.slice(0, 7), point), new Map()).values()];
-  const history = monthly.slice(-60);
+  const history = monthly.slice(-240);
   const latest = matched.at(-1);
   const oneYearReference = history.find((point) => point.date >= `${Number(latest.date.slice(0, 4)) - 1}-${latest.date.slice(5, 7)}`) ?? history[0];
   return {

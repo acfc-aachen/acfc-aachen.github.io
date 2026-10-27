@@ -16,7 +16,7 @@ const t = en ? {
   subtitle:'A focused view of sentiment, valuation, breadth and the macro environment — using verifiable data.',
   online:'DAILY CHECK ACTIVE', updated:'Sources are checked every day', sentiment:'Market sentiment', valuation:'Market valuation', breadth:'Market breadth', pulse:'Market pulse', valuationCross:'Valuation & cross-asset ratio',
   fearTitle:'Fear & Greed Index', fearSub:'CNN market sentiment · latest available reading', daily:'DAILY DATA', lastGood:'LAST GOOD DATA',
-  history:'60-session history', asOf:'As of', extremeFear:'Extreme fear', extremeGreed:'Extreme greed',
+  history:'Sentiment history', asOf:'As of', extremeFear:'Extreme fear', extremeGreed:'Extreme greed',
   macroKicker:'EUROSTAT / EURO AREA', macroTitle:'Market environment map', macroSub:'Real growth and inflation data · not a forecast',
   macroCurrent:'Current environment', growth:'Real GDP growth', inflation:'HICP inflation', growthUnit:'quarter on quarter', inflationUnit:'year on year',
   contraction:'CONTRACTION', expansion:'EXPANSION', lowerInflation:'LOWER INFLATION', higherInflation:'HIGHER INFLATION', target:'ECB 2% reference',
@@ -24,7 +24,7 @@ const t = en ? {
   automationTitle:'Automatic updates', automation:'GitHub Actions checks every source daily. New observations are deployed automatically; if a source is temporarily unavailable, the last successful reading remains visible and is marked stale.',
   capeTitle:'Shiller CAPE', capeSub:'S&P 500 cyclically adjusted valuation · monthly data', capeHistory:'20-year valuation history', capeAverage:'Long-term average', capeMedian:'Long-term median', capePercentile:'Historical percentile',
   breadthTitle:'S&P 500 market breadth', breadthSub:'Advancing and declining constituent securities · daily close', breadthHistory:'Recent 60 sessions', advancers:'Advancing', decliners:'Declining', unchanged:'Unchanged', coverage:'Coverage',
-  goldDebtTitle:'Gold price / U.S. debt', goldDebtSub:'COMEX gold price relative to total U.S. public debt', goldDebtHistory:'Five-year ratio history', goldPrice:'Gold price', usDebt:'Total U.S. debt', oneYearChange:'One-year change', ratioUnit:'USD/oz per USD 1tn debt',
+  goldDebtTitle:'Gold price / U.S. debt', goldDebtSub:'COMEX gold price relative to total U.S. public debt', goldDebtHistory:'Gold/debt ratio history', goldPrice:'Gold price', usDebt:'Total U.S. debt', oneYearChange:'One-year change', ratioUnit:'USD/oz per USD 1tn debt',
   fxTitle:'EUR/USD trend', fxSub:'Euro exchange rate against the U.S. dollar · delayed daily close', currentRate:'Current rate', dailyChange:'Daily change', yearChange:'One-year change', yearRange:'52-week range', fxHistory:'One-year EUR/USD history',
   source:'Source', dataPeriod:'Data period', footer:'ACFC Market Watch · Verified public data', legal:'Not investment advice',
 } : {
@@ -32,7 +32,7 @@ const t = en ? {
   subtitle:'用可核验数据观察市场情绪、估值、广度与宏观经济环境。',
   online:'每日检查已启用', updated:'系统每天检查数据源', sentiment:'市场情绪', valuation:'市场估值', breadth:'市场广度', pulse:'市场脉搏', valuationCross:'估值与跨资产比值',
   fearTitle:'恐慌与贪婪指数', fearSub:'CNN 市场情绪 · 最近可用读数', daily:'每日数据', lastGood:'最近有效数据',
-  history:'近 60 个交易日', asOf:'数据时间', extremeFear:'极度恐慌', extremeGreed:'极度贪婪',
+  history:'情绪历史走势', asOf:'数据时间', extremeFear:'极度恐慌', extremeGreed:'极度贪婪',
   macroKicker:'EUROSTAT / EURO AREA', macroTitle:'市场环境地图', macroSub:'真实增长与通胀数据 · 不是预测模型',
   macroCurrent:'当前环境', growth:'实际 GDP 增长', inflation:'HICP 通胀', growthUnit:'环比', inflationUnit:'同比',
   contraction:'经济收缩', expansion:'经济扩张', lowerInflation:'低通胀', higherInflation:'高通胀', target:'ECB 2% 参考线',
@@ -40,7 +40,7 @@ const t = en ? {
   automationTitle:'如何保证自动更新', automation:'GitHub Actions 每天检查全部数据源。发现新数据后自动重新发布；如果数据源暂时不可用，则保留最近一次成功数据并标记为过期。',
   capeTitle:'席勒市盈率', capeSub:'标普 500 周期调整估值 · 月度数据', capeHistory:'近 20 年估值历史', capeAverage:'长期均值', capeMedian:'长期中位数', capePercentile:'历史分位',
   breadthTitle:'标普 500 市场广度', breadthSub:'成分证券上涨与下跌家数 · 每日收盘', breadthHistory:'近 60 个交易日', advancers:'上涨', decliners:'下跌', unchanged:'平盘', coverage:'覆盖',
-  goldDebtTitle:'黄金价格与美债总量的比值', goldDebtSub:'COMEX 黄金价格相对于美国公共债务总额', goldDebtHistory:'近五年比值历史', goldPrice:'黄金价格', usDebt:'美国债务总额', oneYearChange:'一年变化', ratioUnit:'美元/盎司 ÷ 每万亿美元债务',
+  goldDebtTitle:'黄金价格与美债总量的比值', goldDebtSub:'COMEX 黄金价格相对于美国公共债务总额', goldDebtHistory:'黄金/美债比值历史', goldPrice:'黄金价格', usDebt:'美国债务总额', oneYearChange:'一年变化', ratioUnit:'美元/盎司 ÷ 每万亿美元债务',
   fxTitle:'欧元兑美元走势', fxSub:'欧元相对美元汇率 · 延迟日收盘数据', currentRate:'当前汇率', dailyChange:'当日变化', yearChange:'一年变化', yearRange:'52 周区间', fxHistory:'近一年 EUR/USD 走势',
   source:'来源', dataPeriod:'统计期', footer:'ACFC Market Watch · 可核验公开数据', legal:'不构成投资建议',
 };
@@ -53,15 +53,21 @@ const fearRatingLabels: Record<string,string> = en ? {
 };
 const fearRating = fearRatingLabels[cnn.rating] ?? (en ? 'Unavailable' : '暂无数据');
 const fearColor = fearScore === null ? '#8a96a6' : fearScore < 25 ? '#d84e66' : fearScore < 45 ? '#d98532' : fearScore < 55 ? '#7b8797' : fearScore < 75 ? '#3a9f78' : '#16865c';
-const fearHistory = (cnn.history ?? []).slice(-60);
+const fearAllHistory = cnn.history ?? [];
 const fearWidth = 620;
 const fearHeight = 150;
-const fearPath = fearHistory.map((point, index) => {
-  const x = fearHistory.length > 1 ? index / (fearHistory.length - 1) * fearWidth : 0;
-  const y = fearHeight - Number(point.value) / 100 * fearHeight;
-  return `${index === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
-}).join(' ');
-const fearArea = fearPath ? `${fearPath} L${fearWidth} ${fearHeight} L0 ${fearHeight} Z` : '';
+const fearRangeCharts = [
+  { id:'60d', label: en ? '60D' : '60日', points:fearAllHistory.slice(-60) },
+  { id:'6m', label: en ? '6M' : '6个月', points:fearAllHistory.slice(-130) },
+  { id:'1y', label: en ? '1Y' : '1年', points:fearAllHistory.slice(-260) },
+].map((range) => {
+  const path = range.points.map((point, index) => {
+    const x = range.points.length > 1 ? index / (range.points.length - 1) * fearWidth : 0;
+    const y = fearHeight - Number(point.value) / 100 * fearHeight;
+    return `${index === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+  }).join(' ');
+  return { ...range, path, area: path ? `${path} L${fearWidth} ${fearHeight} L0 ${fearHeight} Z` : '' };
+});
 const fearAsOf = cnn.asOf ? new Intl.DateTimeFormat(en ? 'en-GB' : 'zh-CN', { dateStyle:'medium', timeStyle:'short', timeZone:'Europe/Berlin' }).format(new Date(cnn.asOf)) : '—';
 const comparison = en ? [
   ['Previous close',cnn.previousClose],['One week ago',cnn.previousWeek],['One month ago',cnn.previousMonth],['One year ago',cnn.previousYear],
@@ -104,21 +110,26 @@ const spRange = Math.max(1.5, ...breadthHistory.map((point) => Math.abs(Number(p
 const spPath = linePath(breadthHistory, 'sp500Change', breadthWidth, breadthHeight, -spRange, spRange);
 const spChange = breadth.available ? Number(breadth.sp500Change) : null;
 const goldDebtValue = goldDebt.available ? Number(goldDebt.ratio) : null;
-const goldDebtHistory = (goldDebt.history ?? []).slice(-60);
+const goldDebtAllHistory = goldDebt.history ?? [];
 const goldDebtWidth = 720;
 const goldDebtHeight = 180;
-const goldDebtValues = goldDebtHistory.map((point) => Number(point.ratio)).filter(Number.isFinite);
-const goldDebtRawMin = goldDebtValues.length ? Math.min(...goldDebtValues) : 0;
-const goldDebtRawMax = goldDebtValues.length ? Math.max(...goldDebtValues) : 100;
-const goldDebtStep = Math.max(5, Math.ceil((goldDebtRawMax - goldDebtRawMin) / 4 / 5) * 5);
-const goldDebtMin = Math.max(0, Math.floor(goldDebtRawMin / goldDebtStep) * goldDebtStep);
-const goldDebtMax = Math.max(goldDebtMin + goldDebtStep, Math.ceil(goldDebtRawMax / goldDebtStep) * goldDebtStep);
-const goldDebtYTicks = Array.from({ length: Math.round((goldDebtMax - goldDebtMin) / goldDebtStep) + 1 }, (_, index) => goldDebtMax - index * goldDebtStep);
-const goldDebtPath = linePath(goldDebtHistory, 'ratio', goldDebtWidth, goldDebtHeight, goldDebtMin, goldDebtMax);
-const goldDebtArea = goldDebtPath ? `${goldDebtPath} L${goldDebtWidth} ${goldDebtHeight} L0 ${goldDebtHeight} Z` : '';
 const axisTicks = (points, count = 5) => Array.from({ length: count }, (_, index) => points[Math.round(index * (points.length - 1) / (count - 1))]).filter(Boolean);
 const capeXTicks = axisTicks(capeHistory);
-const goldDebtXTicks = axisTicks(goldDebtHistory);
+const goldDebtRangeCharts = [
+  { id:'5y', label: en ? '5Y' : '5年', points:goldDebtAllHistory.slice(-60) },
+  { id:'10y', label: en ? '10Y' : '10年', points:goldDebtAllHistory.slice(-120) },
+  { id:'20y', label: en ? '20Y' : '20年', points:goldDebtAllHistory.slice(-240) },
+].map((range) => {
+  const values = range.points.map((point) => Number(point.ratio)).filter(Number.isFinite);
+  const rawMin = values.length ? Math.min(...values) : 0;
+  const rawMax = values.length ? Math.max(...values) : 100;
+  const step = Math.max(5, Math.ceil((rawMax - rawMin) / 4 / 5) * 5);
+  const min = Math.max(0, Math.floor(rawMin / step) * step);
+  const max = Math.max(min + step, Math.ceil(rawMax / step) * step);
+  const yTicks = Array.from({ length: Math.round((max - min) / step) + 1 }, (_, index) => max - index * step);
+  const path = linePath(range.points, 'ratio', goldDebtWidth, goldDebtHeight, min, max);
+  return { ...range, min, max, yTicks, path, area:path ? `${path} L${goldDebtWidth} ${goldDebtHeight} L0 ${goldDebtHeight} Z` : '', xTicks:axisTicks(range.points) };
+});
 const eurUsdValue = eurUsd.available ? Number(eurUsd.value) : null;
 const eurUsdHistory = (eurUsd.history ?? []).slice(-260);
 const eurUsdWidth = 920;
@@ -198,8 +209,10 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
           </div>
           <div class="fear-scale" aria-hidden="true"><span>{t.extremeFear}</span><i></i><span>{t.extremeGreed}</span></div>
           <div class="fear-history">
-            <div class="fear-history-top"><span>{t.history}</span><small>{t.asOf} · {fearAsOf}</small></div>
-            {fearPath ? <div class="interactive-chart" data-chart="fear" data-points={JSON.stringify(fearHistory)} tabindex="0"><svg viewBox={`0 0 ${fearWidth} ${fearHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive CNN Fear and Greed history' : '可交互的 CNN 恐慌与贪婪指数历史走势'}><defs><linearGradient id="fear-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color={fearColor} stop-opacity=".24"/><stop offset="1" stop-color={fearColor} stop-opacity="0"/></linearGradient></defs><line x1="0" y1="75" x2={fearWidth} y2="75"/><path class="fear-area" d={fearArea}/><path class="fear-line" d={fearPath} style={`stroke:${fearColor}`}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div> : <div class="fear-unavailable">{en ? 'Sentiment data is temporarily unavailable.' : '市场情绪数据暂时不可用。'}</div>}
+            <div class="fear-history-top"><span>{t.history}<small>{t.asOf} · {fearAsOf}</small></span><div class="chart-range-tabs" data-range-tabs>{fearRangeCharts.map((range,index) => <button type="button" class:list={{ active:index === 0 }} data-range={range.id} aria-pressed={index === 0 ? 'true' : 'false'}>{range.label}</button>)}</div></div>
+            <div class="range-chart-group" data-range-group>
+              {fearRangeCharts.map((range,index) => <div class="range-chart-panel" data-range-panel={range.id} hidden={index !== 0}>{range.path ? <div class="interactive-chart" data-chart="fear" data-points={JSON.stringify(range.points)} tabindex="0"><svg viewBox={`0 0 ${fearWidth} ${fearHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? `Interactive CNN Fear and Greed ${range.label} history` : `可交互的 CNN 恐慌与贪婪指数${range.label}历史走势`}><defs><linearGradient id={`fear-fill-${range.id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color={fearColor} stop-opacity=".24"/><stop offset="1" stop-color={fearColor} stop-opacity="0"/></linearGradient></defs><line x1="0" y1="75" x2={fearWidth} y2="75"/><path d={range.area} style={`fill:url(#fear-fill-${range.id})`}/><path class="fear-line" d={range.path} style={`stroke:${fearColor}`}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div> : <div class="fear-unavailable">{en ? 'Sentiment data is temporarily unavailable.' : '市场情绪数据暂时不可用。'}</div>}</div>)}
+            </div>
           </div>
           <div class="fear-comparison">{comparison.map(([label,value]) => <div><span>{label}</span><strong>{value === null ? '—' : Number(value).toFixed(1)}</strong></div>)}</div>
         </div>
@@ -268,8 +281,10 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
           </div>
         </div>
         <div class="gold-debt-chart">
-          <div class="chart-heading"><span>{t.goldDebtHistory}</span><div><i class="legend-gold"></i>{en ? 'Gold / debt ratio' : '黄金 / 美债比值'}</div></div>
-          {goldDebtPath ? <div class="axis-chart-shell"><div class="value-axis">{goldDebtYTicks.map((value) => <span>{value.toFixed(0)}</span>)}</div><div class="axis-plot"><div class="interactive-chart" data-chart="gold" data-points={JSON.stringify(goldDebtHistory)} data-y-min={goldDebtMin} data-y-max={goldDebtMax} tabindex="0"><svg viewBox={`0 0 ${goldDebtWidth} ${goldDebtHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive five-year gold price to U.S. debt ratio' : '可交互的黄金价格与美国债务总额比值近五年走势'}><defs><linearGradient id="gold-debt-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cf862c" stop-opacity=".25"/><stop offset="1" stop-color="#cf862c" stop-opacity="0"/></linearGradient></defs>{goldDebtYTicks.map((value) => <line class="axis-grid" x1="0" y1={goldDebtHeight - (value - goldDebtMin) / (goldDebtMax - goldDebtMin) * goldDebtHeight} x2={goldDebtWidth} y2={goldDebtHeight - (value - goldDebtMin) / (goldDebtMax - goldDebtMin) * goldDebtHeight}/>) }<path class="gold-debt-area" d={goldDebtArea}/><path class="gold-debt-line" d={goldDebtPath}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div><div class="chart-axis detailed-axis">{goldDebtXTicks.map((point) => <span>{point.date.slice(0,7)}</span>)}</div></div></div> : <div class="fear-unavailable">{en ? 'Gold/debt data is temporarily unavailable.' : '黄金与美债数据暂时不可用。'}</div>}
+          <div class="chart-heading"><span>{t.goldDebtHistory}</span><div class="chart-heading-actions"><span class="chart-legend"><i class="legend-gold"></i>{en ? 'Gold / debt ratio' : '黄金 / 美债比值'}</span><span class="chart-range-tabs" data-range-tabs>{goldDebtRangeCharts.map((range,index) => <button type="button" class:list={{ active:index === 0 }} data-range={range.id} aria-pressed={index === 0 ? 'true' : 'false'}>{range.label}</button>)}</span></div></div>
+          <div class="range-chart-group" data-range-group>
+            {goldDebtRangeCharts.map((range,index) => <div class="range-chart-panel" data-range-panel={range.id} hidden={index !== 0}>{range.path ? <div class="axis-chart-shell"><div class="value-axis">{range.yTicks.map((value) => <span>{value.toFixed(0)}</span>)}</div><div class="axis-plot"><div class="interactive-chart" data-chart="gold" data-points={JSON.stringify(range.points)} data-y-min={range.min} data-y-max={range.max} tabindex="0"><svg viewBox={`0 0 ${goldDebtWidth} ${goldDebtHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? `Interactive ${range.label} gold price to U.S. debt ratio` : `可交互的黄金价格与美国债务总额比值${range.label}走势`}><defs><linearGradient id={`gold-debt-fill-${range.id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cf862c" stop-opacity=".25"/><stop offset="1" stop-color="#cf862c" stop-opacity="0"/></linearGradient></defs>{range.yTicks.map((value) => <line class="axis-grid" x1="0" y1={goldDebtHeight - (value - range.min) / (range.max - range.min) * goldDebtHeight} x2={goldDebtWidth} y2={goldDebtHeight - (value - range.min) / (range.max - range.min) * goldDebtHeight}/>) }<path d={range.area} style={`fill:url(#gold-debt-fill-${range.id})`}/><path class="gold-debt-line" d={range.path}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div><div class="chart-axis detailed-axis">{range.xTicks.map((point) => <span>{point.date.slice(0,7)}</span>)}</div></div></div> : <div class="fear-unavailable">{en ? 'Gold/debt data is temporarily unavailable.' : '黄金与美债数据暂时不可用。'}</div>}</div>)}
+          </div>
         </div>
         <div class="gold-debt-sources"><a href={goldDebt.goldSourceUrl} target="_blank" rel="noreferrer">COMEX / Yahoo Finance ↗</a><a href={goldDebt.debtSourceUrl} target="_blank" rel="noreferrer">U.S. Treasury Fiscal Data ↗</a></div>
         <p class="fear-caption">{en ? 'Ratio = COMEX gold futures price in USD/oz ÷ total public debt outstanding in USD trillions. Delayed market data; not a gold-to-debt market-cap ratio.' : '计算口径：COMEX 黄金期货价格（美元/盎司）÷ 美国公共债务总额（万亿美元）。行情为延迟数据；这不是黄金总市值与美债总量之比。'}</p>
@@ -443,6 +458,24 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
             render(current + (event.key === 'ArrowRight' ? 1 : -1));
           });
         });
+        document.querySelectorAll('[data-range-tabs]').forEach((tabs) => {
+          tabs.addEventListener('click', (event) => {
+            const button = event.target.closest('button[data-range]');
+            if (!button) return;
+            const container = tabs.closest('.fear-history, .gold-debt-chart');
+            if (!container) return;
+            tabs.querySelectorAll('button[data-range]').forEach((item) => {
+              const selected = item === button;
+              item.classList.toggle('active', selected);
+              item.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+            container.querySelectorAll('[data-range-panel]').forEach((panel) => {
+              const selected = panel.dataset.rangePanel === button.dataset.range;
+              panel.hidden = !selected;
+              if (!selected) panel.querySelector('.interactive-chart')?.classList.remove('is-active');
+            });
+          });
+        });
       })();
     </script>
 
@@ -484,4 +517,6 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
   @media(max-width:700px){.value-axis{height:150px}.axis-chart-shell{grid-template-columns:26px minmax(0,1fr);gap:6px}.detailed-axis{font-size:6px}.chart-tooltip{min-width:122px;padding:8px 9px}}
   .macro-fx-section{margin-top:24px;padding-top:24px;border-top:1px solid var(--watch-line)}.fx-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;align-items:center;margin-top:20px}.fx-readout{padding:20px;border:1px solid var(--watch-line);border-radius:6px;background:linear-gradient(145deg,#fff,#f4f7ff)}.fx-readout>span{display:block;color:var(--watch-muted);font-size:9px}.fx-readout>strong{display:block;font-size:52px;line-height:1;letter-spacing:-3px;margin:14px 0 7px}.fx-readout>small{color:var(--watch-blue);font-size:9px}.fx-stats{display:grid;grid-template-columns:1fr 1fr;margin-top:20px;border-top:1px solid var(--watch-line)}.fx-stats>div{padding:13px 10px 0 0}.fx-stats>div:nth-child(2){padding-left:10px;border-left:1px solid var(--watch-line)}.fx-stats>div:last-child{grid-column:1/-1;margin-top:12px;padding-top:12px;border-top:1px solid var(--watch-line)}.fx-stats span{display:block;color:var(--watch-muted);font-size:8px}.fx-stats b{display:block;font-size:13px;margin-top:5px}.fx-chart{min-width:0}.fx-chart svg{display:block;width:100%;height:190px}.fx-axis-shell .value-axis{height:190px}.fx-area{fill:url(#fx-fill)}.fx-line{fill:none;stroke:var(--watch-blue);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.legend-fx{background:var(--watch-blue)}
   @media(max-width:800px){.fx-layout{grid-template-columns:1fr}.fx-readout>strong{font-size:46px}.fx-axis-shell .value-axis{height:170px}.fx-chart svg{height:170px}.macro-fx-section>.panel-heading{flex-direction:column}}
+  .range-chart-panel[hidden]{display:none}.fear-history-top>span small{display:block;margin-top:5px}.chart-range-tabs{display:inline-flex!important;align-items:center;overflow:hidden;border:1px solid var(--watch-line);border-radius:4px;background:#fff}.chart-range-tabs button{appearance:none;border:0;border-right:1px solid var(--watch-line);background:transparent;color:var(--watch-muted);padding:5px 7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px;line-height:1;cursor:pointer}.chart-range-tabs button:last-child{border-right:0}.chart-range-tabs button:hover{color:var(--watch-cyan)}.chart-range-tabs button.active{background:var(--watch-cyan);color:#fff}.chart-heading-actions{display:flex;align-items:center;gap:12px!important}.chart-legend{display:flex;align-items:center;gap:6px;white-space:nowrap}.chart-legend i{margin-left:0}.gold-debt-chart .range-chart-group{min-height:188px}
+  @media(max-width:700px){.chart-heading-actions{width:100%;justify-content:space-between}.chart-range-tabs button{padding:6px 8px}.fear-history-top{align-items:flex-start}.top-indicator-grid .fear-history-top{flex-direction:row;align-items:flex-start}.gold-debt-chart .range-chart-group{min-height:173px}}
 </style>
