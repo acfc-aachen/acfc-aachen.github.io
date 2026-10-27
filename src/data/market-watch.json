@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-27T09:00:26.338Z",
+  "generatedAt": "2026-10-27T15:54:32.573Z",
   "cnn": {
     "available": true,
     "stale": false,
     "source": "CNN Fear & Greed Index",
     "sourceUrl": "https://www.cnn.com/markets/fear-and-greed",
-    "fetchedAt": "2026-10-27T09:00:26.338Z",
-    "asOf": "2026-10-27T08:44:16.000Z",
-    "score": 27.8,
+    "fetchedAt": "2026-10-27T15:54:32.573Z",
+    "asOf": "2026-10-27T15:49:38.000Z",
+    "score": 32.9,
     "rating": "fear",
     "previousClose": 27.1,
     "previousWeek": 29.6,
@@ -1261,17 +1261,17 @@
       },
       {
         "date": "2026-10-26T00:00:00.000Z",
-        "value": 27.8,
+        "value": 29.3,
         "rating": "fear"
       },
       {
         "date": "2026-10-27T00:00:00.000Z",
-        "value": 27.8,
+        "value": 32.9,
         "rating": "fear"
       },
       {
-        "date": "2026-10-27T08:44:16.000Z",
-        "value": 27.8,
+        "date": "2026-10-27T15:49:38.000Z",
+        "value": 32.9,
         "rating": "fear"
       }
     ]
@@ -1282,7 +1282,7 @@
     "source": "Eurostat",
     "sourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table",
     "inflationSourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
-    "fetchedAt": "2026-10-27T09:00:26.338Z",
+    "fetchedAt": "2026-10-27T15:54:32.573Z",
     "region": "EA21",
     "regionName": "Euro area – 21 countries",
     "growth": {
@@ -1410,7 +1410,7 @@
   },
   "shillerCape": {
     "available": true,
-    "stale": false,
+    "stale": true,
     "source": "Robert J. Shiller data workbook",
     "sourceUrl": "https://shillerdata.com/",
     "workbookUrl": "https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/1449043e-a1ed-4e2e-8e9c-7b9a2a064493/ie_data.xls?ver=1791297298731",
@@ -2381,36 +2381,28 @@
         "value": 40.71
       }
     ],
-    "fetchedAt": "2026-10-27T09:00:26.338Z"
+    "fetchedAt": "2026-10-27T09:00:26.338Z",
+    "lastAttemptAt": "2026-10-27T15:54:32.573Z",
+    "lastError": "Command failed: python C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\nTraceback (most recent call last):\r\n  File \"C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\", line 10, in <module>\r\n    import xlrd\r\nModuleNotFoundError: No module named 'xlrd'\r\n"
   },
   "breadth": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-27T09:00:26.338Z",
+    "fetchedAt": "2026-10-27T15:54:32.573Z",
     "source": "Calculated from S&P 500 constituents and delayed daily closes",
     "constituentsSourceUrl": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
     "pricesSourceUrl": "https://finance.yahoo.com/quote/%5EGSPC/history/",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "constituentCount": 503,
     "successfulSymbols": 503,
-    "advancers": 289,
-    "decliners": 211,
-    "unchanged": 3,
+    "advancers": 228,
+    "decliners": 275,
+    "unchanged": 0,
     "coverage": 503,
-    "score": 57.8,
-    "netBreadth": 15.5,
-    "sp500Change": 0.7,
+    "score": 45.3,
+    "netBreadth": -9.3,
+    "sp500Change": 0.67,
     "history": [
-      {
-        "date": "2026-06-18",
-        "advancers": 264,
-        "decliners": 237,
-        "unchanged": 1,
-        "coverage": 502,
-        "score": 52.7,
-        "netBreadth": 5.4,
-        "sp500Change": 1.08
-      },
       {
         "date": "2026-06-22",
         "advancers": 264,
@@ -3300,23 +3292,33 @@
         "score": 57.8,
         "netBreadth": 15.5,
         "sp500Change": 0.7
+      },
+      {
+        "date": "2026-10-27",
+        "advancers": 228,
+        "decliners": 275,
+        "unchanged": 0,
+        "coverage": 503,
+        "score": 45.3,
+        "netBreadth": -9.3,
+        "sp500Change": 0.67
       }
     ]
   },
   "goldDebt": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-27T09:00:26.338Z",
+    "fetchedAt": "2026-10-27T15:54:32.573Z",
     "source": "Calculated from COMEX gold futures and U.S. Treasury total public debt outstanding",
     "goldSourceUrl": "https://finance.yahoo.com/quote/GC=F/history/",
     "debtSourceUrl": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/",
     "unit": "USD/oz per USD 1tn debt",
     "date": "2026-10-27",
     "debtDate": "2026-10-23",
-    "goldPrice": 4006,
+    "goldPrice": 4075.3,
     "debtTrillions": 40.46,
-    "ratio": 99,
-    "oneYearChange": -6.21,
+    "ratio": 100.72,
+    "oneYearChange": -4.58,
     "history": [
       {
         "date": "2006-11-01",
@@ -4749,24 +4751,24 @@
       {
         "date": "2026-10-27",
         "debtDate": "2026-10-23",
-        "goldPrice": 4006,
+        "goldPrice": 4075.3,
         "debtTrillions": 40.46,
-        "ratio": 99
+        "ratio": 100.72
       }
     ]
   },
   "eurUsd": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-27T09:00:26.338Z",
+    "fetchedAt": "2026-10-27T15:54:32.573Z",
     "source": "Yahoo Finance delayed daily EUR/USD closes",
     "sourceUrl": "https://finance.yahoo.com/quote/EURUSD%3DX/history/",
     "date": "2026-10-27",
-    "value": 1.1158,
-    "dailyChange": -0.53,
-    "oneYearChange": -4.07,
+    "value": 1.1148,
+    "dailyChange": -0.62,
+    "oneYearChange": -4.16,
     "yearHigh": 1.2018,
-    "yearLow": 1.1158,
+    "yearLow": 1.1148,
     "history": [
       {
         "date": "2025-10-27",
@@ -5806,7 +5808,1311 @@
       },
       {
         "date": "2026-10-27",
-        "value": 1.1158
+        "value": 1.1148
+      }
+    ]
+  },
+  "qqq": {
+    "available": true,
+    "stale": false,
+    "fetchedAt": "2026-10-27T15:54:32.573Z",
+    "year": 2026,
+    "source": "Calculated from Invesco QQQ adjusted daily closes",
+    "sourceUrl": "https://finance.yahoo.com/quote/QQQ/history/",
+    "date": "2026-10-27",
+    "close": 721.39,
+    "dailyChange": 1.29,
+    "ytdChange": 17.83,
+    "positiveDays": 109,
+    "negativeDays": 96,
+    "flatDays": 1,
+    "averageDailyChange": 0.09,
+    "bestDay": {
+      "date": "2026-08-04",
+      "close": 723.85,
+      "adjustedClose": 723.1,
+      "change": 3.4
+    },
+    "worstDay": {
+      "date": "2026-06-05",
+      "close": 705.06,
+      "adjustedClose": 703.55,
+      "change": -4.8
+    },
+    "bins": [
+      {
+        "id": "down2",
+        "min": null,
+        "max": -2,
+        "count": 8
+      },
+      {
+        "id": "down1",
+        "min": -2,
+        "max": -1,
+        "count": 34
+      },
+      {
+        "id": "down0",
+        "min": -1,
+        "max": 0,
+        "count": 54
+      },
+      {
+        "id": "up0",
+        "min": 0,
+        "max": 1,
+        "count": 62
+      },
+      {
+        "id": "up1",
+        "min": 1,
+        "max": 2,
+        "count": 36
+      },
+      {
+        "id": "up2",
+        "min": 2,
+        "max": null,
+        "count": 12
+      }
+    ],
+    "history": [
+      {
+        "date": "2026-01-02",
+        "close": 613.12,
+        "adjustedClose": 611.04,
+        "change": -0.19
+      },
+      {
+        "date": "2026-01-05",
+        "close": 617.99,
+        "adjustedClose": 615.89,
+        "change": 0.79
+      },
+      {
+        "date": "2026-01-06",
+        "close": 623.42,
+        "adjustedClose": 621.3,
+        "change": 0.88
+      },
+      {
+        "date": "2026-01-07",
+        "close": 624.02,
+        "adjustedClose": 621.9,
+        "change": 0.1
+      },
+      {
+        "date": "2026-01-08",
+        "close": 620.47,
+        "adjustedClose": 618.36,
+        "change": -0.57
+      },
+      {
+        "date": "2026-01-09",
+        "close": 626.65,
+        "adjustedClose": 624.52,
+        "change": 1
+      },
+      {
+        "date": "2026-01-12",
+        "close": 627.17,
+        "adjustedClose": 625.04,
+        "change": 0.08
+      },
+      {
+        "date": "2026-01-13",
+        "close": 626.24,
+        "adjustedClose": 624.11,
+        "change": -0.15
+      },
+      {
+        "date": "2026-01-14",
+        "close": 619.55,
+        "adjustedClose": 617.45,
+        "change": -1.07
+      },
+      {
+        "date": "2026-01-15",
+        "close": 621.78,
+        "adjustedClose": 619.67,
+        "change": 0.36
+      },
+      {
+        "date": "2026-01-16",
+        "close": 621.26,
+        "adjustedClose": 619.15,
+        "change": -0.08
+      },
+      {
+        "date": "2026-01-20",
+        "close": 608.06,
+        "adjustedClose": 606,
+        "change": -2.12
+      },
+      {
+        "date": "2026-01-21",
+        "close": 616.28,
+        "adjustedClose": 614.19,
+        "change": 1.35
+      },
+      {
+        "date": "2026-01-22",
+        "close": 620.76,
+        "adjustedClose": 618.65,
+        "change": 0.73
+      },
+      {
+        "date": "2026-01-23",
+        "close": 622.72,
+        "adjustedClose": 620.61,
+        "change": 0.32
+      },
+      {
+        "date": "2026-01-26",
+        "close": 625.46,
+        "adjustedClose": 623.34,
+        "change": 0.44
+      },
+      {
+        "date": "2026-01-27",
+        "close": 631.13,
+        "adjustedClose": 628.99,
+        "change": 0.91
+      },
+      {
+        "date": "2026-01-28",
+        "close": 633.22,
+        "adjustedClose": 631.07,
+        "change": 0.33
+      },
+      {
+        "date": "2026-01-29",
+        "close": 629.43,
+        "adjustedClose": 627.29,
+        "change": -0.6
+      },
+      {
+        "date": "2026-01-30",
+        "close": 621.87,
+        "adjustedClose": 619.76,
+        "change": -1.2
+      },
+      {
+        "date": "2026-02-02",
+        "close": 626.14,
+        "adjustedClose": 624.01,
+        "change": 0.69
+      },
+      {
+        "date": "2026-02-03",
+        "close": 616.52,
+        "adjustedClose": 614.43,
+        "change": -1.54
+      },
+      {
+        "date": "2026-02-04",
+        "close": 605.75,
+        "adjustedClose": 603.69,
+        "change": -1.75
+      },
+      {
+        "date": "2026-02-05",
+        "close": 597.03,
+        "adjustedClose": 595,
+        "change": -1.44
+      },
+      {
+        "date": "2026-02-06",
+        "close": 609.65,
+        "adjustedClose": 607.58,
+        "change": 2.11
+      },
+      {
+        "date": "2026-02-09",
+        "close": 614.32,
+        "adjustedClose": 612.23,
+        "change": 0.77
+      },
+      {
+        "date": "2026-02-10",
+        "close": 611.47,
+        "adjustedClose": 609.39,
+        "change": -0.46
+      },
+      {
+        "date": "2026-02-11",
+        "close": 613.11,
+        "adjustedClose": 611.03,
+        "change": 0.27
+      },
+      {
+        "date": "2026-02-12",
+        "close": 600.64,
+        "adjustedClose": 598.6,
+        "change": -2.03
+      },
+      {
+        "date": "2026-02-13",
+        "close": 601.92,
+        "adjustedClose": 599.88,
+        "change": 0.21
+      },
+      {
+        "date": "2026-02-17",
+        "close": 601.3,
+        "adjustedClose": 599.26,
+        "change": -0.1
+      },
+      {
+        "date": "2026-02-18",
+        "close": 605.79,
+        "adjustedClose": 603.73,
+        "change": 0.75
+      },
+      {
+        "date": "2026-02-19",
+        "close": 603.47,
+        "adjustedClose": 601.42,
+        "change": -0.38
+      },
+      {
+        "date": "2026-02-20",
+        "close": 608.81,
+        "adjustedClose": 606.74,
+        "change": 0.88
+      },
+      {
+        "date": "2026-02-23",
+        "close": 601.41,
+        "adjustedClose": 599.37,
+        "change": -1.21
+      },
+      {
+        "date": "2026-02-24",
+        "close": 607.87,
+        "adjustedClose": 605.81,
+        "change": 1.07
+      },
+      {
+        "date": "2026-02-25",
+        "close": 616.68,
+        "adjustedClose": 614.59,
+        "change": 1.45
+      },
+      {
+        "date": "2026-02-26",
+        "close": 609.24,
+        "adjustedClose": 607.17,
+        "change": -1.21
+      },
+      {
+        "date": "2026-02-27",
+        "close": 607.29,
+        "adjustedClose": 605.23,
+        "change": -0.32
+      },
+      {
+        "date": "2026-03-02",
+        "close": 608.09,
+        "adjustedClose": 606.03,
+        "change": 0.13
+      },
+      {
+        "date": "2026-03-03",
+        "close": 601.58,
+        "adjustedClose": 599.54,
+        "change": -1.07
+      },
+      {
+        "date": "2026-03-04",
+        "close": 610.75,
+        "adjustedClose": 608.68,
+        "change": 1.52
+      },
+      {
+        "date": "2026-03-05",
+        "close": 608.91,
+        "adjustedClose": 606.84,
+        "change": -0.3
+      },
+      {
+        "date": "2026-03-06",
+        "close": 599.75,
+        "adjustedClose": 597.71,
+        "change": -1.5
+      },
+      {
+        "date": "2026-03-09",
+        "close": 607.76,
+        "adjustedClose": 605.7,
+        "change": 1.34
+      },
+      {
+        "date": "2026-03-10",
+        "close": 607.77,
+        "adjustedClose": 605.71,
+        "change": 0
+      },
+      {
+        "date": "2026-03-11",
+        "close": 607.69,
+        "adjustedClose": 605.63,
+        "change": -0.01
+      },
+      {
+        "date": "2026-03-12",
+        "close": 597.26,
+        "adjustedClose": 595.23,
+        "change": -1.72
+      },
+      {
+        "date": "2026-03-13",
+        "close": 593.72,
+        "adjustedClose": 591.7,
+        "change": -0.59
+      },
+      {
+        "date": "2026-03-16",
+        "close": 600.38,
+        "adjustedClose": 598.34,
+        "change": 1.12
+      },
+      {
+        "date": "2026-03-17",
+        "close": 603.31,
+        "adjustedClose": 601.26,
+        "change": 0.49
+      },
+      {
+        "date": "2026-03-18",
+        "close": 594.9,
+        "adjustedClose": 592.88,
+        "change": -1.39
+      },
+      {
+        "date": "2026-03-19",
+        "close": 593.02,
+        "adjustedClose": 591.01,
+        "change": -0.32
+      },
+      {
+        "date": "2026-03-20",
+        "close": 582.06,
+        "adjustedClose": 580.08,
+        "change": -1.85
+      },
+      {
+        "date": "2026-03-23",
+        "close": 588,
+        "adjustedClose": 586.74,
+        "change": 1.15
+      },
+      {
+        "date": "2026-03-24",
+        "close": 583.98,
+        "adjustedClose": 582.73,
+        "change": -0.68
+      },
+      {
+        "date": "2026-03-25",
+        "close": 587.82,
+        "adjustedClose": 586.56,
+        "change": 0.66
+      },
+      {
+        "date": "2026-03-26",
+        "close": 573.79,
+        "adjustedClose": 572.56,
+        "change": -2.39
+      },
+      {
+        "date": "2026-03-27",
+        "close": 562.58,
+        "adjustedClose": 561.38,
+        "change": -1.95
+      },
+      {
+        "date": "2026-03-30",
+        "close": 558.28,
+        "adjustedClose": 557.09,
+        "change": -0.76
+      },
+      {
+        "date": "2026-03-31",
+        "close": 577.18,
+        "adjustedClose": 575.95,
+        "change": 3.39
+      },
+      {
+        "date": "2026-04-01",
+        "close": 584.31,
+        "adjustedClose": 583.06,
+        "change": 1.23
+      },
+      {
+        "date": "2026-04-02",
+        "close": 584.98,
+        "adjustedClose": 583.73,
+        "change": 0.11
+      },
+      {
+        "date": "2026-04-06",
+        "close": 588.5,
+        "adjustedClose": 587.24,
+        "change": 0.6
+      },
+      {
+        "date": "2026-04-07",
+        "close": 588.59,
+        "adjustedClose": 587.33,
+        "change": 0.02
+      },
+      {
+        "date": "2026-04-08",
+        "close": 606.09,
+        "adjustedClose": 604.79,
+        "change": 2.97
+      },
+      {
+        "date": "2026-04-09",
+        "close": 610.19,
+        "adjustedClose": 608.89,
+        "change": 0.68
+      },
+      {
+        "date": "2026-04-10",
+        "close": 611.07,
+        "adjustedClose": 609.76,
+        "change": 0.14
+      },
+      {
+        "date": "2026-04-13",
+        "close": 617.39,
+        "adjustedClose": 616.07,
+        "change": 1.03
+      },
+      {
+        "date": "2026-04-14",
+        "close": 628.6,
+        "adjustedClose": 627.26,
+        "change": 1.82
+      },
+      {
+        "date": "2026-04-15",
+        "close": 637.4,
+        "adjustedClose": 636.04,
+        "change": 1.4
+      },
+      {
+        "date": "2026-04-16",
+        "close": 640.47,
+        "adjustedClose": 639.1,
+        "change": 0.48
+      },
+      {
+        "date": "2026-04-17",
+        "close": 648.85,
+        "adjustedClose": 647.46,
+        "change": 1.31
+      },
+      {
+        "date": "2026-04-20",
+        "close": 646.79,
+        "adjustedClose": 645.41,
+        "change": -0.32
+      },
+      {
+        "date": "2026-04-21",
+        "close": 644.33,
+        "adjustedClose": 642.95,
+        "change": -0.38
+      },
+      {
+        "date": "2026-04-22",
+        "close": 655.11,
+        "adjustedClose": 653.71,
+        "change": 1.67
+      },
+      {
+        "date": "2026-04-23",
+        "close": 651.42,
+        "adjustedClose": 650.03,
+        "change": -0.56
+      },
+      {
+        "date": "2026-04-24",
+        "close": 663.88,
+        "adjustedClose": 662.46,
+        "change": 1.91
+      },
+      {
+        "date": "2026-04-27",
+        "close": 664.23,
+        "adjustedClose": 662.81,
+        "change": 0.05
+      },
+      {
+        "date": "2026-04-28",
+        "close": 657.55,
+        "adjustedClose": 656.14,
+        "change": -1.01
+      },
+      {
+        "date": "2026-04-29",
+        "close": 661.57,
+        "adjustedClose": 660.16,
+        "change": 0.61
+      },
+      {
+        "date": "2026-04-30",
+        "close": 667.74,
+        "adjustedClose": 666.31,
+        "change": 0.93
+      },
+      {
+        "date": "2026-05-01",
+        "close": 674.15,
+        "adjustedClose": 672.71,
+        "change": 0.96
+      },
+      {
+        "date": "2026-05-04",
+        "close": 672.88,
+        "adjustedClose": 671.44,
+        "change": -0.19
+      },
+      {
+        "date": "2026-05-05",
+        "close": 681.61,
+        "adjustedClose": 680.15,
+        "change": 1.3
+      },
+      {
+        "date": "2026-05-06",
+        "close": 695.77,
+        "adjustedClose": 694.28,
+        "change": 2.08
+      },
+      {
+        "date": "2026-05-07",
+        "close": 694.94,
+        "adjustedClose": 693.45,
+        "change": -0.12
+      },
+      {
+        "date": "2026-05-08",
+        "close": 711.23,
+        "adjustedClose": 709.71,
+        "change": 2.34
+      },
+      {
+        "date": "2026-05-11",
+        "close": 713.29,
+        "adjustedClose": 711.77,
+        "change": 0.29
+      },
+      {
+        "date": "2026-05-12",
+        "close": 707.24,
+        "adjustedClose": 705.73,
+        "change": -0.85
+      },
+      {
+        "date": "2026-05-13",
+        "close": 714.71,
+        "adjustedClose": 713.18,
+        "change": 1.06
+      },
+      {
+        "date": "2026-05-14",
+        "close": 719.79,
+        "adjustedClose": 718.25,
+        "change": 0.71
+      },
+      {
+        "date": "2026-05-15",
+        "close": 708.93,
+        "adjustedClose": 707.41,
+        "change": -1.51
+      },
+      {
+        "date": "2026-05-18",
+        "close": 705.88,
+        "adjustedClose": 704.37,
+        "change": -0.43
+      },
+      {
+        "date": "2026-05-19",
+        "close": 701.53,
+        "adjustedClose": 700.03,
+        "change": -0.62
+      },
+      {
+        "date": "2026-05-20",
+        "close": 713.15,
+        "adjustedClose": 711.63,
+        "change": 1.66
+      },
+      {
+        "date": "2026-05-21",
+        "close": 714.51,
+        "adjustedClose": 712.98,
+        "change": 0.19
+      },
+      {
+        "date": "2026-05-22",
+        "close": 717.54,
+        "adjustedClose": 716.01,
+        "change": 0.42
+      },
+      {
+        "date": "2026-05-26",
+        "close": 730.28,
+        "adjustedClose": 728.72,
+        "change": 1.78
+      },
+      {
+        "date": "2026-05-27",
+        "close": 729.45,
+        "adjustedClose": 727.89,
+        "change": -0.11
+      },
+      {
+        "date": "2026-05-28",
+        "close": 735.6,
+        "adjustedClose": 734.03,
+        "change": 0.84
+      },
+      {
+        "date": "2026-05-29",
+        "close": 738.31,
+        "adjustedClose": 736.73,
+        "change": 0.37
+      },
+      {
+        "date": "2026-06-01",
+        "close": 742.74,
+        "adjustedClose": 741.15,
+        "change": 0.6
+      },
+      {
+        "date": "2026-06-02",
+        "close": 746.16,
+        "adjustedClose": 744.57,
+        "change": 0.46
+      },
+      {
+        "date": "2026-06-03",
+        "close": 744.21,
+        "adjustedClose": 742.62,
+        "change": -0.26
+      },
+      {
+        "date": "2026-06-04",
+        "close": 740.61,
+        "adjustedClose": 739.03,
+        "change": -0.48
+      },
+      {
+        "date": "2026-06-05",
+        "close": 705.06,
+        "adjustedClose": 703.55,
+        "change": -4.8
+      },
+      {
+        "date": "2026-06-08",
+        "close": 716.07,
+        "adjustedClose": 714.54,
+        "change": 1.56
+      },
+      {
+        "date": "2026-06-09",
+        "close": 707.83,
+        "adjustedClose": 706.32,
+        "change": -1.15
+      },
+      {
+        "date": "2026-06-10",
+        "close": 693.69,
+        "adjustedClose": 692.21,
+        "change": -2
+      },
+      {
+        "date": "2026-06-11",
+        "close": 717.12,
+        "adjustedClose": 715.59,
+        "change": 3.38
+      },
+      {
+        "date": "2026-06-12",
+        "close": 721.34,
+        "adjustedClose": 719.8,
+        "change": 0.59
+      },
+      {
+        "date": "2026-06-15",
+        "close": 744,
+        "adjustedClose": 742.41,
+        "change": 3.14
+      },
+      {
+        "date": "2026-06-16",
+        "close": 729.86,
+        "adjustedClose": 728.3,
+        "change": -1.9
+      },
+      {
+        "date": "2026-06-17",
+        "close": 722.51,
+        "adjustedClose": 720.97,
+        "change": -1.01
+      },
+      {
+        "date": "2026-06-18",
+        "close": 740.62,
+        "adjustedClose": 739.04,
+        "change": 2.51
+      },
+      {
+        "date": "2026-06-22",
+        "close": 737.95,
+        "adjustedClose": 737.18,
+        "change": -0.25
+      },
+      {
+        "date": "2026-06-23",
+        "close": 713.65,
+        "adjustedClose": 712.91,
+        "change": -3.29
+      },
+      {
+        "date": "2026-06-24",
+        "close": 710.62,
+        "adjustedClose": 709.88,
+        "change": -0.43
+      },
+      {
+        "date": "2026-06-25",
+        "close": 716.38,
+        "adjustedClose": 715.63,
+        "change": 0.81
+      },
+      {
+        "date": "2026-06-26",
+        "close": 706.52,
+        "adjustedClose": 705.78,
+        "change": -1.38
+      },
+      {
+        "date": "2026-06-29",
+        "close": 724.08,
+        "adjustedClose": 723.33,
+        "change": 2.49
+      },
+      {
+        "date": "2026-06-30",
+        "close": 736.4,
+        "adjustedClose": 735.63,
+        "change": 1.7
+      },
+      {
+        "date": "2026-07-01",
+        "close": 725.17,
+        "adjustedClose": 724.42,
+        "change": -1.52
+      },
+      {
+        "date": "2026-07-02",
+        "close": 712.6,
+        "adjustedClose": 711.86,
+        "change": -1.73
+      },
+      {
+        "date": "2026-07-06",
+        "close": 722.82,
+        "adjustedClose": 722.07,
+        "change": 1.43
+      },
+      {
+        "date": "2026-07-07",
+        "close": 709.43,
+        "adjustedClose": 708.69,
+        "change": -1.85
+      },
+      {
+        "date": "2026-07-08",
+        "close": 711.44,
+        "adjustedClose": 710.7,
+        "change": 0.28
+      },
+      {
+        "date": "2026-07-09",
+        "close": 723.28,
+        "adjustedClose": 722.53,
+        "change": 1.66
+      },
+      {
+        "date": "2026-07-10",
+        "close": 725.51,
+        "adjustedClose": 724.75,
+        "change": 0.31
+      },
+      {
+        "date": "2026-07-13",
+        "close": 711.74,
+        "adjustedClose": 711,
+        "change": -1.9
+      },
+      {
+        "date": "2026-07-14",
+        "close": 719.69,
+        "adjustedClose": 718.94,
+        "change": 1.12
+      },
+      {
+        "date": "2026-07-15",
+        "close": 717.74,
+        "adjustedClose": 716.99,
+        "change": -0.27
+      },
+      {
+        "date": "2026-07-16",
+        "close": 705.94,
+        "adjustedClose": 705.21,
+        "change": -1.64
+      },
+      {
+        "date": "2026-07-17",
+        "close": 695.33,
+        "adjustedClose": 694.61,
+        "change": -1.5
+      },
+      {
+        "date": "2026-07-20",
+        "close": 696.06,
+        "adjustedClose": 695.34,
+        "change": 0.11
+      },
+      {
+        "date": "2026-07-21",
+        "close": 708.97,
+        "adjustedClose": 708.23,
+        "change": 1.85
+      },
+      {
+        "date": "2026-07-22",
+        "close": 705.35,
+        "adjustedClose": 704.62,
+        "change": -0.51
+      },
+      {
+        "date": "2026-07-23",
+        "close": 691.96,
+        "adjustedClose": 691.24,
+        "change": -1.9
+      },
+      {
+        "date": "2026-07-24",
+        "close": 684.23,
+        "adjustedClose": 683.52,
+        "change": -1.12
+      },
+      {
+        "date": "2026-07-27",
+        "close": 682.12,
+        "adjustedClose": 681.41,
+        "change": -0.31
+      },
+      {
+        "date": "2026-07-28",
+        "close": 675.49,
+        "adjustedClose": 674.79,
+        "change": -0.97
+      },
+      {
+        "date": "2026-07-29",
+        "close": 661.73,
+        "adjustedClose": 661.04,
+        "change": -2.04
+      },
+      {
+        "date": "2026-07-30",
+        "close": 683.55,
+        "adjustedClose": 682.84,
+        "change": 3.3
+      },
+      {
+        "date": "2026-07-31",
+        "close": 687.99,
+        "adjustedClose": 687.27,
+        "change": 0.65
+      },
+      {
+        "date": "2026-08-03",
+        "close": 700.07,
+        "adjustedClose": 699.34,
+        "change": 1.76
+      },
+      {
+        "date": "2026-08-04",
+        "close": 723.85,
+        "adjustedClose": 723.1,
+        "change": 3.4
+      },
+      {
+        "date": "2026-08-05",
+        "close": 717.3,
+        "adjustedClose": 716.55,
+        "change": -0.91
+      },
+      {
+        "date": "2026-08-06",
+        "close": 714.65,
+        "adjustedClose": 713.91,
+        "change": -0.37
+      },
+      {
+        "date": "2026-08-07",
+        "close": 723.03,
+        "adjustedClose": 722.28,
+        "change": 1.17
+      },
+      {
+        "date": "2026-08-10",
+        "close": 720.87,
+        "adjustedClose": 720.12,
+        "change": -0.3
+      },
+      {
+        "date": "2026-08-11",
+        "close": 718.45,
+        "adjustedClose": 717.7,
+        "change": -0.34
+      },
+      {
+        "date": "2026-08-12",
+        "close": 723.7,
+        "adjustedClose": 722.95,
+        "change": 0.73
+      },
+      {
+        "date": "2026-08-13",
+        "close": 732.07,
+        "adjustedClose": 731.31,
+        "change": 1.16
+      },
+      {
+        "date": "2026-08-14",
+        "close": 731.07,
+        "adjustedClose": 730.31,
+        "change": -0.14
+      },
+      {
+        "date": "2026-08-17",
+        "close": 729.87,
+        "adjustedClose": 729.11,
+        "change": -0.16
+      },
+      {
+        "date": "2026-08-18",
+        "close": 717.51,
+        "adjustedClose": 716.76,
+        "change": -1.69
+      },
+      {
+        "date": "2026-08-19",
+        "close": 716.08,
+        "adjustedClose": 715.33,
+        "change": -0.2
+      },
+      {
+        "date": "2026-08-20",
+        "close": 710.93,
+        "adjustedClose": 710.19,
+        "change": -0.72
+      },
+      {
+        "date": "2026-08-21",
+        "close": 713.44,
+        "adjustedClose": 712.7,
+        "change": 0.35
+      },
+      {
+        "date": "2026-08-24",
+        "close": 706.32,
+        "adjustedClose": 705.58,
+        "change": -1
+      },
+      {
+        "date": "2026-08-25",
+        "close": 710.72,
+        "adjustedClose": 709.98,
+        "change": 0.62
+      },
+      {
+        "date": "2026-08-26",
+        "close": 711.37,
+        "adjustedClose": 710.63,
+        "change": 0.09
+      },
+      {
+        "date": "2026-08-27",
+        "close": 721.11,
+        "adjustedClose": 720.36,
+        "change": 1.37
+      },
+      {
+        "date": "2026-08-28",
+        "close": 716.43,
+        "adjustedClose": 715.68,
+        "change": -0.65
+      },
+      {
+        "date": "2026-08-31",
+        "close": 716.76,
+        "adjustedClose": 716.01,
+        "change": 0.05
+      },
+      {
+        "date": "2026-09-01",
+        "close": 707.64,
+        "adjustedClose": 706.9,
+        "change": -1.27
+      },
+      {
+        "date": "2026-09-02",
+        "close": 709.24,
+        "adjustedClose": 708.5,
+        "change": 0.23
+      },
+      {
+        "date": "2026-09-03",
+        "close": 717.67,
+        "adjustedClose": 716.92,
+        "change": 1.19
+      },
+      {
+        "date": "2026-09-04",
+        "close": 718.96,
+        "adjustedClose": 718.21,
+        "change": 0.18
+      },
+      {
+        "date": "2026-09-08",
+        "close": 718.36,
+        "adjustedClose": 717.61,
+        "change": -0.08
+      },
+      {
+        "date": "2026-09-09",
+        "close": 716.31,
+        "adjustedClose": 715.56,
+        "change": -0.29
+      },
+      {
+        "date": "2026-09-10",
+        "close": 708.69,
+        "adjustedClose": 707.95,
+        "change": -1.06
+      },
+      {
+        "date": "2026-09-11",
+        "close": 714.88,
+        "adjustedClose": 714.14,
+        "change": 0.87
+      },
+      {
+        "date": "2026-09-14",
+        "close": 709.18,
+        "adjustedClose": 708.44,
+        "change": -0.8
+      },
+      {
+        "date": "2026-09-15",
+        "close": 704.54,
+        "adjustedClose": 703.81,
+        "change": -0.65
+      },
+      {
+        "date": "2026-09-16",
+        "close": 704.72,
+        "adjustedClose": 703.99,
+        "change": 0.03
+      },
+      {
+        "date": "2026-09-17",
+        "close": 716.92,
+        "adjustedClose": 716.17,
+        "change": 1.73
+      },
+      {
+        "date": "2026-09-18",
+        "close": 721.45,
+        "adjustedClose": 720.7,
+        "change": 0.63
+      },
+      {
+        "date": "2026-09-21",
+        "close": 741.47,
+        "adjustedClose": 741.47,
+        "change": 2.88
+      },
+      {
+        "date": "2026-09-22",
+        "close": 747.46,
+        "adjustedClose": 747.46,
+        "change": 0.81
+      },
+      {
+        "date": "2026-09-23",
+        "close": 741.21,
+        "adjustedClose": 741.21,
+        "change": -0.84
+      },
+      {
+        "date": "2026-09-24",
+        "close": 741.1,
+        "adjustedClose": 741.1,
+        "change": -0.01
+      },
+      {
+        "date": "2026-09-25",
+        "close": 744.5,
+        "adjustedClose": 744.5,
+        "change": 0.46
+      },
+      {
+        "date": "2026-09-28",
+        "close": 736.53,
+        "adjustedClose": 736.53,
+        "change": -1.07
+      },
+      {
+        "date": "2026-09-29",
+        "close": 737.93,
+        "adjustedClose": 737.93,
+        "change": 0.19
+      },
+      {
+        "date": "2026-09-30",
+        "close": 739.77,
+        "adjustedClose": 739.77,
+        "change": 0.25
+      },
+      {
+        "date": "2026-10-01",
+        "close": 742.03,
+        "adjustedClose": 742.03,
+        "change": 0.31
+      },
+      {
+        "date": "2026-10-02",
+        "close": 749.58,
+        "adjustedClose": 749.58,
+        "change": 1.02
+      },
+      {
+        "date": "2026-10-05",
+        "close": 756.2,
+        "adjustedClose": 756.2,
+        "change": 0.88
+      },
+      {
+        "date": "2026-10-06",
+        "close": 759.66,
+        "adjustedClose": 759.66,
+        "change": 0.46
+      },
+      {
+        "date": "2026-10-07",
+        "close": 757.73,
+        "adjustedClose": 757.73,
+        "change": -0.25
+      },
+      {
+        "date": "2026-10-08",
+        "close": 747.58,
+        "adjustedClose": 747.58,
+        "change": -1.34
+      },
+      {
+        "date": "2026-10-09",
+        "close": 751.27,
+        "adjustedClose": 751.27,
+        "change": 0.49
+      },
+      {
+        "date": "2026-10-12",
+        "close": 746.04,
+        "adjustedClose": 746.04,
+        "change": -0.7
+      },
+      {
+        "date": "2026-10-13",
+        "close": 743.57,
+        "adjustedClose": 743.57,
+        "change": -0.33
+      },
+      {
+        "date": "2026-10-14",
+        "close": 728.95,
+        "adjustedClose": 728.95,
+        "change": -1.97
+      },
+      {
+        "date": "2026-10-15",
+        "close": 728,
+        "adjustedClose": 728,
+        "change": -0.13
+      },
+      {
+        "date": "2026-10-16",
+        "close": 709.8,
+        "adjustedClose": 709.8,
+        "change": -2.5
+      },
+      {
+        "date": "2026-10-19",
+        "close": 718.36,
+        "adjustedClose": 718.36,
+        "change": 1.21
+      },
+      {
+        "date": "2026-10-20",
+        "close": 717.63,
+        "adjustedClose": 717.63,
+        "change": -0.1
+      },
+      {
+        "date": "2026-10-21",
+        "close": 725.2,
+        "adjustedClose": 725.2,
+        "change": 1.05
+      },
+      {
+        "date": "2026-10-22",
+        "close": 704.47,
+        "adjustedClose": 704.47,
+        "change": -2.86
+      },
+      {
+        "date": "2026-10-23",
+        "close": 704.4,
+        "adjustedClose": 704.4,
+        "change": -0.01
+      },
+      {
+        "date": "2026-10-26",
+        "close": 712.2,
+        "adjustedClose": 712.2,
+        "change": 1.11
+      },
+      {
+        "date": "2026-10-27",
+        "close": 721.39,
+        "adjustedClose": 721.39,
+        "change": 1.29
       }
     ]
   }

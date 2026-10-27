@@ -115,13 +115,64 @@ const fetchYahooChart = async (symbol, range = '6mo') => {
       const raw = await requestJson(url, { headers: { 'user-agent': 'Mozilla/5.0 (compatible; ACFC-Market-Watch/1.0)' } });
       const result = raw?.chart?.result?.[0];
       if (!result?.timestamp?.length) throw new Error(`No chart data for ${symbol}`);
-      return { symbol, timestamps: result.timestamp, closes: result.indicators?.quote?.[0]?.close ?? [] };
+      return {
+        symbol,
+        timestamps: result.timestamp,
+        closes: result.indicators?.quote?.[0]?.close ?? [],
+        adjustedCloses: result.indicators?.adjclose?.[0]?.adjclose ?? [],
+      };
     } catch (error) {
       lastError = error;
       if (attempt < 2) await delay(350 * (attempt + 1));
     }
   }
   throw lastError;
+};
+
+const fetchQqqCalendar = async () => {
+  const chart = await fetchYahooChart('QQQ', '2y');
+  const year = new Date(fetchedAt).getUTCFullYear();
+  const observations = chart.timestamps.map((timestamp, index) => ({
+    date: new Date(timestamp * 1000).toISOString().slice(0, 10),
+    close: rounded2(chart.closes[index]),
+    adjustedClose: rounded2(chart.adjustedCloses[index] ?? chart.closes[index]),
+  })).filter((point) => point.adjustedClose !== null && point.adjustedClose > 0);
+  const daily = [];
+  for (let index = 1; index < observations.length; index += 1) {
+    const point = observations[index];
+    if (!point.date.startsWith(`${year}-`)) continue;
+    const previous = observations[index - 1];
+    daily.push({ ...point, change: rounded2((point.adjustedClose / previous.adjustedClose - 1) * 100) });
+  }
+  if (!daily.length) throw new Error('QQQ chart did not include current-year observations');
+  const firstPrevious = observations[observations.findIndex((point) => point.date === daily[0].date) - 1];
+  const latest = daily.at(-1);
+  const changes = daily.map((point) => point.change).filter(Number.isFinite);
+  const bins = [
+    { id: 'down2', min: null, max: -2, count: changes.filter((value) => value < -2).length },
+    { id: 'down1', min: -2, max: -1, count: changes.filter((value) => value >= -2 && value < -1).length },
+    { id: 'down0', min: -1, max: 0, count: changes.filter((value) => value >= -1 && value < 0).length },
+    { id: 'up0', min: 0, max: 1, count: changes.filter((value) => value >= 0 && value < 1).length },
+    { id: 'up1', min: 1, max: 2, count: changes.filter((value) => value >= 1 && value <= 2).length },
+    { id: 'up2', min: 2, max: null, count: changes.filter((value) => value > 2).length },
+  ];
+  return {
+    available: true, stale: false, fetchedAt, year,
+    source: 'Calculated from Invesco QQQ adjusted daily closes',
+    sourceUrl: 'https://finance.yahoo.com/quote/QQQ/history/',
+    date: latest.date,
+    close: latest.close,
+    dailyChange: latest.change,
+    ytdChange: firstPrevious ? rounded2((latest.adjustedClose / firstPrevious.adjustedClose - 1) * 100) : null,
+    positiveDays: changes.filter((value) => value > 0).length,
+    negativeDays: changes.filter((value) => value < 0).length,
+    flatDays: changes.filter((value) => value === 0).length,
+    averageDailyChange: rounded2(changes.reduce((sum, value) => sum + value, 0) / changes.length),
+    bestDay: daily.reduce((best, point) => point.change > best.change ? point : best, daily[0]),
+    worstDay: daily.reduce((worst, point) => point.change < worst.change ? point : worst, daily[0]),
+    bins,
+    history: daily,
+  };
 };
 
 const fetchGoldDebtRatio = async () => {
@@ -313,4 +364,13 @@ try {
   console.warn(`EUR/USD update unavailable; preserved fallback: ${eurUsd.lastError}`);
 }
 
-await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt, eurUsd }, null, 2)}\n`, 'utf8');
+let qqq;
+try {
+  qqq = await fetchQqqCalendar();
+  console.log(`Updated QQQ calendar: ${qqq.history.length} sessions (${qqq.year}, YTD ${qqq.ytdChange}%)`);
+} catch (error) {
+  qqq = preserve(previous.qqq, 'Invesco QQQ / Yahoo Finance delayed data', error);
+  console.warn(`QQQ calendar update unavailable; preserved fallback: ${qqq.lastError}`);
+}
+
+await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt, eurUsd, qqq }, null, 2)}\n`, 'utf8');
