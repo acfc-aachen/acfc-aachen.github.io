@@ -1,6 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputPath = path.join(root, 'src', 'data', 'market-watch.json');
@@ -10,9 +12,12 @@ const cnnSourceUrl = 'https://www.cnn.com/markets/fear-and-greed';
 const eurostatBase = 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data';
 const gdpUrl = `${eurostatBase}/namq_10_gdp?lang=en&geo=EA21&na_item=B1GQ&unit=CLV_PCH_PRE&s_adj=SCA&lastTimePeriod=8`;
 const inflationUrl = `${eurostatBase}/prc_hicp_minr?lang=en&geo=EA21&coicop18=TOTAL&unit=RCH_A&lastTimePeriod=18`;
+const execFileAsync = promisify(execFile);
+const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 const cleanRating = (value = '') => String(value).trim().toLowerCase().replaceAll('_', ' ');
 const rounded = (value) => Number.isFinite(Number(value)) ? Math.round(Number(value) * 10) / 10 : null;
+const rounded2 = (value) => Number.isFinite(Number(value)) ? Math.round(Number(value) * 100) / 100 : null;
 const toIso = (value, fallback = fetchedAt) => {
   if (value === undefined || value === null || value === '') return fallback;
   const numeric = Number(value);
@@ -80,6 +85,107 @@ const fetchMacro = async () => {
   };
 };
 
+const fetchShillerCape = async () => {
+  const python = process.env.PYTHON_BIN || (process.platform === 'win32' ? 'python' : 'python3');
+  const script = path.join(root, 'scripts', 'read-shiller.py');
+  const { stdout } = await execFileAsync(python, [script], { timeout: 60_000, maxBuffer: 2_000_000 });
+  return { ...JSON.parse(stdout), fetchedAt };
+};
+
+const fetchConstituents = async () => {
+  const url = 'https://en.wikipedia.org/w/api.php?action=parse&page=List_of_S%26P_500_companies&prop=text&format=json&origin=*';
+  const raw = await requestJson(url, { headers: { 'user-agent': 'ACFC-Market-Watch/1.0 (aachen_acfc@126.com)' } });
+  const html = raw?.parse?.text?.['*'] ?? '';
+  const table = html.match(/<table[^>]*id="constituents"[\s\S]*?<\/table>/i)?.[0] ?? '';
+  const symbols = [...table.matchAll(/<tr[\s\S]*?<td[^>]*>([\s\S]*?)<\/td>[\s\S]*?<\/tr>/gi)]
+    .map((match) => match[1].replace(/<[^>]+>/g, '').replaceAll('&amp;', '&').replaceAll('&#160;', '').trim())
+    .filter((symbol) => /^[A-Z.]{1,6}$/.test(symbol));
+  const unique = [...new Set(symbols)];
+  if (unique.length < 490) throw new Error(`Only ${unique.length} S&P 500 symbols were parsed`);
+  return unique;
+};
+
+const fetchYahooChart = async (symbol) => {
+  const yahooSymbol = symbol.replaceAll('.', '-');
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=6mo&interval=1d&events=history`;
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const raw = await requestJson(url, { headers: { 'user-agent': 'Mozilla/5.0 (compatible; ACFC-Market-Watch/1.0)' } });
+      const result = raw?.chart?.result?.[0];
+      if (!result?.timestamp?.length) throw new Error(`No chart data for ${symbol}`);
+      return { symbol, timestamps: result.timestamp, closes: result.indicators?.quote?.[0]?.close ?? [] };
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) await delay(350 * (attempt + 1));
+    }
+  }
+  throw lastError;
+};
+
+const fetchBreadth = async () => {
+  const symbols = await fetchConstituents();
+  const charts = [];
+  let cursor = 0;
+  const workers = Array.from({ length: 10 }, async () => {
+    while (cursor < symbols.length) {
+      const index = cursor;
+      cursor += 1;
+      try { charts.push(await fetchYahooChart(symbols[index])); } catch {}
+    }
+  });
+  await Promise.all(workers);
+  if (charts.length < 450) throw new Error(`Yahoo returned only ${charts.length} of ${symbols.length} constituent histories`);
+
+  const daily = new Map();
+  for (const chart of charts) {
+    for (let index = 1; index < chart.timestamps.length; index += 1) {
+      const previousClose = Number(chart.closes[index - 1]);
+      const close = Number(chart.closes[index]);
+      if (!Number.isFinite(previousClose) || !Number.isFinite(close)) continue;
+      const date = new Date(chart.timestamps[index] * 1000).toISOString().slice(0, 10);
+      const point = daily.get(date) ?? { date, advancers: 0, decliners: 0, unchanged: 0, coverage: 0 };
+      const difference = close - previousClose;
+      if (difference > 0.000001) point.advancers += 1;
+      else if (difference < -0.000001) point.decliners += 1;
+      else point.unchanged += 1;
+      point.coverage += 1;
+      daily.set(date, point);
+    }
+  }
+
+  const indexChart = await fetchYahooChart('^GSPC');
+  const indexReturns = new Map();
+  for (let index = 1; index < indexChart.timestamps.length; index += 1) {
+    const previousClose = Number(indexChart.closes[index - 1]);
+    const close = Number(indexChart.closes[index]);
+    if (!Number.isFinite(previousClose) || !Number.isFinite(close)) continue;
+    const date = new Date(indexChart.timestamps[index] * 1000).toISOString().slice(0, 10);
+    indexReturns.set(date, rounded2((close / previousClose - 1) * 100));
+  }
+
+  const minimumCoverage = Math.max(430, Math.floor(charts.length * 0.9));
+  const history = [...daily.values()]
+    .filter((point) => point.coverage >= minimumCoverage)
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((point) => ({
+      ...point,
+      score: rounded((point.advancers + point.unchanged * 0.5) / point.coverage * 100),
+      netBreadth: rounded((point.advancers - point.decliners) / point.coverage * 100),
+      sp500Change: indexReturns.get(point.date) ?? null,
+    }))
+    .slice(-90);
+  const latest = history.at(-1);
+  if (!latest) throw new Error('No complete market-breadth session was produced');
+  return {
+    available: true, stale: false, fetchedAt, source: 'Calculated from S&P 500 constituents and delayed daily closes',
+    constituentsSourceUrl: 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies',
+    pricesSourceUrl: 'https://finance.yahoo.com/quote/%5EGSPC/history/',
+    date: latest.date, constituentCount: symbols.length, successfulSymbols: charts.length,
+    ...latest, history,
+  };
+};
+
 const preserve = (fallback, label, error) => fallback
   ? { ...fallback, stale: true, lastAttemptAt: fetchedAt, lastError: errorText(error) }
   : { available: false, stale: true, source: label, fetchedAt: null, lastAttemptAt: fetchedAt, lastError: errorText(error) };
@@ -102,4 +208,22 @@ try {
   console.warn(`Eurostat update unavailable; preserved fallback: ${macro.lastError}`);
 }
 
-await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro }, null, 2)}\n`, 'utf8');
+let shillerCape;
+try {
+  shillerCape = await fetchShillerCape();
+  console.log(`Updated Shiller CAPE: ${shillerCape.value} (${shillerCape.period})`);
+} catch (error) {
+  shillerCape = preserve(previous.shillerCape, 'Robert J. Shiller, Yale University', error);
+  console.warn(`Shiller CAPE update unavailable; preserved fallback: ${shillerCape.lastError}`);
+}
+
+let breadth;
+try {
+  breadth = await fetchBreadth();
+  console.log(`Updated S&P 500 breadth: ${breadth.advancers} up / ${breadth.decliners} down (${breadth.date}, ${breadth.coverage} covered)`);
+} catch (error) {
+  breadth = preserve(previous.breadth, 'S&P 500 constituents / Yahoo Finance delayed data', error);
+  console.warn(`Breadth update unavailable; preserved fallback: ${breadth.lastError}`);
+}
+
+await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth }, null, 2)}\n`, 'utf8');
