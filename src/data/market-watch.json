@@ -1,24 +1,19 @@
 {
-  "generatedAt": "2026-10-26T21:03:27.262Z",
+  "generatedAt": "2026-10-27T07:50:09.565Z",
   "cnn": {
     "available": true,
     "stale": false,
     "source": "CNN Fear & Greed Index",
     "sourceUrl": "https://www.cnn.com/markets/fear-and-greed",
-    "fetchedAt": "2026-10-26T21:03:27.262Z",
-    "asOf": "2026-10-26T20:46:10.000Z",
-    "score": 27.1,
+    "fetchedAt": "2026-10-27T07:50:09.565Z",
+    "asOf": "2026-10-27T07:29:01.000Z",
+    "score": 28.1,
     "rating": "fear",
-    "previousClose": 21,
-    "previousWeek": 20.8,
+    "previousClose": 27.1,
+    "previousWeek": 29.6,
     "previousMonth": 36.9,
-    "previousYear": 32.5,
+    "previousYear": 37.3,
     "history": [
-      {
-        "date": "2026-05-07T00:00:00.000Z",
-        "value": 67.3,
-        "rating": "greed"
-      },
       {
         "date": "2026-05-08T00:00:00.000Z",
         "value": 67.3,
@@ -606,12 +601,17 @@
       },
       {
         "date": "2026-10-26T00:00:00.000Z",
-        "value": 27.1,
+        "value": 28.1,
         "rating": "fear"
       },
       {
-        "date": "2026-10-26T20:46:10.000Z",
-        "value": 27.1,
+        "date": "2026-10-27T00:00:00.000Z",
+        "value": 28.1,
+        "rating": "fear"
+      },
+      {
+        "date": "2026-10-27T07:29:01.000Z",
+        "value": 28.1,
         "rating": "fear"
       }
     ]
@@ -622,7 +622,7 @@
     "source": "Eurostat",
     "sourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table",
     "inflationSourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
-    "fetchedAt": "2026-10-26T21:03:27.262Z",
+    "fetchedAt": "2026-10-27T07:50:09.565Z",
     "region": "EA21",
     "regionName": "Euro area – 21 countries",
     "growth": {
@@ -630,7 +630,7 @@
       "value": 0.6,
       "unit": "% q/q",
       "series": "namq_10_gdp",
-      "updatedAt": "2026-10-22T23:00:00+0200"
+      "updatedAt": "2026-10-26T23:00:00+0100"
     },
     "inflation": {
       "period": "2026-09",
@@ -1721,12 +1721,12 @@
         "value": 40.71
       }
     ],
-    "fetchedAt": "2026-10-26T21:03:27.262Z"
+    "fetchedAt": "2026-10-27T07:50:09.565Z"
   },
   "breadth": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-26T21:03:27.262Z",
+    "fetchedAt": "2026-10-27T07:50:09.565Z",
     "source": "Calculated from S&P 500 constituents and delayed daily closes",
     "constituentsSourceUrl": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
     "pricesSourceUrl": "https://finance.yahoo.com/quote/%5EGSPC/history/",
@@ -2640,6 +2640,443 @@
         "score": 57.8,
         "netBreadth": 15.5,
         "sp500Change": 0.7
+      }
+    ]
+  },
+  "goldDebt": {
+    "available": true,
+    "stale": false,
+    "fetchedAt": "2026-10-27T07:50:09.565Z",
+    "source": "Calculated from COMEX gold futures and U.S. Treasury total public debt outstanding",
+    "goldSourceUrl": "https://finance.yahoo.com/quote/GC=F/history/",
+    "debtSourceUrl": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/",
+    "unit": "USD/oz per USD 1tn debt",
+    "date": "2026-10-27",
+    "debtDate": "2026-10-23",
+    "goldPrice": 4015.8,
+    "debtTrillions": 40.46,
+    "ratio": 99.25,
+    "oneYearChange": -5.53,
+    "history": [
+      {
+        "date": "2021-11-30",
+        "debtDate": "2021-11-30",
+        "goldPrice": 1773.6,
+        "debtTrillions": 28.91,
+        "ratio": 61.35
+      },
+      {
+        "date": "2021-12-31",
+        "debtDate": "2021-12-31",
+        "goldPrice": 1828.6,
+        "debtTrillions": 29.62,
+        "ratio": 61.74
+      },
+      {
+        "date": "2022-01-31",
+        "debtDate": "2022-01-31",
+        "goldPrice": 1795,
+        "debtTrillions": 30.01,
+        "ratio": 59.81
+      },
+      {
+        "date": "2022-02-28",
+        "debtDate": "2022-02-28",
+        "goldPrice": 1900.7,
+        "debtTrillions": 30.29,
+        "ratio": 62.75
+      },
+      {
+        "date": "2022-03-31",
+        "debtDate": "2022-03-31",
+        "goldPrice": 1949.2,
+        "debtTrillions": 30.4,
+        "ratio": 64.12
+      },
+      {
+        "date": "2022-04-29",
+        "debtDate": "2022-04-29",
+        "goldPrice": 1911.7,
+        "debtTrillions": 30.37,
+        "ratio": 62.94
+      },
+      {
+        "date": "2022-05-31",
+        "debtDate": "2022-05-31",
+        "goldPrice": 1842.7,
+        "debtTrillions": 30.5,
+        "ratio": 60.42
+      },
+      {
+        "date": "2022-06-30",
+        "debtDate": "2022-06-30",
+        "goldPrice": 1807.3,
+        "debtTrillions": 30.57,
+        "ratio": 59.12
+      },
+      {
+        "date": "2022-07-29",
+        "debtDate": "2022-07-29",
+        "goldPrice": 1762.9,
+        "debtTrillions": 30.6,
+        "ratio": 57.62
+      },
+      {
+        "date": "2022-08-31",
+        "debtDate": "2022-08-31",
+        "goldPrice": 1726.2,
+        "debtTrillions": 30.94,
+        "ratio": 55.8
+      },
+      {
+        "date": "2022-09-30",
+        "debtDate": "2022-09-30",
+        "goldPrice": 1672,
+        "debtTrillions": 30.93,
+        "ratio": 54.06
+      },
+      {
+        "date": "2022-10-31",
+        "debtDate": "2022-10-31",
+        "goldPrice": 1640.7,
+        "debtTrillions": 31.24,
+        "ratio": 52.52
+      },
+      {
+        "date": "2022-11-30",
+        "debtDate": "2022-11-30",
+        "goldPrice": 1746,
+        "debtTrillions": 31.41,
+        "ratio": 55.58
+      },
+      {
+        "date": "2022-12-30",
+        "debtDate": "2022-12-30",
+        "goldPrice": 1826.2,
+        "debtTrillions": 31.42,
+        "ratio": 58.12
+      },
+      {
+        "date": "2023-01-31",
+        "debtDate": "2023-01-31",
+        "goldPrice": 1929.5,
+        "debtTrillions": 31.45,
+        "ratio": 61.34
+      },
+      {
+        "date": "2023-02-28",
+        "debtDate": "2023-02-28",
+        "goldPrice": 1836.7,
+        "debtTrillions": 31.46,
+        "ratio": 58.38
+      },
+      {
+        "date": "2023-03-31",
+        "debtDate": "2023-03-31",
+        "goldPrice": 1969,
+        "debtTrillions": 31.46,
+        "ratio": 62.59
+      },
+      {
+        "date": "2023-04-28",
+        "debtDate": "2023-04-28",
+        "goldPrice": 1999.1,
+        "debtTrillions": 31.46,
+        "ratio": 63.55
+      },
+      {
+        "date": "2023-05-31",
+        "debtDate": "2023-05-31",
+        "goldPrice": 1963.9,
+        "debtTrillions": 31.46,
+        "ratio": 62.42
+      },
+      {
+        "date": "2023-06-30",
+        "debtDate": "2023-06-30",
+        "goldPrice": 1929.4,
+        "debtTrillions": 32.33,
+        "ratio": 59.67
+      },
+      {
+        "date": "2023-07-31",
+        "debtDate": "2023-07-31",
+        "goldPrice": 1970.5,
+        "debtTrillions": 32.61,
+        "ratio": 60.43
+      },
+      {
+        "date": "2023-08-31",
+        "debtDate": "2023-08-31",
+        "goldPrice": 1965.9,
+        "debtTrillions": 32.91,
+        "ratio": 59.73
+      },
+      {
+        "date": "2023-09-29",
+        "debtDate": "2023-09-29",
+        "goldPrice": 1866.1,
+        "debtTrillions": 33.17,
+        "ratio": 56.26
+      },
+      {
+        "date": "2023-10-31",
+        "debtDate": "2023-10-31",
+        "goldPrice": 1994.3,
+        "debtTrillions": 33.7,
+        "ratio": 59.18
+      },
+      {
+        "date": "2023-11-30",
+        "debtDate": "2023-11-30",
+        "goldPrice": 2038.1,
+        "debtTrillions": 33.88,
+        "ratio": 60.16
+      },
+      {
+        "date": "2023-12-29",
+        "debtDate": "2023-12-29",
+        "goldPrice": 2071.8,
+        "debtTrillions": 34,
+        "ratio": 60.93
+      },
+      {
+        "date": "2024-01-31",
+        "debtDate": "2024-01-31",
+        "goldPrice": 2048.4,
+        "debtTrillions": 34.19,
+        "ratio": 59.91
+      },
+      {
+        "date": "2024-02-29",
+        "debtDate": "2024-02-29",
+        "goldPrice": 2054.7,
+        "debtTrillions": 34.47,
+        "ratio": 59.61
+      },
+      {
+        "date": "2024-03-28",
+        "debtDate": "2024-03-28",
+        "goldPrice": 2217.4,
+        "debtTrillions": 34.58,
+        "ratio": 64.13
+      },
+      {
+        "date": "2024-04-30",
+        "debtDate": "2024-04-30",
+        "goldPrice": 2302.9,
+        "debtTrillions": 34.62,
+        "ratio": 66.53
+      },
+      {
+        "date": "2024-05-31",
+        "debtDate": "2024-05-31",
+        "goldPrice": 2322.9,
+        "debtTrillions": 34.67,
+        "ratio": 67.01
+      },
+      {
+        "date": "2024-06-28",
+        "debtDate": "2024-06-28",
+        "goldPrice": 2339.6,
+        "debtTrillions": 34.83,
+        "ratio": 67.17
+      },
+      {
+        "date": "2024-07-31",
+        "debtDate": "2024-07-31",
+        "goldPrice": 2426.5,
+        "debtTrillions": 35.1,
+        "ratio": 69.12
+      },
+      {
+        "date": "2024-08-30",
+        "debtDate": "2024-08-30",
+        "goldPrice": 2527.6,
+        "debtTrillions": 35.26,
+        "ratio": 71.69
+      },
+      {
+        "date": "2024-09-30",
+        "debtDate": "2024-09-30",
+        "goldPrice": 2659.4,
+        "debtTrillions": 35.46,
+        "ratio": 74.99
+      },
+      {
+        "date": "2024-10-31",
+        "debtDate": "2024-10-31",
+        "goldPrice": 2749.3,
+        "debtTrillions": 35.95,
+        "ratio": 76.47
+      },
+      {
+        "date": "2024-11-29",
+        "debtDate": "2024-11-29",
+        "goldPrice": 2657,
+        "debtTrillions": 36.09,
+        "ratio": 73.63
+      },
+      {
+        "date": "2024-12-31",
+        "debtDate": "2024-12-31",
+        "goldPrice": 2641,
+        "debtTrillions": 36.22,
+        "ratio": 72.92
+      },
+      {
+        "date": "2025-01-31",
+        "debtDate": "2025-01-31",
+        "goldPrice": 2812.5,
+        "debtTrillions": 36.22,
+        "ratio": 77.65
+      },
+      {
+        "date": "2025-02-28",
+        "debtDate": "2025-02-28",
+        "goldPrice": 2848.5,
+        "debtTrillions": 36.22,
+        "ratio": 78.65
+      },
+      {
+        "date": "2025-03-31",
+        "debtDate": "2025-03-31",
+        "goldPrice": 3122.8,
+        "debtTrillions": 36.21,
+        "ratio": 86.23
+      },
+      {
+        "date": "2025-04-30",
+        "debtDate": "2025-04-30",
+        "goldPrice": 3319.1,
+        "debtTrillions": 36.21,
+        "ratio": 91.65
+      },
+      {
+        "date": "2025-05-30",
+        "debtDate": "2025-05-30",
+        "goldPrice": 3288.9,
+        "debtTrillions": 36.22,
+        "ratio": 90.81
+      },
+      {
+        "date": "2025-06-30",
+        "debtDate": "2025-06-30",
+        "goldPrice": 3307.7,
+        "debtTrillions": 36.21,
+        "ratio": 91.34
+      },
+      {
+        "date": "2025-07-31",
+        "debtDate": "2025-07-31",
+        "goldPrice": 3293.2,
+        "debtTrillions": 36.92,
+        "ratio": 89.21
+      },
+      {
+        "date": "2025-08-29",
+        "debtDate": "2025-08-29",
+        "goldPrice": 3516.1,
+        "debtTrillions": 37.27,
+        "ratio": 94.33
+      },
+      {
+        "date": "2025-09-30",
+        "debtDate": "2025-09-30",
+        "goldPrice": 3873.2,
+        "debtTrillions": 37.64,
+        "ratio": 102.91
+      },
+      {
+        "date": "2025-10-31",
+        "debtDate": "2025-10-31",
+        "goldPrice": 3996.5,
+        "debtTrillions": 38.04,
+        "ratio": 105.06
+      },
+      {
+        "date": "2025-11-28",
+        "debtDate": "2025-11-28",
+        "goldPrice": 4254.9,
+        "debtTrillions": 38.4,
+        "ratio": 110.82
+      },
+      {
+        "date": "2025-12-31",
+        "debtDate": "2025-12-31",
+        "goldPrice": 4341.1,
+        "debtTrillions": 38.51,
+        "ratio": 112.71
+      },
+      {
+        "date": "2026-01-30",
+        "debtDate": "2026-01-30",
+        "goldPrice": 4745.1,
+        "debtTrillions": 38.52,
+        "ratio": 123.18
+      },
+      {
+        "date": "2026-02-27",
+        "debtDate": "2026-02-27",
+        "goldPrice": 5247.9,
+        "debtTrillions": 38.77,
+        "ratio": 135.36
+      },
+      {
+        "date": "2026-03-31",
+        "debtDate": "2026-03-31",
+        "goldPrice": 4647.6,
+        "debtTrillions": 39.07,
+        "ratio": 118.97
+      },
+      {
+        "date": "2026-04-30",
+        "debtDate": "2026-04-30",
+        "goldPrice": 4629.6,
+        "debtTrillions": 38.97,
+        "ratio": 118.81
+      },
+      {
+        "date": "2026-05-29",
+        "debtDate": "2026-05-29",
+        "goldPrice": 4593,
+        "debtTrillions": 39.21,
+        "ratio": 117.15
+      },
+      {
+        "date": "2026-06-30",
+        "debtDate": "2026-06-30",
+        "goldPrice": 4038.5,
+        "debtTrillions": 39.46,
+        "ratio": 102.34
+      },
+      {
+        "date": "2026-07-31",
+        "debtDate": "2026-07-31",
+        "goldPrice": 4107,
+        "debtTrillions": 39.77,
+        "ratio": 103.26
+      },
+      {
+        "date": "2026-08-31",
+        "debtDate": "2026-08-31",
+        "goldPrice": 4481.5,
+        "debtTrillions": 40.18,
+        "ratio": 111.55
+      },
+      {
+        "date": "2026-09-30",
+        "debtDate": "2026-09-30",
+        "goldPrice": 4186.7,
+        "debtTrillions": 40.17,
+        "ratio": 104.22
+      },
+      {
+        "date": "2026-10-27",
+        "debtDate": "2026-10-23",
+        "goldPrice": 4015.8,
+        "debtTrillions": 40.46,
+        "ratio": 99.25
       }
     ]
   }

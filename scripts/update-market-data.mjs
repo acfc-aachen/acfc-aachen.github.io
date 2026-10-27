@@ -105,9 +105,9 @@ const fetchConstituents = async () => {
   return unique;
 };
 
-const fetchYahooChart = async (symbol) => {
+const fetchYahooChart = async (symbol, range = '6mo') => {
   const yahooSymbol = symbol.replaceAll('.', '-');
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=6mo&interval=1d&events=history`;
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=${range}&interval=1d&events=history`;
   let lastError;
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
@@ -121,6 +121,50 @@ const fetchYahooChart = async (symbol) => {
     }
   }
   throw lastError;
+};
+
+const fetchGoldDebtRatio = async () => {
+  const startDate = new Date();
+  startDate.setUTCFullYear(startDate.getUTCFullYear() - 5);
+  const start = startDate.toISOString().slice(0, 10);
+  const treasuryEndpoint = `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?fields=record_date,tot_pub_debt_out_amt&filter=record_date:gte:${start}&sort=record_date&page[size]=10000`;
+  const [goldChart, debtRaw] = await Promise.all([
+    fetchYahooChart('GC=F', '5y'),
+    requestJson(treasuryEndpoint, { headers: { accept: 'application/json', 'user-agent': 'ACFC-Market-Watch/1.0 (aachen_acfc@126.com)' } }),
+  ]);
+  const debts = (debtRaw?.data ?? [])
+    .map((row) => ({ date: row.record_date, value: Number(row.tot_pub_debt_out_amt) }))
+    .filter((point) => point.date && Number.isFinite(point.value) && point.value > 0)
+    .sort((a, b) => a.date.localeCompare(b.date));
+  if (!debts.length) throw new Error('Treasury response did not include total public debt observations');
+
+  let debtIndex = 0;
+  const matched = [];
+  for (let index = 0; index < goldChart.timestamps.length; index += 1) {
+    const goldPrice = Number(goldChart.closes[index]);
+    if (!Number.isFinite(goldPrice) || goldPrice <= 0) continue;
+    const date = new Date(goldChart.timestamps[index] * 1000).toISOString().slice(0, 10);
+    while (debtIndex + 1 < debts.length && debts[debtIndex + 1].date <= date) debtIndex += 1;
+    const debt = debts[debtIndex];
+    if (!debt || debt.date > date) continue;
+    const debtTrillions = debt.value / 1e12;
+    matched.push({ date, debtDate: debt.date, goldPrice: rounded2(goldPrice), debtTrillions: rounded2(debtTrillions), ratio: rounded2(goldPrice / debtTrillions) });
+  }
+  if (!matched.length) throw new Error('Gold and Treasury observations could not be aligned');
+  const monthly = [...matched.reduce((months, point) => months.set(point.date.slice(0, 7), point), new Map()).values()];
+  const history = monthly.slice(-60);
+  const latest = matched.at(-1);
+  const oneYearReference = history.find((point) => point.date >= `${Number(latest.date.slice(0, 4)) - 1}-${latest.date.slice(5, 7)}`) ?? history[0];
+  return {
+    available: true, stale: false, fetchedAt,
+    source: 'Calculated from COMEX gold futures and U.S. Treasury total public debt outstanding',
+    goldSourceUrl: 'https://finance.yahoo.com/quote/GC=F/history/',
+    debtSourceUrl: 'https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/',
+    unit: 'USD/oz per USD 1tn debt',
+    ...latest,
+    oneYearChange: oneYearReference ? rounded2((latest.ratio / oneYearReference.ratio - 1) * 100) : null,
+    history,
+  };
 };
 
 const fetchBreadth = async () => {
@@ -226,4 +270,13 @@ try {
   console.warn(`Breadth update unavailable; preserved fallback: ${breadth.lastError}`);
 }
 
-await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth }, null, 2)}\n`, 'utf8');
+let goldDebt;
+try {
+  goldDebt = await fetchGoldDebtRatio();
+  console.log(`Updated gold/debt ratio: ${goldDebt.ratio} (${goldDebt.date}, gold ${goldDebt.goldPrice}, debt ${goldDebt.debtTrillions}tn)`);
+} catch (error) {
+  goldDebt = preserve(previous.goldDebt, 'COMEX gold futures / U.S. Treasury Fiscal Data', error);
+  console.warn(`Gold/debt ratio update unavailable; preserved fallback: ${goldDebt.lastError}`);
+}
+
+await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt }, null, 2)}\n`, 'utf8');
