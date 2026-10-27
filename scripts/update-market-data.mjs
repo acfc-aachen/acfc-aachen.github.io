@@ -18,6 +18,7 @@ const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, mil
 const cleanRating = (value = '') => String(value).trim().toLowerCase().replaceAll('_', ' ');
 const rounded = (value) => Number.isFinite(Number(value)) ? Math.round(Number(value) * 10) / 10 : null;
 const rounded2 = (value) => Number.isFinite(Number(value)) ? Math.round(Number(value) * 100) / 100 : null;
+const rounded4 = (value) => Number.isFinite(Number(value)) ? Math.round(Number(value) * 10_000) / 10_000 : null;
 const toIso = (value, fallback = fetchedAt) => {
   if (value === undefined || value === null || value === '') return fallback;
   const numeric = Number(value);
@@ -167,6 +168,30 @@ const fetchGoldDebtRatio = async () => {
   };
 };
 
+const fetchEurUsd = async () => {
+  const chart = await fetchYahooChart('EURUSD=X', '1y');
+  const history = chart.timestamps.map((timestamp, index) => ({
+    date: new Date(timestamp * 1000).toISOString().slice(0, 10),
+    value: rounded4(chart.closes[index]),
+  })).filter((point) => point.value !== null && point.value > 0).slice(-260);
+  const latest = history.at(-1);
+  const previous = history.at(-2);
+  const first = history[0];
+  if (!latest || !previous || !first) throw new Error('EUR/USD chart did not include enough observations');
+  return {
+    available: true, stale: false, fetchedAt,
+    source: 'Yahoo Finance delayed daily EUR/USD closes',
+    sourceUrl: 'https://finance.yahoo.com/quote/EURUSD%3DX/history/',
+    date: latest.date,
+    value: latest.value,
+    dailyChange: rounded2((latest.value / previous.value - 1) * 100),
+    oneYearChange: rounded2((latest.value / first.value - 1) * 100),
+    yearHigh: rounded4(Math.max(...history.map((point) => point.value))),
+    yearLow: rounded4(Math.min(...history.map((point) => point.value))),
+    history,
+  };
+};
+
 const fetchBreadth = async () => {
   const symbols = await fetchConstituents();
   const charts = [];
@@ -279,4 +304,13 @@ try {
   console.warn(`Gold/debt ratio update unavailable; preserved fallback: ${goldDebt.lastError}`);
 }
 
-await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt }, null, 2)}\n`, 'utf8');
+let eurUsd;
+try {
+  eurUsd = await fetchEurUsd();
+  console.log(`Updated EUR/USD: ${eurUsd.value} (${eurUsd.date}, ${eurUsd.dailyChange}% daily)`);
+} catch (error) {
+  eurUsd = preserve(previous.eurUsd, 'Yahoo Finance delayed EUR/USD data', error);
+  console.warn(`EUR/USD update unavailable; preserved fallback: ${eurUsd.lastError}`);
+}
+
+await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt, eurUsd }, null, 2)}\n`, 'utf8');

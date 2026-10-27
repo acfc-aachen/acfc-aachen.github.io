@@ -10,6 +10,7 @@ const macro = marketData.macro ?? {};
 const shillerCape = marketData.shillerCape ?? {};
 const breadth = marketData.breadth ?? {};
 const goldDebt = marketData.goldDebt ?? {};
+const eurUsd = marketData.eurUsd ?? {};
 const t = en ? {
   home:'Back to ACFC', language:'中文', eyebrow:'ACFC / VERIFIED DATA', title:'Market Watch',
   subtitle:'A focused view of sentiment, valuation, breadth and the macro environment — using verifiable data.',
@@ -24,6 +25,7 @@ const t = en ? {
   capeTitle:'Shiller CAPE', capeSub:'S&P 500 cyclically adjusted valuation · monthly data', capeHistory:'20-year valuation history', capeAverage:'Long-term average', capeMedian:'Long-term median', capePercentile:'Historical percentile',
   breadthTitle:'S&P 500 market breadth', breadthSub:'Advancing and declining constituent securities · daily close', breadthHistory:'Recent 60 sessions', advancers:'Advancing', decliners:'Declining', unchanged:'Unchanged', coverage:'Coverage',
   goldDebtTitle:'Gold price / U.S. debt', goldDebtSub:'COMEX gold price relative to total U.S. public debt', goldDebtHistory:'Five-year ratio history', goldPrice:'Gold price', usDebt:'Total U.S. debt', oneYearChange:'One-year change', ratioUnit:'USD/oz per USD 1tn debt',
+  fxTitle:'EUR/USD trend', fxSub:'Euro exchange rate against the U.S. dollar · delayed daily close', currentRate:'Current rate', dailyChange:'Daily change', yearChange:'One-year change', yearRange:'52-week range', fxHistory:'One-year EUR/USD history',
   source:'Source', dataPeriod:'Data period', footer:'ACFC Market Watch · Verified public data', legal:'Not investment advice',
 } : {
   home:'返回 ACFC', language:'EN', eyebrow:'ACFC / VERIFIED DATA', title:'市场监控',
@@ -39,6 +41,7 @@ const t = en ? {
   capeTitle:'席勒市盈率', capeSub:'标普 500 周期调整估值 · 月度数据', capeHistory:'近 20 年估值历史', capeAverage:'长期均值', capeMedian:'长期中位数', capePercentile:'历史分位',
   breadthTitle:'标普 500 市场广度', breadthSub:'成分证券上涨与下跌家数 · 每日收盘', breadthHistory:'近 60 个交易日', advancers:'上涨', decliners:'下跌', unchanged:'平盘', coverage:'覆盖',
   goldDebtTitle:'黄金价格与美债总量的比值', goldDebtSub:'COMEX 黄金价格相对于美国公共债务总额', goldDebtHistory:'近五年比值历史', goldPrice:'黄金价格', usDebt:'美国债务总额', oneYearChange:'一年变化', ratioUnit:'美元/盎司 ÷ 每万亿美元债务',
+  fxTitle:'欧元兑美元走势', fxSub:'欧元相对美元汇率 · 延迟日收盘数据', currentRate:'当前汇率', dailyChange:'当日变化', yearChange:'一年变化', yearRange:'52 周区间', fxHistory:'近一年 EUR/USD 走势',
   source:'来源', dataPeriod:'统计期', footer:'ACFC Market Watch · 可核验公开数据', legal:'不构成投资建议',
 };
 
@@ -116,6 +119,20 @@ const goldDebtArea = goldDebtPath ? `${goldDebtPath} L${goldDebtWidth} ${goldDeb
 const axisTicks = (points, count = 5) => Array.from({ length: count }, (_, index) => points[Math.round(index * (points.length - 1) / (count - 1))]).filter(Boolean);
 const capeXTicks = axisTicks(capeHistory);
 const goldDebtXTicks = axisTicks(goldDebtHistory);
+const eurUsdValue = eurUsd.available ? Number(eurUsd.value) : null;
+const eurUsdHistory = (eurUsd.history ?? []).slice(-260);
+const eurUsdWidth = 920;
+const eurUsdHeight = 190;
+const eurUsdValues = eurUsdHistory.map((point) => Number(point.value)).filter(Number.isFinite);
+const eurUsdRawMin = eurUsdValues.length ? Math.min(...eurUsdValues) : 1;
+const eurUsdRawMax = eurUsdValues.length ? Math.max(...eurUsdValues) : 1.2;
+const eurUsdStep = Math.max(.01, Math.ceil((eurUsdRawMax - eurUsdRawMin) / 4 * 100) / 100);
+const eurUsdMin = Math.floor(eurUsdRawMin / eurUsdStep) * eurUsdStep;
+const eurUsdMax = Math.ceil(eurUsdRawMax / eurUsdStep) * eurUsdStep;
+const eurUsdYTicks = Array.from({ length: Math.round((eurUsdMax - eurUsdMin) / eurUsdStep) + 1 }, (_, index) => eurUsdMax - index * eurUsdStep);
+const eurUsdPath = linePath(eurUsdHistory, 'value', eurUsdWidth, eurUsdHeight, eurUsdMin, eurUsdMax);
+const eurUsdArea = eurUsdPath ? `${eurUsdPath} L${eurUsdWidth} ${eurUsdHeight} L0 ${eurUsdHeight} Z` : '';
+const eurUsdXTicks = axisTicks(eurUsdHistory);
 const growthValue = macro.available ? Number(macro.growth?.value) : null;
 const inflationValue = macro.available ? Number(macro.inflation?.value) : null;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -285,6 +302,29 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
             </div>
           </div>
         </div>
+        <section class="macro-fx-section">
+          <div class="panel-heading">
+            <div><span class="panel-kicker">FOREIGN EXCHANGE / EURUSD</span><h2>{t.fxTitle}</h2><p>{t.fxSub}</p></div>
+            <div class="fear-source"><span class:list={{ stale: eurUsd.stale }}>{eurUsd.stale ? t.lastGood : t.daily}</span><a href={eurUsd.sourceUrl} target="_blank" rel="noreferrer">EUR/USD ↗</a></div>
+          </div>
+          <div class="fx-layout">
+            <div class="fx-readout">
+              <span>{t.currentRate} · {eurUsd.date ?? '—'}</span>
+              <strong>{eurUsdValue?.toFixed(4) ?? '—'}</strong>
+              <small>1 EUR = {eurUsdValue?.toFixed(4) ?? '—'} USD</small>
+              <div class="fx-stats">
+                <div><span>{t.dailyChange}</span><b class:list={{ positive: Number(eurUsd.dailyChange) >= 0, negative: Number(eurUsd.dailyChange) < 0 }}>{Number(eurUsd.dailyChange) >= 0 ? '+' : ''}{Number(eurUsd.dailyChange).toFixed(2)}%</b></div>
+                <div><span>{t.yearChange}</span><b class:list={{ positive: Number(eurUsd.oneYearChange) >= 0, negative: Number(eurUsd.oneYearChange) < 0 }}>{Number(eurUsd.oneYearChange) >= 0 ? '+' : ''}{Number(eurUsd.oneYearChange).toFixed(2)}%</b></div>
+                <div><span>{t.yearRange}</span><b>{Number(eurUsd.yearLow).toFixed(4)}–{Number(eurUsd.yearHigh).toFixed(4)}</b></div>
+              </div>
+            </div>
+            <div class="fx-chart">
+              <div class="chart-heading"><span>{t.fxHistory}</span><div><i class="legend-fx"></i>EUR/USD</div></div>
+              {eurUsdPath ? <div class="axis-chart-shell fx-axis-shell"><div class="value-axis">{eurUsdYTicks.map((value) => <span>{value.toFixed(2)}</span>)}</div><div class="axis-plot"><div class="interactive-chart" data-chart="fx" data-points={JSON.stringify(eurUsdHistory)} data-y-min={eurUsdMin} data-y-max={eurUsdMax} tabindex="0"><svg viewBox={`0 0 ${eurUsdWidth} ${eurUsdHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive one-year EUR/USD history' : '可交互的近一年欧元兑美元走势'}><defs><linearGradient id="fx-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3867d6" stop-opacity=".22"/><stop offset="1" stop-color="#3867d6" stop-opacity="0"/></linearGradient></defs>{eurUsdYTicks.map((value) => <line class="axis-grid" x1="0" y1={eurUsdHeight - (value - eurUsdMin) / (eurUsdMax - eurUsdMin) * eurUsdHeight} x2={eurUsdWidth} y2={eurUsdHeight - (value - eurUsdMin) / (eurUsdMax - eurUsdMin) * eurUsdHeight}/>) }<path class="fx-area" d={eurUsdArea}/><path class="fx-line" d={eurUsdPath}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div><div class="chart-axis detailed-axis">{eurUsdXTicks.map((point) => <span>{point.date.slice(0,7)}</span>)}</div></div></div> : <div class="fear-unavailable">{en ? 'EUR/USD data is temporarily unavailable.' : '欧元兑美元数据暂时不可用。'}</div>}
+            </div>
+          </div>
+          <p class="fear-caption">{en ? 'Source: delayed daily EUR/USD closes. One euro is quoted in U.S. dollars; the series refreshes with the daily data build.' : '数据来源：EUR/USD 延迟日收盘数据。报价表示 1 欧元可兑换的美元数量，并随每日数据构建自动更新。'}</p>
+        </section>
         <div class="method-grid">
           <div><span>01</span><h3>{t.methodTitle}</h3><p>{t.method}</p></div>
           <div><span>02</span><h3>{t.automationTitle}</h3><p>{t.automation}</p></div>
@@ -367,6 +407,10 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
                 [zh ? '美债总额' : 'U.S. debt', `$${number(point.debtTrillions, 2)} tn`],
               ];
               primaryColor = '#cf862c';
+            } else if (type === 'fx') {
+              y = valueY(point.value, Number(chart.dataset.yMin), Number(chart.dataset.yMax), rect.height);
+              rows = [[zh ? '欧元兑美元' : 'EUR/USD', number(point.value, 4)]];
+              primaryColor = '#3867d6';
             }
             title = dateLabel(title);
             crosshair.style.left = `${x}px`;
@@ -438,4 +482,6 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
   @media(max-width:700px){.top-indicator-grid,.valuation-grid{gap:10px}.top-indicator-grid .fear-layout{display:flex;flex-direction:column}.top-indicator-grid .fear-gauge{width:170px;height:170px}.top-indicator-grid .fear-scale{width:min(260px,100%);align-self:center}.top-indicator-grid .fear-comparison{display:grid;grid-template-columns:1fr 1fr}.top-indicator-grid .fear-comparison div{border-right:1px solid var(--watch-line);border-bottom:1px solid var(--watch-line)}.top-indicator-grid .fear-comparison div:nth-child(2){border-right:0}.top-indicator-grid .fear-comparison div:nth-child(3){border-bottom:0}.top-indicator-grid .breadth-layout{grid-template-columns:1fr}.top-indicator-grid .breadth-gauge{width:170px;height:170px}.valuation-grid .cape-readout{display:block}.valuation-grid .cape-stats{margin:20px 0 0}.gold-debt-panel{padding:16px}.gold-debt-panel>.panel-heading{flex-direction:column}.gold-debt-readout{grid-template-columns:1fr;padding:16px}.gold-debt-readout>div:first-child>strong{font-size:48px}.gold-debt-chart svg{height:150px}}
   .interactive-chart{position:relative;min-width:0;cursor:crosshair;touch-action:pan-y;outline:none}.interactive-chart:focus-visible{border-radius:4px;box-shadow:0 0 0 2px rgba(0,113,227,.28)}.interactive-chart svg{pointer-events:none}.chart-crosshair{position:absolute;z-index:4;inset-block:0;width:1px;background:rgba(22,50,77,.32);opacity:0;pointer-events:none}.chart-dot{position:absolute;z-index:5;width:9px;height:9px;border:2px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(22,50,77,.35);transform:translate(-50%,-50%);opacity:0;pointer-events:none}.chart-dot.secondary{background:var(--watch-amber)}.chart-tooltip{position:absolute;z-index:8;min-width:128px;max-width:190px;padding:10px 11px;border:1px solid rgba(164,183,201,.72);border-radius:5px;background:rgba(255,255,255,.97);box-shadow:0 9px 28px rgba(25,63,101,.16);opacity:0;pointer-events:none;color:var(--watch-text);font-size:9px;line-height:1.35}.chart-tooltip>strong{display:block;margin-bottom:7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}.chart-tooltip>span{display:flex;align-items:center;justify-content:space-between;gap:13px;padding-top:4px;color:var(--watch-muted)}.chart-tooltip i{font-style:normal}.chart-tooltip b{color:var(--watch-text);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:700;white-space:nowrap}.chart-tooltip b.up{color:var(--watch-green)}.chart-tooltip b.down{color:var(--watch-red)}.interactive-chart.is-active .chart-crosshair,.interactive-chart.is-active .chart-dot,.interactive-chart.is-active .chart-tooltip{opacity:1}.axis-chart-shell{display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px}.value-axis{height:165px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;line-height:1}.axis-plot{min-width:0}.axis-grid{stroke:var(--watch-line);stroke-width:1;stroke-dasharray:3 5}.detailed-axis{font-size:7px}.detailed-axis span{flex:1;text-align:center}.detailed-axis span:first-child{text-align:left}.detailed-axis span:last-child{text-align:right}
   @media(max-width:700px){.value-axis{height:150px}.axis-chart-shell{grid-template-columns:26px minmax(0,1fr);gap:6px}.detailed-axis{font-size:6px}.chart-tooltip{min-width:122px;padding:8px 9px}}
+  .macro-fx-section{margin-top:24px;padding-top:24px;border-top:1px solid var(--watch-line)}.fx-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;align-items:center;margin-top:20px}.fx-readout{padding:20px;border:1px solid var(--watch-line);border-radius:6px;background:linear-gradient(145deg,#fff,#f4f7ff)}.fx-readout>span{display:block;color:var(--watch-muted);font-size:9px}.fx-readout>strong{display:block;font-size:52px;line-height:1;letter-spacing:-3px;margin:14px 0 7px}.fx-readout>small{color:var(--watch-blue);font-size:9px}.fx-stats{display:grid;grid-template-columns:1fr 1fr;margin-top:20px;border-top:1px solid var(--watch-line)}.fx-stats>div{padding:13px 10px 0 0}.fx-stats>div:nth-child(2){padding-left:10px;border-left:1px solid var(--watch-line)}.fx-stats>div:last-child{grid-column:1/-1;margin-top:12px;padding-top:12px;border-top:1px solid var(--watch-line)}.fx-stats span{display:block;color:var(--watch-muted);font-size:8px}.fx-stats b{display:block;font-size:13px;margin-top:5px}.fx-chart{min-width:0}.fx-chart svg{display:block;width:100%;height:190px}.fx-axis-shell .value-axis{height:190px}.fx-area{fill:url(#fx-fill)}.fx-line{fill:none;stroke:var(--watch-blue);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.legend-fx{background:var(--watch-blue)}
+  @media(max-width:800px){.fx-layout{grid-template-columns:1fr}.fx-readout>strong{font-size:46px}.fx-axis-shell .value-axis{height:170px}.fx-chart svg{height:170px}.macro-fx-section>.panel-heading{flex-direction:column}}
 </style>
