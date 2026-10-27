@@ -75,10 +75,11 @@ const capeValue = shillerCape.available ? Number(shillerCape.value) : null;
 const capeHistory = (shillerCape.history ?? []).slice(-240);
 const capeWidth = 720;
 const capeHeight = 180;
-const capeMax = Math.max(45, ...capeHistory.map((point) => Number(point.value) || 0));
+const capeMax = Math.max(50, Math.ceil(Math.max(...capeHistory.map((point) => Number(point.value) || 0)) / 10) * 10);
 const capePath = linePath(capeHistory, 'value', capeWidth, capeHeight, 0, capeMax);
 const capeArea = capePath ? `${capePath} L${capeWidth} ${capeHeight} L0 ${capeHeight} Z` : '';
 const capeAverageY = capeHeight - Number(shillerCape.longTermAverage ?? 0) / capeMax * capeHeight;
+const capeYTicks = Array.from({ length: 6 }, (_, index) => capeMax - index * capeMax / 5);
 const capeLabel = capeValue === null ? (en ? 'Unavailable' : '暂无数据')
   : Number(shillerCape.historicalPercentile) >= 90 ? (en ? 'Historically elevated' : '历史高估值区间')
   : Number(shillerCape.historicalPercentile) >= 75 ? (en ? 'Above historical norms' : '高于历史常态')
@@ -104,10 +105,17 @@ const goldDebtHistory = (goldDebt.history ?? []).slice(-60);
 const goldDebtWidth = 720;
 const goldDebtHeight = 180;
 const goldDebtValues = goldDebtHistory.map((point) => Number(point.ratio)).filter(Number.isFinite);
-const goldDebtMin = goldDebtValues.length ? Math.max(0, Math.min(...goldDebtValues) * .9) : 0;
-const goldDebtMax = goldDebtValues.length ? Math.max(goldDebtMin + 1, Math.max(...goldDebtValues) * 1.08) : 100;
+const goldDebtRawMin = goldDebtValues.length ? Math.min(...goldDebtValues) : 0;
+const goldDebtRawMax = goldDebtValues.length ? Math.max(...goldDebtValues) : 100;
+const goldDebtStep = Math.max(5, Math.ceil((goldDebtRawMax - goldDebtRawMin) / 4 / 5) * 5);
+const goldDebtMin = Math.max(0, Math.floor(goldDebtRawMin / goldDebtStep) * goldDebtStep);
+const goldDebtMax = Math.max(goldDebtMin + goldDebtStep, Math.ceil(goldDebtRawMax / goldDebtStep) * goldDebtStep);
+const goldDebtYTicks = Array.from({ length: Math.round((goldDebtMax - goldDebtMin) / goldDebtStep) + 1 }, (_, index) => goldDebtMax - index * goldDebtStep);
 const goldDebtPath = linePath(goldDebtHistory, 'ratio', goldDebtWidth, goldDebtHeight, goldDebtMin, goldDebtMax);
 const goldDebtArea = goldDebtPath ? `${goldDebtPath} L${goldDebtWidth} ${goldDebtHeight} L0 ${goldDebtHeight} Z` : '';
+const axisTicks = (points, count = 5) => Array.from({ length: count }, (_, index) => points[Math.round(index * (points.length - 1) / (count - 1))]).filter(Boolean);
+const capeXTicks = axisTicks(capeHistory);
+const goldDebtXTicks = axisTicks(goldDebtHistory);
 const growthValue = macro.available ? Number(macro.growth?.value) : null;
 const inflationValue = macro.available ? Number(macro.inflation?.value) : null;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -174,7 +182,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
           <div class="fear-scale" aria-hidden="true"><span>{t.extremeFear}</span><i></i><span>{t.extremeGreed}</span></div>
           <div class="fear-history">
             <div class="fear-history-top"><span>{t.history}</span><small>{t.asOf} · {fearAsOf}</small></div>
-            {fearPath ? <svg viewBox={`0 0 ${fearWidth} ${fearHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'CNN Fear and Greed history' : 'CNN 恐慌与贪婪指数历史走势'}><defs><linearGradient id="fear-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color={fearColor} stop-opacity=".24"/><stop offset="1" stop-color={fearColor} stop-opacity="0"/></linearGradient></defs><line x1="0" y1="75" x2={fearWidth} y2="75"/><path class="fear-area" d={fearArea}/><path class="fear-line" d={fearPath} style={`stroke:${fearColor}`}/></svg> : <div class="fear-unavailable">{en ? 'Sentiment data is temporarily unavailable.' : '市场情绪数据暂时不可用。'}</div>}
+            {fearPath ? <div class="interactive-chart" data-chart="fear" data-points={JSON.stringify(fearHistory)} tabindex="0"><svg viewBox={`0 0 ${fearWidth} ${fearHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive CNN Fear and Greed history' : '可交互的 CNN 恐慌与贪婪指数历史走势'}><defs><linearGradient id="fear-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color={fearColor} stop-opacity=".24"/><stop offset="1" stop-color={fearColor} stop-opacity="0"/></linearGradient></defs><line x1="0" y1="75" x2={fearWidth} y2="75"/><path class="fear-area" d={fearArea}/><path class="fear-line" d={fearPath} style={`stroke:${fearColor}`}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div> : <div class="fear-unavailable">{en ? 'Sentiment data is temporarily unavailable.' : '市场情绪数据暂时不可用。'}</div>}
           </div>
           <div class="fear-comparison">{comparison.map(([label,value]) => <div><span>{label}</span><strong>{value === null ? '—' : Number(value).toFixed(1)}</strong></div>)}</div>
         </div>
@@ -196,7 +204,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
           </div>
           <div class="breadth-chart">
             <div class="chart-heading"><span>{t.breadthHistory}</span><div><i class="legend-breadth"></i>{en ? 'Breadth score' : '广度得分'} <i class="legend-sp"></i>S&amp;P 500 %</div></div>
-            {breadthPath ? <div class="dual-chart"><svg viewBox={`0 0 ${breadthWidth} ${breadthHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Market breadth and S&P 500 daily change history' : '市场广度与标普 500 日涨跌幅历史'}><line class="chart-grid" x1="0" y1={breadthHeight / 2} x2={breadthWidth} y2={breadthHeight / 2}/><line class="chart-grid faint" x1="0" y1={breadthHeight * .25} x2={breadthWidth} y2={breadthHeight * .25}/><line class="chart-grid faint" x1="0" y1={breadthHeight * .75} x2={breadthWidth} y2={breadthHeight * .75}/><path class="sp-line" d={spPath}/><path class="breadth-line" d={breadthPath} style={`stroke:${breadthColor}`}/></svg><div class="left-axis"><span>100</span><span>50</span><span>0</span></div><div class="right-axis"><span>+{spRange.toFixed(1)}%</span><span>0%</span><span>−{spRange.toFixed(1)}%</span></div></div> : <div class="fear-unavailable">{en ? 'Breadth data is temporarily unavailable.' : '市场广度数据暂时不可用。'}</div>}
+            {breadthPath ? <div class="dual-chart"><div class="interactive-chart" data-chart="breadth" data-points={JSON.stringify(breadthHistory)} data-sp-range={spRange} tabindex="0"><svg viewBox={`0 0 ${breadthWidth} ${breadthHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive market breadth and S&P 500 daily change history' : '可交互的市场广度与标普 500 日涨跌幅历史'}><line class="chart-grid" x1="0" y1={breadthHeight / 2} x2={breadthWidth} y2={breadthHeight / 2}/><line class="chart-grid faint" x1="0" y1={breadthHeight * .25} x2={breadthWidth} y2={breadthHeight * .25}/><line class="chart-grid faint" x1="0" y1={breadthHeight * .75} x2={breadthWidth} y2={breadthHeight * .75}/><path class="sp-line" d={spPath}/><path class="breadth-line" d={breadthPath} style={`stroke:${breadthColor}`}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-dot secondary"></div><div class="chart-tooltip" role="status"></div></div><div class="left-axis"><span>100</span><span>50</span><span>0</span></div><div class="right-axis"><span>+{spRange.toFixed(1)}%</span><span>0%</span><span>−{spRange.toFixed(1)}%</span></div></div> : <div class="fear-unavailable">{en ? 'Breadth data is temporarily unavailable.' : '市场广度数据暂时不可用。'}</div>}
             <div class="chart-axis"><span>{breadthHistory[0]?.date ?? '—'}</span><span>{breadth.date ?? '—'}</span></div>
           </div>
         </div>
@@ -223,8 +231,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
           </div>
           <div class="cape-chart">
             <div class="chart-heading"><span>{t.capeHistory}</span><div><i class="legend-cape"></i>CAPE <i class="legend-average"></i>{t.capeAverage}</div></div>
-            {capePath ? <svg viewBox={`0 0 ${capeWidth} ${capeHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Shiller CAPE 20-year history' : '席勒市盈率近 20 年历史'}><defs><linearGradient id="cape-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0071e3" stop-opacity=".22"/><stop offset="1" stop-color="#0071e3" stop-opacity="0"/></linearGradient></defs><line class="chart-grid" x1="0" y1={capeAverageY} x2={capeWidth} y2={capeAverageY}/><path class="cape-area" d={capeArea}/><path class="cape-line" d={capePath}/></svg> : <div class="fear-unavailable">{en ? 'Valuation data is temporarily unavailable.' : '估值数据暂时不可用。'}</div>}
-            <div class="chart-axis"><span>{capeHistory[0]?.period ?? '—'}</span><span>{shillerCape.period ?? '—'}</span></div>
+            {capePath ? <div class="axis-chart-shell"><div class="value-axis">{capeYTicks.map((value) => <span>{value.toFixed(0)}</span>)}</div><div class="axis-plot"><div class="interactive-chart" data-chart="cape" data-points={JSON.stringify(capeHistory)} data-y-min="0" data-y-max={capeMax} tabindex="0"><svg viewBox={`0 0 ${capeWidth} ${capeHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive Shiller CAPE 20-year history' : '可交互的席勒市盈率近 20 年历史'}><defs><linearGradient id="cape-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0071e3" stop-opacity=".22"/><stop offset="1" stop-color="#0071e3" stop-opacity="0"/></linearGradient></defs>{capeYTicks.map((value) => <line class="axis-grid" x1="0" y1={capeHeight - value / capeMax * capeHeight} x2={capeWidth} y2={capeHeight - value / capeMax * capeHeight}/>) }<line class="chart-grid" x1="0" y1={capeAverageY} x2={capeWidth} y2={capeAverageY}/><path class="cape-area" d={capeArea}/><path class="cape-line" d={capePath}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div><div class="chart-axis detailed-axis">{capeXTicks.map((point) => <span>{point.period}</span>)}</div></div></div> : <div class="fear-unavailable">{en ? 'Valuation data is temporarily unavailable.' : '估值数据暂时不可用。'}</div>}
           </div>
         </div>
         <p class="fear-caption">{en ? 'CAPE describes valuation, not a short-term market timing signal.' : 'CAPE 描述估值水平，不是短期择时信号。'}</p>
@@ -245,8 +252,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
         </div>
         <div class="gold-debt-chart">
           <div class="chart-heading"><span>{t.goldDebtHistory}</span><div><i class="legend-gold"></i>{en ? 'Gold / debt ratio' : '黄金 / 美债比值'}</div></div>
-          {goldDebtPath ? <svg viewBox={`0 0 ${goldDebtWidth} ${goldDebtHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Five-year gold price to U.S. debt ratio' : '黄金价格与美国债务总额比值近五年走势'}><defs><linearGradient id="gold-debt-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cf862c" stop-opacity=".25"/><stop offset="1" stop-color="#cf862c" stop-opacity="0"/></linearGradient></defs><path class="gold-debt-area" d={goldDebtArea}/><path class="gold-debt-line" d={goldDebtPath}/></svg> : <div class="fear-unavailable">{en ? 'Gold/debt data is temporarily unavailable.' : '黄金与美债数据暂时不可用。'}</div>}
-          <div class="chart-axis"><span>{goldDebtHistory[0]?.date?.slice(0,7) ?? '—'}</span><span>{goldDebt.date?.slice(0,7) ?? '—'}</span></div>
+          {goldDebtPath ? <div class="axis-chart-shell"><div class="value-axis">{goldDebtYTicks.map((value) => <span>{value.toFixed(0)}</span>)}</div><div class="axis-plot"><div class="interactive-chart" data-chart="gold" data-points={JSON.stringify(goldDebtHistory)} data-y-min={goldDebtMin} data-y-max={goldDebtMax} tabindex="0"><svg viewBox={`0 0 ${goldDebtWidth} ${goldDebtHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive five-year gold price to U.S. debt ratio' : '可交互的黄金价格与美国债务总额比值近五年走势'}><defs><linearGradient id="gold-debt-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cf862c" stop-opacity=".25"/><stop offset="1" stop-color="#cf862c" stop-opacity="0"/></linearGradient></defs>{goldDebtYTicks.map((value) => <line class="axis-grid" x1="0" y1={goldDebtHeight - (value - goldDebtMin) / (goldDebtMax - goldDebtMin) * goldDebtHeight} x2={goldDebtWidth} y2={goldDebtHeight - (value - goldDebtMin) / (goldDebtMax - goldDebtMin) * goldDebtHeight}/>) }<path class="gold-debt-area" d={goldDebtArea}/><path class="gold-debt-line" d={goldDebtPath}/></svg><div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-tooltip" role="status"></div></div><div class="chart-axis detailed-axis">{goldDebtXTicks.map((point) => <span>{point.date.slice(0,7)}</span>)}</div></div></div> : <div class="fear-unavailable">{en ? 'Gold/debt data is temporarily unavailable.' : '黄金与美债数据暂时不可用。'}</div>}
         </div>
         <div class="gold-debt-sources"><a href={goldDebt.goldSourceUrl} target="_blank" rel="noreferrer">COMEX / Yahoo Finance ↗</a><a href={goldDebt.debtSourceUrl} target="_blank" rel="noreferrer">U.S. Treasury Fiscal Data ↗</a></div>
         <p class="fear-caption">{en ? 'Ratio = COMEX gold futures price in USD/oz ÷ total public debt outstanding in USD trillions. Delayed market data; not a gold-to-debt market-cap ratio.' : '计算口径：COMEX 黄金期货价格（美元/盎司）÷ 美国公共债务总额（万亿美元）。行情为延迟数据；这不是黄金总市值与美债总量之比。'}</p>
@@ -288,6 +294,114 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
 
     <footer class="watch-footer"><span>{t.footer}</span><span>{t.legal}</span></footer>
 
+    <script is:inline>
+      (() => {
+        const lang = document.documentElement.lang.startsWith('zh') ? 'zh-CN' : 'en-GB';
+        const zh = lang === 'zh-CN';
+        const number = (value, digits = 1) => Number(value).toLocaleString(lang, { minimumFractionDigits: digits, maximumFractionDigits: digits });
+        const signed = (value, digits = 2) => `${Number(value) >= 0 ? '+' : ''}${number(value, digits)}%`;
+        const dateLabel = (value) => {
+          if (!value) return '—';
+          if (/^\d{4}-\d{2}$/.test(value)) return value;
+          const parsed = new Date(value.length === 10 ? `${value}T00:00:00Z` : value);
+          return Number.isNaN(parsed.valueOf()) ? value : new Intl.DateTimeFormat(lang, { year:'numeric', month:'2-digit', day:'2-digit', timeZone:'UTC' }).format(parsed);
+        };
+        const makeTooltip = (tooltip, title, rows) => {
+          tooltip.replaceChildren();
+          const heading = document.createElement('strong');
+          heading.textContent = title;
+          tooltip.append(heading);
+          rows.forEach(([label, value, tone]) => {
+            const row = document.createElement('span');
+            const key = document.createElement('i');
+            const result = document.createElement('b');
+            key.textContent = label;
+            result.textContent = value;
+            if (tone) result.className = tone;
+            row.append(key, result);
+            tooltip.append(row);
+          });
+        };
+        document.querySelectorAll('.interactive-chart').forEach((chart) => {
+          const points = JSON.parse(chart.dataset.points || '[]');
+          if (!points.length) return;
+          const type = chart.dataset.chart;
+          const crosshair = chart.querySelector('.chart-crosshair');
+          const primary = chart.querySelector('.chart-dot.primary');
+          const secondary = chart.querySelector('.chart-dot.secondary');
+          const tooltip = chart.querySelector('.chart-tooltip');
+          const valueY = (value, min, max, height) => height - (Math.min(max, Math.max(min, Number(value))) - min) / (max - min) * height;
+          const render = (index) => {
+            index = Math.max(0, Math.min(points.length - 1, index));
+            chart.dataset.activeIndex = String(index);
+            const point = points[index];
+            const rect = chart.getBoundingClientRect();
+            const x = points.length > 1 ? index / (points.length - 1) * rect.width : rect.width / 2;
+            let y = rect.height / 2;
+            let secondY = null;
+            let title = point.date || point.period || '—';
+            let rows = [];
+            let primaryColor = '#0071e3';
+            if (type === 'fear') {
+              y = valueY(point.value, 0, 100, rect.height);
+              rows = [[zh ? '指数' : 'Index', number(point.value, 1)]];
+              primaryColor = '#d98532';
+            } else if (type === 'breadth') {
+              const range = Number(chart.dataset.spRange || 1.5);
+              y = valueY(point.score, 0, 100, rect.height);
+              secondY = valueY(point.sp500Change, -range, range, rect.height);
+              rows = [
+                [zh ? '广度得分' : 'Breadth score', number(point.score, 1)],
+                ['S&P 500', signed(point.sp500Change, 2), Number(point.sp500Change) >= 0 ? 'up' : 'down'],
+                [zh ? '上涨 / 下跌' : 'Advance / decline', `${point.advancers} / ${point.decliners}`],
+              ];
+              primaryColor = '#21966f';
+            } else if (type === 'cape') {
+              y = valueY(point.value, Number(chart.dataset.yMin), Number(chart.dataset.yMax), rect.height);
+              rows = [['CAPE', number(point.value, 2)]];
+            } else if (type === 'gold') {
+              y = valueY(point.ratio, Number(chart.dataset.yMin), Number(chart.dataset.yMax), rect.height);
+              rows = [
+                [zh ? '比值' : 'Ratio', number(point.ratio, 2)],
+                [zh ? '黄金' : 'Gold', `$${number(point.goldPrice, 2)}`],
+                [zh ? '美债总额' : 'U.S. debt', `$${number(point.debtTrillions, 2)} tn`],
+              ];
+              primaryColor = '#cf862c';
+            }
+            title = dateLabel(title);
+            crosshair.style.left = `${x}px`;
+            primary.style.left = `${x}px`;
+            primary.style.top = `${y}px`;
+            primary.style.background = primaryColor;
+            if (secondary && secondY !== null) {
+              secondary.style.left = `${x}px`;
+              secondary.style.top = `${secondY}px`;
+            }
+            makeTooltip(tooltip, title, rows);
+            chart.classList.add('is-active');
+            const tooltipWidth = tooltip.offsetWidth;
+            const left = x > rect.width * .62 ? x - tooltipWidth - 12 : x + 12;
+            tooltip.style.left = `${Math.max(4, Math.min(rect.width - tooltipWidth - 4, left))}px`;
+            tooltip.style.top = `${Math.max(4, Math.min(rect.height - tooltip.offsetHeight - 4, y - 28))}px`;
+          };
+          chart.addEventListener('pointermove', (event) => {
+            const rect = chart.getBoundingClientRect();
+            const ratio = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
+            render(Math.round(ratio * (points.length - 1)));
+          });
+          chart.addEventListener('pointerleave', () => chart.classList.remove('is-active'));
+          chart.addEventListener('focus', () => render(Number(chart.dataset.activeIndex ?? points.length - 1)));
+          chart.addEventListener('blur', () => chart.classList.remove('is-active'));
+          chart.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+            event.preventDefault();
+            const current = Number(chart.dataset.activeIndex ?? points.length - 1);
+            render(current + (event.key === 'ArrowRight' ? 1 : -1));
+          });
+        });
+      })();
+    </script>
+
   </body>
 </html>
 
@@ -322,4 +436,6 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
   .top-indicator-grid,.valuation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}.top-indicator-grid>.panel,.valuation-grid>.panel{margin:0;min-width:0}.top-indicator-grid .panel-heading,.valuation-grid .panel-heading{align-items:flex-start}.top-indicator-grid .fear-layout{grid-template-columns:170px minmax(0,1fr);grid-template-rows:auto auto auto;gap:12px 18px}.top-indicator-grid .fear-gauge{grid-column:1;grid-row:1;width:150px;height:150px}.top-indicator-grid .fear-gauge:before{inset:19px}.top-indicator-grid .fear-gauge strong{font-size:36px}.top-indicator-grid .fear-scale{grid-column:1;grid-row:2}.top-indicator-grid .fear-history{grid-column:2;grid-row:1/3}.top-indicator-grid .fear-history-top{flex-direction:column;gap:4px}.top-indicator-grid .fear-history svg{height:148px}.top-indicator-grid .fear-comparison{grid-column:1/-1;grid-row:3;grid-template-columns:repeat(4,1fr)}.top-indicator-grid .fear-comparison div{display:block;padding:10px;border-right:1px solid var(--watch-line);border-bottom:0}.top-indicator-grid .fear-comparison div:last-child{border-right:0}.top-indicator-grid .fear-comparison strong{display:block;margin-top:5px}.top-indicator-grid .breadth-layout{grid-template-columns:175px minmax(0,1fr);gap:18px}.top-indicator-grid .breadth-gauge{width:150px;height:150px}.top-indicator-grid .breadth-gauge:before{inset:19px}.top-indicator-grid .breadth-gauge strong{font-size:36px}.top-indicator-grid .breadth-counts span{font-size:7px}.top-indicator-grid .breadth-counts strong{font-size:16px}.top-indicator-grid .dual-chart{padding:0 27px}.top-indicator-grid .dual-chart svg{height:170px}.top-indicator-grid .breadth-meta{gap:10px;flex-wrap:wrap}.top-indicator-grid .fear-caption{margin-top:14px}.valuation-grid .cape-layout{display:block;margin-top:22px}.valuation-grid .cape-readout{display:grid;grid-template-columns:150px minmax(0,1fr);grid-template-rows:auto auto auto;padding:16px 18px}.valuation-grid .cape-readout>span{grid-column:1;grid-row:1}.valuation-grid .cape-readout>strong{grid-column:1;grid-row:2;font-size:50px}.valuation-grid .cape-readout>em{grid-column:1;grid-row:3}.valuation-grid .cape-stats{grid-column:2;grid-row:1/4;margin:0 0 0 16px;align-self:stretch}.valuation-grid .cape-chart{margin-top:22px}.valuation-grid .cape-chart svg{height:165px}.gold-debt-panel{padding:22px;display:flex;flex-direction:column}.gold-debt-readout{display:grid;grid-template-columns:185px minmax(0,1fr);gap:16px;margin-top:22px;padding:16px 18px;border:1px solid var(--watch-line);border-radius:6px;background:linear-gradient(145deg,#fff,#fffaf2)}.gold-debt-readout>div:first-child>span{display:block;color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px}.gold-debt-readout>div:first-child>strong{display:block;font-size:50px;line-height:1;letter-spacing:-3px;margin:15px 0 8px}.gold-debt-readout em{color:var(--watch-amber);font-style:normal;font-size:8px;line-height:1.45}.gold-debt-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--watch-line);border:1px solid var(--watch-line)}.gold-debt-stats>div{background:#fff;padding:10px 8px}.gold-debt-stats small,.gold-debt-stats span{display:block;color:var(--watch-muted);font-size:7px;line-height:1.35}.gold-debt-stats b{display:block;font-size:13px;margin:8px 0 5px;white-space:nowrap}.gold-debt-chart{margin-top:22px}.gold-debt-chart svg{display:block;width:100%;height:165px}.gold-debt-area{fill:url(#gold-debt-fill)}.gold-debt-line{fill:none;stroke:var(--watch-amber);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.legend-gold{background:var(--watch-amber)}.gold-debt-sources{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--watch-line)}.gold-debt-sources a{color:var(--watch-cyan);font-size:9px}.valuation-grid .fear-caption{margin-top:auto;padding-top:14px}
   @media(max-width:980px){.top-indicator-grid,.valuation-grid{grid-template-columns:1fr}.top-indicator-grid .fear-layout{grid-template-columns:200px minmax(0,1fr)}.top-indicator-grid .breadth-layout{grid-template-columns:220px minmax(0,1fr)}}
   @media(max-width:700px){.top-indicator-grid,.valuation-grid{gap:10px}.top-indicator-grid .fear-layout{display:flex;flex-direction:column}.top-indicator-grid .fear-gauge{width:170px;height:170px}.top-indicator-grid .fear-scale{width:min(260px,100%);align-self:center}.top-indicator-grid .fear-comparison{display:grid;grid-template-columns:1fr 1fr}.top-indicator-grid .fear-comparison div{border-right:1px solid var(--watch-line);border-bottom:1px solid var(--watch-line)}.top-indicator-grid .fear-comparison div:nth-child(2){border-right:0}.top-indicator-grid .fear-comparison div:nth-child(3){border-bottom:0}.top-indicator-grid .breadth-layout{grid-template-columns:1fr}.top-indicator-grid .breadth-gauge{width:170px;height:170px}.valuation-grid .cape-readout{display:block}.valuation-grid .cape-stats{margin:20px 0 0}.gold-debt-panel{padding:16px}.gold-debt-panel>.panel-heading{flex-direction:column}.gold-debt-readout{grid-template-columns:1fr;padding:16px}.gold-debt-readout>div:first-child>strong{font-size:48px}.gold-debt-chart svg{height:150px}}
+  .interactive-chart{position:relative;min-width:0;cursor:crosshair;touch-action:pan-y;outline:none}.interactive-chart:focus-visible{border-radius:4px;box-shadow:0 0 0 2px rgba(0,113,227,.28)}.interactive-chart svg{pointer-events:none}.chart-crosshair{position:absolute;z-index:4;inset-block:0;width:1px;background:rgba(22,50,77,.32);opacity:0;pointer-events:none}.chart-dot{position:absolute;z-index:5;width:9px;height:9px;border:2px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(22,50,77,.35);transform:translate(-50%,-50%);opacity:0;pointer-events:none}.chart-dot.secondary{background:var(--watch-amber)}.chart-tooltip{position:absolute;z-index:8;min-width:128px;max-width:190px;padding:10px 11px;border:1px solid rgba(164,183,201,.72);border-radius:5px;background:rgba(255,255,255,.97);box-shadow:0 9px 28px rgba(25,63,101,.16);opacity:0;pointer-events:none;color:var(--watch-text);font-size:9px;line-height:1.35}.chart-tooltip>strong{display:block;margin-bottom:7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}.chart-tooltip>span{display:flex;align-items:center;justify-content:space-between;gap:13px;padding-top:4px;color:var(--watch-muted)}.chart-tooltip i{font-style:normal}.chart-tooltip b{color:var(--watch-text);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:700;white-space:nowrap}.chart-tooltip b.up{color:var(--watch-green)}.chart-tooltip b.down{color:var(--watch-red)}.interactive-chart.is-active .chart-crosshair,.interactive-chart.is-active .chart-dot,.interactive-chart.is-active .chart-tooltip{opacity:1}.axis-chart-shell{display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px}.value-axis{height:165px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px;line-height:1}.axis-plot{min-width:0}.axis-grid{stroke:var(--watch-line);stroke-width:1;stroke-dasharray:3 5}.detailed-axis{font-size:7px}.detailed-axis span{flex:1;text-align:center}.detailed-axis span:first-child{text-align:left}.detailed-axis span:last-child{text-align:right}
+  @media(max-width:700px){.value-axis{height:150px}.axis-chart-shell{grid-template-columns:26px minmax(0,1fr);gap:6px}.detailed-axis{font-size:6px}.chart-tooltip{min-width:122px;padding:8px 9px}}
 </style>
