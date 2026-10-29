@@ -6,6 +6,7 @@ import { promisify } from 'node:util';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputPath = path.join(root, 'src', 'data', 'market-watch.json');
+const aiDebtSeedPath = path.join(root, 'src', 'data', 'ai-debt-seed.json');
 const fetchedAt = new Date().toISOString();
 const cnnEndpoint = process.env.CNN_FEAR_GREED_URL || 'https://production.dataviz.cnn.io/index/fearandgreed/graphdata';
 const cnnSourceUrl = 'https://www.cnn.com/markets/fear-and-greed';
@@ -172,6 +173,49 @@ const fetchQqqCalendar = async () => {
     worstDay: daily.reduce((worst, point) => point.change < worst.change ? point : worst, daily[0]),
     bins,
     history: daily,
+  };
+};
+
+const fetchAiDebtMonitor = async () => {
+  const seed = JSON.parse(await fs.readFile(aiDebtSeedPath, 'utf8'));
+  const eventSources = new Set(seed.events.map((event) => event.sourceUrl));
+  const ignoredSources = new Set(seed.ignoredSources ?? []);
+  const knownSources = new Set([...eventSources, ...ignoredSources]);
+  const monitoredForms = new Set(['424B2', '424B5', 'FWP']);
+  const companies = await Promise.all(seed.companies.map(async (company) => {
+    if (!company.cik) return { ...company, monitor: { available: false, reason: 'private' } };
+    try {
+      const submissions = await requestJson(`https://data.sec.gov/submissions/CIK${company.cik}.json`, {
+        headers: { accept: 'application/json', 'user-agent': 'ACFC-Market-Watch/1.0 aachen_acfc@126.com' },
+      });
+      const recent = submissions?.filings?.recent ?? {};
+      const forms = recent.form ?? [];
+      const index = forms.findIndex((form) => monitoredForms.has(form));
+      if (index < 0) return { ...company, monitor: { available: true, latest: null } };
+      const accession = recent.accessionNumber[index];
+      const primaryDocument = recent.primaryDocument[index];
+      const sourceUrl = `https://www.sec.gov/Archives/edgar/data/${Number(company.cik)}/${accession.replaceAll('-', '')}/${primaryDocument}`;
+      return {
+        ...company,
+        monitor: {
+          available: true,
+          latest: { form: forms[index], filedAt: recent.filingDate[index], accession, sourceUrl },
+          needsReview: !knownSources.has(sourceUrl),
+          classification: eventSources.has(sourceUrl) ? 'verified-event' : ignoredSources.has(sourceUrl) ? 'excluded' : 'unreviewed',
+        },
+      };
+    } catch (error) {
+      return { ...company, monitor: { available: false, reason: 'fetch-error', error: errorText(error) } };
+    }
+  }));
+  return {
+    available: true, stale: false, checkedAt: fetchedAt,
+    source: 'SEC EDGAR prospectus supplements and issuer filings',
+    sourceUrl: 'https://www.sec.gov/edgar/search/',
+    scopeStart: seed.scopeStart,
+    methodology: seed.methodology,
+    companies,
+    events: seed.events.sort((a, b) => b.date.localeCompare(a.date)),
   };
 };
 
@@ -373,4 +417,13 @@ try {
   console.warn(`QQQ calendar update unavailable; preserved fallback: ${qqq.lastError}`);
 }
 
-await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt, eurUsd, qqq }, null, 2)}\n`, 'utf8');
+let aiDebt;
+try {
+  aiDebt = await fetchAiDebtMonitor();
+  console.log(`Updated AI debt monitor: ${aiDebt.events.length} verified events / ${aiDebt.companies.length} companies`);
+} catch (error) {
+  aiDebt = preserve(previous.aiDebt, 'SEC EDGAR corporate debt monitor', error);
+  console.warn(`AI debt monitor unavailable; preserved fallback: ${aiDebt.lastError}`);
+}
+
+await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt, eurUsd, qqq, aiDebt }, null, 2)}\n`, 'utf8');

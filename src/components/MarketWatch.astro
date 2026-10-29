@@ -12,6 +12,7 @@ const breadth = marketData.breadth ?? {};
 const goldDebt = marketData.goldDebt ?? {};
 const eurUsd = marketData.eurUsd ?? {};
 const qqq = marketData.qqq ?? {};
+const aiDebt = marketData.aiDebt ?? {};
 const t = en ? {
   home:'Back to ACFC', language:'中文', eyebrow:'ACFC / VERIFIED DATA', title:'Market Watch',
   subtitle:'A focused view of sentiment, valuation, breadth and the macro environment — using verifiable data.',
@@ -27,6 +28,7 @@ const t = en ? {
   breadthTitle:'S&P 500 market breadth', breadthSub:'Advancing and declining constituent securities · daily close', breadthHistory:'Recent 60 sessions', advancers:'Advancing', decliners:'Declining', unchanged:'Unchanged', coverage:'Coverage',
   goldDebtTitle:'Gold price / U.S. debt', goldDebtSub:'COMEX gold price relative to total U.S. public debt', goldDebtHistory:'Gold/debt ratio history', goldPrice:'Gold price', usDebt:'Total U.S. debt', oneYearChange:'One-year change', ratioUnit:'USD/oz per USD 1tn debt',
   qqqTitle:'QQQ daily return calendar', qqqSub:'Nasdaq-100 ETF · year-to-date adjusted-close returns', qqqDistribution:'Daily return distribution', tradingDays:'Trading days', positiveRate:'Positive-day rate', averageDaily:'Average daily return', bestDay:'Best day', worstDay:'Worst day',
+  debtTitle:'AI debt financing monitor', debtSub:'Verified corporate bond issuance events linked to the AI infrastructure cycle', debtTracked:'Tracked USD issuance', debtLatest:'Latest verified issue', debtCompanies:'Companies monitored', debtTimeline:'Issuance timeline', debtAmount:'Principal', debtTranches:'Tranches / maturities', debtFiling:'Primary filing', debtScan:'SEC filing scan', debtNoRecent:'No recent public issue', debtPrivate:'Private · limited disclosure', debtMethod:'Coverage methodology',
   fxTitle:'EUR/USD trend', fxSub:'Euro exchange rate against the U.S. dollar · delayed daily close', currentRate:'Current rate', dailyChange:'Daily change', yearChange:'One-year change', yearRange:'52-week range', fxHistory:'One-year EUR/USD history',
   source:'Source', dataPeriod:'Data period', footer:'ACFC Market Watch · Verified public data', legal:'Not investment advice',
 } : {
@@ -44,6 +46,7 @@ const t = en ? {
   breadthTitle:'标普 500 市场广度', breadthSub:'成分证券上涨与下跌家数 · 每日收盘', breadthHistory:'近 60 个交易日', advancers:'上涨', decliners:'下跌', unchanged:'平盘', coverage:'覆盖',
   goldDebtTitle:'黄金价格与美债总量的比值', goldDebtSub:'COMEX 黄金价格相对于美国公共债务总额', goldDebtHistory:'黄金/美债比值历史', goldPrice:'黄金价格', usDebt:'美国债务总额', oneYearChange:'一年变化', ratioUnit:'美元/盎司 ÷ 每万亿美元债务',
   qqqTitle:'QQQ 每日涨跌日历', qqqSub:'纳斯达克 100 ETF · 年初至今复权收盘日收益', qqqDistribution:'每日收益分布', tradingDays:'交易日', positiveRate:'上涨日占比', averageDaily:'日均涨跌', bestDay:'最佳单日', worstDay:'最差单日',
+  debtTitle:'AI 债券融资监控', debtSub:'追踪 AI 基础设施周期中的公司公开债券发行事件', debtTracked:'已追踪美元发行额', debtLatest:'最近核验发行', debtCompanies:'监控公司', debtTimeline:'债券发行时间线', debtAmount:'发行本金', debtTranches:'期限与票息', debtFiling:'原始文件', debtScan:'SEC 文件扫描', debtNoRecent:'近期无公开新发行', debtPrivate:'私营公司 · 披露有限', debtMethod:'统计口径',
   fxTitle:'欧元兑美元走势', fxSub:'欧元相对美元汇率 · 延迟日收盘数据', currentRate:'当前汇率', dailyChange:'当日变化', yearChange:'一年变化', yearRange:'52 周区间', fxHistory:'近一年 EUR/USD 走势',
   source:'来源', dataPeriod:'统计期', footer:'ACFC Market Watch · 可核验公开数据', legal:'不构成投资建议',
 };
@@ -168,6 +171,20 @@ const qqqBins = (qqq.bins ?? []).map((bin) => ({
   label:({ down2:en ? '< −2%' : '< −2%', down1:'−2% – −1%', down0:'−1% – 0%', up0:'0% – +1%', up1:'+1% – +2%', up2:en ? '> +2%' : '> +2%' })[bin.id] ?? bin.id,
 }));
 const qqqBinMax = Math.max(1, ...qqqBins.map((bin) => Number(bin.count) || 0));
+const debtEvents = aiDebt.events ?? [];
+const debtCompanies = (aiDebt.companies ?? []).map((company) => {
+  const events = debtEvents.filter((event) => event.company === company.id && event.currency === 'USD');
+  const pricedEvents = events.filter((event) => Number.isFinite(Number(event.amount)) && Number(event.amount) > 0);
+  return { ...company, events, pricedEvents, trackedUsd:pricedEvents.reduce((sum, event) => sum + Number(event.amount), 0) };
+});
+const debtCompanyMap = new Map(debtCompanies.map((company) => [company.id, company]));
+const debtTotalUsd = debtCompanies.reduce((sum, company) => sum + company.trackedUsd, 0);
+const debtMaxCompany = Math.max(1, ...debtCompanies.map((company) => company.trackedUsd));
+const debtLatestEvent = debtEvents[0];
+const debtCheckedAt = aiDebt.checkedAt ? new Intl.DateTimeFormat(en ? 'en-GB' : 'zh-CN', { dateStyle:'medium', timeStyle:'short', timeZone:'Europe/Berlin' }).format(new Date(aiDebt.checkedAt)) : '—';
+const debtDate = (event) => event.datePrecision === 'month'
+  ? new Intl.DateTimeFormat(en ? 'en-GB' : 'zh-CN', { year:'numeric', month:'short', timeZone:'UTC' }).format(new Date(`${event.date}T00:00:00Z`))
+  : new Intl.DateTimeFormat(en ? 'en-GB' : 'zh-CN', { year:'numeric', month:'2-digit', day:'2-digit', timeZone:'UTC' }).format(new Date(`${event.date}T00:00:00Z`));
 const growthValue = macro.available ? Number(macro.growth?.value) : null;
 const inflationValue = macro.available ? Number(macro.inflation?.value) : null;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -364,7 +381,51 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
         </> : <div class="fear-unavailable">{en ? 'QQQ data is temporarily unavailable.' : 'QQQ 数据暂时不可用。'}</div>}
       </article>
 
-      <div class="section-label macro-label"><span>04</span><h2>{en ? 'Macro environment' : '宏观环境'}</h2><div></div></div>
+      <div class="section-label debt-label"><span>04</span><h2>{en ? 'AI financing cycle' : 'AI 融资周期'}</h2><div></div></div>
+      <article class="panel ai-debt-panel">
+        <div class="panel-heading">
+          <div><span class="panel-kicker">SEC EDGAR / CORPORATE CREDIT</span><h2>{t.debtTitle}</h2><p>{t.debtSub}</p></div>
+          <div class="fear-source"><span class:list={{ stale: aiDebt.stale }}>{aiDebt.stale ? t.lastGood : t.daily}</span><a href={aiDebt.sourceUrl} target="_blank" rel="noreferrer">SEC EDGAR ↗</a></div>
+        </div>
+        {aiDebt.available ? <>
+          <div class="debt-summary">
+            <div class="debt-total"><span>{t.debtTracked}</span><strong>${debtTotalUsd.toFixed(1)}<small>bn</small></strong><em>{en ? 'Verified USD public notes since 2025' : '2025 年以来已核验美元公开债券'}</em></div>
+            <div><span>{t.debtLatest}</span><b>{debtCompanyMap.get(debtLatestEvent?.company)?.name ?? '—'}</b><small>{debtLatestEvent ? `${debtDate(debtLatestEvent)} · ${debtLatestEvent.status === 'pending' ? (en ? 'terms pending' : '等待定价') : `${debtLatestEvent.currency === 'USD' ? '$' : `${debtLatestEvent.currency} `}${Number(debtLatestEvent.amount).toFixed(1)}bn`}` : '—'}</small></div>
+            <div><span>{t.debtCompanies}</span><b>{debtCompanies.length}</b><small>{en ? '6 SEC issuers + SpaceX' : '6 家 SEC 发行人 + SpaceX'}</small></div>
+            <div><span>{t.debtScan}</span><b>{debtCheckedAt}</b><small>{en ? 'Offering filings checked daily' : '每日检查债券发行文件'}</small></div>
+          </div>
+
+          <div class="debt-company-grid">
+            {debtCompanies.map((company) => <section class:list={{ 'debt-company':true, private:!company.cik }} style={`--company-color:${company.color}`}>
+              <div class="debt-company-head"><div><strong>{company.name}</strong><span>{company.ticker}</span></div><b>{company.cik ? (company.trackedUsd ? `$${company.trackedUsd.toFixed(1)}bn` : '$0') : '—'}</b></div>
+              <div class="debt-company-bar"><i style={`width:${company.trackedUsd / debtMaxCompany * 100}%`}></i></div>
+              <p>{!company.cik ? t.debtPrivate : company.events.some((event) => event.status === 'pending') ? (en ? 'New bond offering filed · terms pending' : '已提交新债券发行 · 等待定价') : company.trackedUsd === 0 ? t.debtNoRecent : (en ? `${company.events.length} disclosed event${company.events.length === 1 ? '' : 's'} in scope` : `统计期内 ${company.events.length} 次披露事件`)}</p>
+              {company.monitor?.latest ? <a href={company.monitor.latest.sourceUrl} target="_blank" rel="noreferrer"><span>{company.monitor.latest.form} · {company.monitor.latest.filedAt}</span><em class:list={{ review:company.monitor.needsReview, excluded:company.monitor.classification === 'excluded' }}>{company.monitor.needsReview ? (en ? 'REVIEW' : '待核验') : company.monitor.classification === 'excluded' ? (en ? 'EXCLUDED' : '已排除') : (en ? 'MATCHED' : '已匹配')} ↗</em></a> : <div class="debt-monitor-empty">{company.cik ? (en ? 'No recent offering filing found' : '未发现近期发行文件') : (en ? 'No public EDGAR bond feed' : '无公开 EDGAR 债券数据流')}</div>}
+            </section>)}
+          </div>
+
+          <div class="debt-timeline">
+            <div class="chart-heading"><span>{t.debtTimeline}</span><div>{en ? 'Newest first · USD public notes' : '按日期倒序 · 美元公开债券'}</div></div>
+            <div class="debt-table" role="table" aria-label={t.debtTimeline}>
+              <div class="debt-row debt-table-head" role="row"><span>{en ? 'Date' : '日期'}</span><span>{en ? 'Issuer' : '发行人'}</span><span>{t.debtAmount}</span><span>{t.debtTranches}</span><span>{t.debtFiling}</span></div>
+              {debtEvents.map((event) => <div class="debt-row" role="row">
+                <time datetime={event.date}>{debtDate(event)}</time>
+                <strong style={`--company-color:${debtCompanyMap.get(event.company)?.color}`}><i></i>{debtCompanyMap.get(event.company)?.name ?? event.company}</strong>
+                <b>{event.status === 'pending' ? (en ? 'Pending' : '待定价') : <>{event.currency === 'USD' ? '$' : `${event.currency} `}{Number(event.amount).toFixed(1)}bn</>}</b>
+                <div class="debt-tranches">{event.tranches.map((tranche) => <span>{tranche}</span>)}</div>
+                <a href={event.sourceUrl} target="_blank" rel="noreferrer">{event.form} ↗</a>
+              </div>)}
+            </div>
+          </div>
+
+          <div class="debt-method">
+            <span>01</span><div><strong>{t.debtMethod}</strong><p>{en ? 'Totals include verified principal of public senior-note offerings in USD from 2025 onward. Non-USD bonds, bank loans, leases, project finance, preferred stock and equity are excluded from the headline total.' : '总额仅包含 2025 年以来已核验的美元公开高级债券本金。外币债、银行贷款、租赁、项目融资、优先股和普通股不计入头部总额。'}</p></div>
+            <span>02</span><div><strong>{en ? 'Automatic monitoring' : '自动监控方式'}</strong><p>{en ? 'The daily build scans each public issuer’s latest SEC 424B2, 424B5 and FWP filings. A new unmatched filing is marked for review before its amount is added, preventing structured notes linked to the stock from being mistaken for company debt.' : '每日构建会扫描各上市公司的最新 SEC 424B2、424B5 与 FWP 文件。新文件先标记“待核验”，核对发行人和本金后才计入，以免把挂钩公司股票的第三方结构性票据误算为公司债。'}</p></div>
+          </div>
+        </> : <div class="fear-unavailable">{en ? 'AI debt financing data is temporarily unavailable.' : 'AI 债券融资数据暂时不可用。'}</div>}
+      </article>
+
+      <div class="section-label macro-label"><span>05</span><h2>{en ? 'Macro environment' : '宏观环境'}</h2><div></div></div>
       <article class="panel macro-panel">
         <div class="panel-heading">
           <div><span class="panel-kicker">{t.macroKicker}</span><h2>{t.macroTitle}</h2><p>{t.macroSub}</p></div>
@@ -597,4 +658,8 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
   @media(max-width:800px){.qqq-calendar{grid-template-columns:repeat(3,minmax(0,1fr))}.qqq-side{display:block}.qqq-analysis{margin-top:18px;padding:18px 0 0;border-top:1px solid var(--watch-line);border-left:0}.qqq-day strong{font-size:clamp(6px,1vw,9px)}}
   @media(max-width:700px){.qqq-label{margin-top:36px}.qqq-panel{padding:16px}.qqq-panel>.panel-heading{flex-direction:column}.qqq-body-grid{gap:16px}.qqq-hero>div{min-height:82px;padding:13px}.qqq-hero>div:first-child{min-height:105px}.qqq-calendar{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.qqq-month{padding:8px}.qqq-weekdays,.qqq-month-grid{gap:3px}.qqq-day strong{font-size:clamp(6px,1.8vw,9px)}.distribution-row{grid-template-columns:72px minmax(0,1fr) 65px;gap:8px}}
   @media(max-width:420px){.qqq-calendar{grid-template-columns:1fr}.qqq-day strong{font-size:clamp(7px,2.3vw,10px)}}
+  .debt-label{margin-top:44px}.ai-debt-panel{padding:22px;overflow:hidden}.debt-summary{display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:1px;margin-top:22px;border:1px solid var(--watch-line);border-radius:6px;overflow:hidden;background:var(--watch-line)}.debt-summary>div{min-height:112px;padding:18px;background:linear-gradient(145deg,#fff,#f7fafc);display:flex;flex-direction:column;justify-content:center}.debt-summary span,.debt-summary small{color:var(--watch-muted);font-size:8px}.debt-summary b{font-size:20px;margin:12px 0 7px}.debt-total strong{font-size:43px;line-height:1;letter-spacing:-2px;margin:12px 0 8px}.debt-total strong small{font-size:15px;margin-left:4px}.debt-total em{color:var(--watch-cyan);font-size:8px;font-style:normal}.debt-company-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:22px}.debt-company{min-width:0;padding:14px;border:1px solid var(--watch-line);border-radius:6px;background:rgba(255,255,255,.7)}.debt-company-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.debt-company-head div strong,.debt-company-head div span{display:block}.debt-company-head div strong{font-size:13px}.debt-company-head div span{color:var(--watch-muted);font-size:7px;margin-top:4px}.debt-company-head>b{font-size:17px}.debt-company-bar{height:5px;margin-top:13px;border-radius:999px;background:#e8edf2;overflow:hidden}.debt-company-bar i{display:block;height:100%;border-radius:999px;background:var(--company-color)}.debt-company p{min-height:28px;margin:10px 0;color:var(--watch-muted);font-size:8px;line-height:1.55}.debt-company>a,.debt-monitor-empty{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid var(--watch-line);color:var(--watch-muted);font-size:7px}.debt-company>a em{color:var(--watch-green);font-style:normal}.debt-company>a em.review{color:var(--watch-amber)}.debt-company>a em.excluded{color:var(--watch-muted)}.debt-company.private{background:repeating-linear-gradient(135deg,#fff,#fff 8px,#f7f9fb 8px,#f7f9fb 16px)}.debt-timeline{margin-top:28px;padding-top:24px;border-top:1px solid var(--watch-line)}.debt-table{border:1px solid var(--watch-line);border-radius:6px;overflow:hidden}.debt-row{display:grid;grid-template-columns:105px 110px 100px minmax(0,1fr) 70px;gap:14px;align-items:center;min-height:64px;padding:11px 14px;border-top:1px solid var(--watch-line);font-size:9px}.debt-row:first-child{border-top:0}.debt-table-head{min-height:34px;background:#f5f8fb;color:var(--watch-muted);font-size:7px;letter-spacing:.6px;text-transform:uppercase}.debt-row time{color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.debt-row>strong{display:flex;align-items:center;gap:7px}.debt-row>strong i{width:7px;height:7px;border-radius:50%;background:var(--company-color)}.debt-row>b{font-size:13px}.debt-row>a{color:var(--watch-cyan);text-align:right}.debt-tranches{display:flex;flex-wrap:wrap;gap:5px}.debt-tranches span{padding:4px 5px;border:1px solid var(--watch-line);border-radius:3px;background:#fff;color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:6px}.debt-method{display:grid;grid-template-columns:28px 1fr 28px 1fr;gap:12px 16px;margin-top:20px;padding:18px;border:1px solid var(--watch-line);border-radius:6px;background:#f8fafc}.debt-method>span{color:var(--watch-cyan);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}.debt-method strong{font-size:11px}.debt-method p{margin:7px 0 0;color:var(--watch-muted);font-size:9px;line-height:1.65}
+  @media(max-width:1100px){.debt-company-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.debt-row{grid-template-columns:95px 95px 90px minmax(0,1fr) 60px}.debt-summary{grid-template-columns:1fr 1fr}.debt-summary>div{min-height:96px}}
+  @media(max-width:760px){.debt-label{margin-top:36px}.ai-debt-panel{padding:16px}.ai-debt-panel>.panel-heading{flex-direction:column}.debt-company-grid{grid-template-columns:1fr 1fr}.debt-table{overflow-x:auto}.debt-row{min-width:720px}.debt-method{grid-template-columns:28px 1fr}.debt-summary{grid-template-columns:1fr 1fr}.debt-summary>div{padding:14px}.debt-total strong{font-size:36px}}
+  @media(max-width:470px){.debt-company-grid{grid-template-columns:1fr}.debt-summary{grid-template-columns:1fr}.debt-summary>div{min-height:82px}.debt-method{padding:14px}}
 </style>

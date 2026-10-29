@@ -1,29 +1,19 @@
 {
-  "generatedAt": "2026-10-27T15:54:32.573Z",
+  "generatedAt": "2026-10-29T16:09:52.895Z",
   "cnn": {
     "available": true,
     "stale": false,
     "source": "CNN Fear & Greed Index",
     "sourceUrl": "https://www.cnn.com/markets/fear-and-greed",
-    "fetchedAt": "2026-10-27T15:54:32.573Z",
-    "asOf": "2026-10-27T15:49:38.000Z",
-    "score": 32.9,
+    "fetchedAt": "2026-10-29T16:09:52.895Z",
+    "asOf": "2026-10-29T16:05:27.000Z",
+    "score": 35.7,
     "rating": "fear",
-    "previousClose": 27.1,
-    "previousWeek": 29.6,
-    "previousMonth": 36.9,
-    "previousYear": 37.3,
+    "previousClose": 35.9,
+    "previousWeek": 20,
+    "previousMonth": 31.1,
+    "previousYear": 42.1,
     "history": [
-      {
-        "date": "2025-10-27T00:00:00.000Z",
-        "value": 37.3,
-        "rating": "fear"
-      },
-      {
-        "date": "2025-10-28T00:00:00.000Z",
-        "value": 39.3,
-        "rating": "fear"
-      },
       {
         "date": "2025-10-29T00:00:00.000Z",
         "value": 42.1,
@@ -1101,57 +1091,57 @@
       },
       {
         "date": "2026-09-10T00:00:00.000Z",
-        "value": 32.2,
+        "value": 31.9,
         "rating": "fear"
       },
       {
         "date": "2026-09-11T00:00:00.000Z",
-        "value": 32.7,
+        "value": 33.1,
         "rating": "fear"
       },
       {
         "date": "2026-09-14T00:00:00.000Z",
-        "value": 31,
+        "value": 32.1,
         "rating": "fear"
       },
       {
         "date": "2026-09-15T00:00:00.000Z",
-        "value": 28,
+        "value": 29.3,
         "rating": "fear"
       },
       {
         "date": "2026-09-16T00:00:00.000Z",
-        "value": 27.3,
+        "value": 27,
         "rating": "fear"
       },
       {
         "date": "2026-09-17T00:00:00.000Z",
-        "value": 28.3,
+        "value": 29.5,
         "rating": "fear"
       },
       {
         "date": "2026-09-18T00:00:00.000Z",
-        "value": 30.4,
+        "value": 28.5,
         "rating": "fear"
       },
       {
         "date": "2026-09-21T00:00:00.000Z",
-        "value": 34.2,
+        "value": 33.9,
         "rating": "fear"
       },
       {
         "date": "2026-09-22T00:00:00.000Z",
-        "value": 35,
+        "value": 35.2,
         "rating": "fear"
       },
       {
         "date": "2026-09-23T00:00:00.000Z",
-        "value": 32.5,
+        "value": 33.7,
         "rating": "fear"
       },
       {
         "date": "2026-09-24T00:00:00.000Z",
-        "value": 35.7,
+        "value": 34.5,
         "rating": "fear"
       },
       {
@@ -1161,12 +1151,12 @@
       },
       {
         "date": "2026-09-28T00:00:00.000Z",
-        "value": 34.4,
+        "value": 32.4,
         "rating": "fear"
       },
       {
         "date": "2026-09-29T00:00:00.000Z",
-        "value": 28.9,
+        "value": 31.1,
         "rating": "fear"
       },
       {
@@ -1176,92 +1166,92 @@
       },
       {
         "date": "2026-10-01T00:00:00.000Z",
-        "value": 29,
+        "value": 29.2,
         "rating": "fear"
       },
       {
         "date": "2026-10-02T00:00:00.000Z",
-        "value": 40,
+        "value": 38.2,
         "rating": "fear"
       },
       {
         "date": "2026-10-05T00:00:00.000Z",
-        "value": 43.7,
+        "value": 43.1,
         "rating": "fear"
       },
       {
         "date": "2026-10-06T00:00:00.000Z",
-        "value": 46.8,
+        "value": 47,
         "rating": "neutral"
       },
       {
         "date": "2026-10-07T00:00:00.000Z",
-        "value": 42.1,
+        "value": 44.7,
         "rating": "fear"
       },
       {
         "date": "2026-10-08T00:00:00.000Z",
-        "value": 39.8,
+        "value": 39.2,
         "rating": "fear"
       },
       {
         "date": "2026-10-09T00:00:00.000Z",
-        "value": 46.5,
-        "rating": "neutral"
+        "value": 43.5,
+        "rating": "fear"
       },
       {
         "date": "2026-10-12T00:00:00.000Z",
-        "value": 46.3,
+        "value": 45.2,
         "rating": "neutral"
       },
       {
         "date": "2026-10-13T00:00:00.000Z",
-        "value": 44.1,
-        "rating": "fear"
+        "value": 45.6,
+        "rating": "neutral"
       },
       {
         "date": "2026-10-14T00:00:00.000Z",
-        "value": 26.7,
+        "value": 28.8,
         "rating": "fear"
       },
       {
         "date": "2026-10-15T00:00:00.000Z",
-        "value": 30.3,
+        "value": 32,
         "rating": "fear"
       },
       {
         "date": "2026-10-16T00:00:00.000Z",
-        "value": 22.1,
+        "value": 18.2,
         "rating": "extreme fear"
       },
       {
         "date": "2026-10-19T00:00:00.000Z",
-        "value": 20.8,
+        "value": 19.5,
         "rating": "extreme fear"
       },
       {
         "date": "2026-10-20T00:00:00.000Z",
-        "value": 29.6,
+        "value": 28.7,
         "rating": "fear"
       },
       {
         "date": "2026-10-21T00:00:00.000Z",
-        "value": 27.2,
+        "value": 30.3,
         "rating": "fear"
       },
       {
         "date": "2026-10-22T00:00:00.000Z",
-        "value": 19.4,
+        "value": 20,
         "rating": "extreme fear"
       },
       {
         "date": "2026-10-23T00:00:00.000Z",
-        "value": 23,
+        "value": 16.7,
         "rating": "extreme fear"
       },
       {
         "date": "2026-10-26T00:00:00.000Z",
-        "value": 29.3,
+        "value": 29.8,
         "rating": "fear"
       },
       {
@@ -1270,8 +1260,18 @@
         "rating": "fear"
       },
       {
-        "date": "2026-10-27T15:49:38.000Z",
-        "value": 32.9,
+        "date": "2026-10-28T00:00:00.000Z",
+        "value": 34.4,
+        "rating": "fear"
+      },
+      {
+        "date": "2026-10-29T00:00:00.000Z",
+        "value": 35.6,
+        "rating": "fear"
+      },
+      {
+        "date": "2026-10-29T16:05:27.000Z",
+        "value": 35.7,
         "rating": "fear"
       }
     ]
@@ -1282,7 +1282,7 @@
     "source": "Eurostat",
     "sourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table",
     "inflationSourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
-    "fetchedAt": "2026-10-27T15:54:32.573Z",
+    "fetchedAt": "2026-10-29T16:09:52.895Z",
     "region": "EA21",
     "regionName": "Euro area – 21 countries",
     "growth": {
@@ -2382,47 +2382,27 @@
       }
     ],
     "fetchedAt": "2026-10-27T09:00:26.338Z",
-    "lastAttemptAt": "2026-10-27T15:54:32.573Z",
+    "lastAttemptAt": "2026-10-29T16:09:52.895Z",
     "lastError": "Command failed: python C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\nTraceback (most recent call last):\r\n  File \"C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\", line 10, in <module>\r\n    import xlrd\r\nModuleNotFoundError: No module named 'xlrd'\r\n"
   },
   "breadth": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-27T15:54:32.573Z",
+    "fetchedAt": "2026-10-29T16:09:52.895Z",
     "source": "Calculated from S&P 500 constituents and delayed daily closes",
     "constituentsSourceUrl": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
     "pricesSourceUrl": "https://finance.yahoo.com/quote/%5EGSPC/history/",
-    "date": "2026-10-27",
+    "date": "2026-10-29",
     "constituentCount": 503,
     "successfulSymbols": 503,
-    "advancers": 228,
-    "decliners": 275,
+    "advancers": 393,
+    "decliners": 110,
     "unchanged": 0,
     "coverage": 503,
-    "score": 45.3,
-    "netBreadth": -9.3,
-    "sp500Change": 0.67,
+    "score": 78.1,
+    "netBreadth": 56.3,
+    "sp500Change": -0.31,
     "history": [
-      {
-        "date": "2026-06-22",
-        "advancers": 264,
-        "decliners": 237,
-        "unchanged": 1,
-        "coverage": 502,
-        "score": 52.7,
-        "netBreadth": 5.4,
-        "sp500Change": -0.37
-      },
-      {
-        "date": "2026-06-23",
-        "advancers": 282,
-        "decliners": 219,
-        "unchanged": 1,
-        "coverage": 502,
-        "score": 56.3,
-        "netBreadth": 12.5,
-        "sp500Change": -1.44
-      },
       {
         "date": "2026-06-24",
         "advancers": 319,
@@ -3295,30 +3275,50 @@
       },
       {
         "date": "2026-10-27",
-        "advancers": 228,
-        "decliners": 275,
+        "advancers": 245,
+        "decliners": 257,
+        "unchanged": 1,
+        "coverage": 503,
+        "score": 48.8,
+        "netBreadth": -2.4,
+        "sp500Change": 0.6
+      },
+      {
+        "date": "2026-10-28",
+        "advancers": 247,
+        "decliners": 256,
         "unchanged": 0,
         "coverage": 503,
-        "score": 45.3,
-        "netBreadth": -9.3,
-        "sp500Change": 0.67
+        "score": 49.1,
+        "netBreadth": -1.8,
+        "sp500Change": 0.28
+      },
+      {
+        "date": "2026-10-29",
+        "advancers": 393,
+        "decliners": 110,
+        "unchanged": 0,
+        "coverage": 503,
+        "score": 78.1,
+        "netBreadth": 56.3,
+        "sp500Change": -0.31
       }
     ]
   },
   "goldDebt": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-27T15:54:32.573Z",
+    "fetchedAt": "2026-10-29T16:09:52.895Z",
     "source": "Calculated from COMEX gold futures and U.S. Treasury total public debt outstanding",
     "goldSourceUrl": "https://finance.yahoo.com/quote/GC=F/history/",
     "debtSourceUrl": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/",
     "unit": "USD/oz per USD 1tn debt",
-    "date": "2026-10-27",
-    "debtDate": "2026-10-23",
-    "goldPrice": 4075.3,
-    "debtTrillions": 40.46,
-    "ratio": 100.72,
-    "oneYearChange": -4.58,
+    "date": "2026-10-29",
+    "debtDate": "2026-10-27",
+    "goldPrice": 4034.9,
+    "debtTrillions": 40.58,
+    "ratio": 99.43,
+    "oneYearChange": -5.8,
     "history": [
       {
         "date": "2006-11-01",
@@ -4749,35 +4749,27 @@
         "ratio": 104.37
       },
       {
-        "date": "2026-10-27",
-        "debtDate": "2026-10-23",
-        "goldPrice": 4075.3,
-        "debtTrillions": 40.46,
-        "ratio": 100.72
+        "date": "2026-10-29",
+        "debtDate": "2026-10-27",
+        "goldPrice": 4034.9,
+        "debtTrillions": 40.58,
+        "ratio": 99.43
       }
     ]
   },
   "eurUsd": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-27T15:54:32.573Z",
+    "fetchedAt": "2026-10-29T16:09:52.895Z",
     "source": "Yahoo Finance delayed daily EUR/USD closes",
     "sourceUrl": "https://finance.yahoo.com/quote/EURUSD%3DX/history/",
-    "date": "2026-10-27",
-    "value": 1.1148,
-    "dailyChange": -0.62,
-    "oneYearChange": -4.16,
+    "date": "2026-10-29",
+    "value": 1.1168,
+    "dailyChange": 0.34,
+    "oneYearChange": -4.2,
     "yearHigh": 1.2018,
-    "yearLow": 1.1148,
+    "yearLow": 1.113,
     "history": [
-      {
-        "date": "2025-10-27",
-        "value": 1.1632
-      },
-      {
-        "date": "2025-10-28",
-        "value": 1.1652
-      },
       {
         "date": "2025-10-29",
         "value": 1.1658
@@ -5808,25 +5800,33 @@
       },
       {
         "date": "2026-10-27",
-        "value": 1.1148
+        "value": 1.1174
+      },
+      {
+        "date": "2026-10-28",
+        "value": 1.113
+      },
+      {
+        "date": "2026-10-29",
+        "value": 1.1168
       }
     ]
   },
   "qqq": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-27T15:54:32.573Z",
+    "fetchedAt": "2026-10-29T16:09:52.895Z",
     "year": 2026,
     "source": "Calculated from Invesco QQQ adjusted daily closes",
     "sourceUrl": "https://finance.yahoo.com/quote/QQQ/history/",
-    "date": "2026-10-27",
-    "close": 721.39,
-    "dailyChange": 1.29,
-    "ytdChange": 17.83,
-    "positiveDays": 109,
-    "negativeDays": 96,
+    "date": "2026-10-29",
+    "close": 715.99,
+    "dailyChange": -1.33,
+    "ytdChange": 16.95,
+    "positiveDays": 110,
+    "negativeDays": 97,
     "flatDays": 1,
-    "averageDailyChange": 0.09,
+    "averageDailyChange": 0.08,
     "bestDay": {
       "date": "2026-08-04",
       "close": 723.85,
@@ -5850,7 +5850,7 @@
         "id": "down1",
         "min": -2,
         "max": -1,
-        "count": 34
+        "count": 35
       },
       {
         "id": "down0",
@@ -5862,7 +5862,7 @@
         "id": "up0",
         "min": 0,
         "max": 1,
-        "count": 62
+        "count": 63
       },
       {
         "id": "up1",
@@ -7110,9 +7110,338 @@
       },
       {
         "date": "2026-10-27",
-        "close": 721.39,
-        "adjustedClose": 721.39,
-        "change": 1.29
+        "close": 721.25,
+        "adjustedClose": 721.25,
+        "change": 1.27
+      },
+      {
+        "date": "2026-10-28",
+        "close": 725.61,
+        "adjustedClose": 725.61,
+        "change": 0.6
+      },
+      {
+        "date": "2026-10-29",
+        "close": 715.99,
+        "adjustedClose": 715.99,
+        "change": -1.33
+      }
+    ]
+  },
+  "aiDebt": {
+    "available": true,
+    "stale": false,
+    "checkedAt": "2026-10-29T16:09:52.895Z",
+    "source": "SEC EDGAR prospectus supplements and issuer filings",
+    "sourceUrl": "https://www.sec.gov/edgar/search/",
+    "scopeStart": "2025-01-01",
+    "methodology": "Verified public senior-note offerings with disclosed principal. USD totals exclude non-USD issues, loans, leases, project finance, preferred stock and equity.",
+    "companies": [
+      {
+        "id": "meta",
+        "name": "Meta",
+        "ticker": "META",
+        "cik": "0001326801",
+        "color": "#3867d6",
+        "monitor": {
+          "available": true,
+          "latest": {
+            "form": "424B5",
+            "filedAt": "2026-10-28",
+            "accession": "0001193125-26-436410",
+            "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526436410/d94886d424b5.htm"
+          },
+          "needsReview": false,
+          "classification": "excluded"
+        }
+      },
+      {
+        "id": "alphabet",
+        "name": "Alphabet",
+        "ticker": "GOOGL",
+        "cik": "0001652044",
+        "color": "#21966f",
+        "monitor": {
+          "available": true,
+          "latest": {
+            "form": "424B2",
+            "filedAt": "2026-08-07",
+            "accession": "0001193125-26-340264",
+            "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526340264/d32286d424b2.htm"
+          },
+          "needsReview": false,
+          "classification": "verified-event"
+        }
+      },
+      {
+        "id": "amazon",
+        "name": "Amazon",
+        "ticker": "AMZN",
+        "cik": "0001018724",
+        "color": "#cf862c",
+        "monitor": {
+          "available": true,
+          "latest": {
+            "form": "424B5",
+            "filedAt": "2026-09-11",
+            "accession": "0001104659-26-107122",
+            "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000110465926107122/tm2624614-3_424b5.htm"
+          },
+          "needsReview": false,
+          "classification": "verified-event"
+        }
+      },
+      {
+        "id": "nvidia",
+        "name": "NVIDIA",
+        "ticker": "NVDA",
+        "cik": "0001045810",
+        "color": "#76b900",
+        "monitor": {
+          "available": true,
+          "latest": {
+            "form": "424B5",
+            "filedAt": "2026-06-17",
+            "accession": "0001193125-26-273139",
+            "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000119312526273139/d118718d424b5.htm"
+          },
+          "needsReview": false,
+          "classification": "verified-event"
+        }
+      },
+      {
+        "id": "oracle",
+        "name": "Oracle",
+        "ticker": "ORCL",
+        "cik": "0001341439",
+        "color": "#d34d63",
+        "monitor": {
+          "available": true,
+          "latest": {
+            "form": "424B5",
+            "filedAt": "2026-06-23",
+            "accession": "0001193125-26-278585",
+            "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526278585/d120346d424b5.htm"
+          },
+          "needsReview": false,
+          "classification": "excluded"
+        }
+      },
+      {
+        "id": "microsoft",
+        "name": "Microsoft",
+        "ticker": "MSFT",
+        "cik": "0000789019",
+        "color": "#0071e3",
+        "note": "No new registered senior-note offering is included in the 2025–2026 tracker window.",
+        "monitor": {
+          "available": true,
+          "latest": {
+            "form": "424B2",
+            "filedAt": "2026-10-29",
+            "accession": "0001193125-26-437008",
+            "sourceUrl": "https://www.sec.gov/Archives/edgar/data/789019/000119312526437008/d150456d424b2.htm"
+          },
+          "needsReview": false,
+          "classification": "verified-event"
+        }
+      },
+      {
+        "id": "spacex",
+        "name": "SpaceX",
+        "ticker": "PRIVATE",
+        "cik": null,
+        "color": "#68788a",
+        "note": "Private company. No comparable SEC-registered public bond feed; loans and private placements are excluded until primary terms are publicly verifiable.",
+        "monitor": {
+          "available": false,
+          "reason": "private"
+        }
+      }
+    ],
+    "events": [
+      {
+        "company": "microsoft",
+        "date": "2026-10-29",
+        "amount": null,
+        "currency": "USD",
+        "form": "424B2",
+        "status": "pending",
+        "tranches": [
+          "2 floating-rate tranches",
+          "8 fixed-rate tranches",
+          "amounts and coupons pending"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/789019/000119312526437008/d150456d424b2.htm"
+      },
+      {
+        "company": "amazon",
+        "date": "2026-09-14",
+        "amount": 4.25,
+        "currency": "GBP",
+        "form": "424B5",
+        "tranches": [
+          "5.20% 2029",
+          "5.55% 2032",
+          "6.25% 2038",
+          "6.65% 2045"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000110465926107122/tm2624614-3_424b5.htm"
+      },
+      {
+        "company": "alphabet",
+        "date": "2026-08-10",
+        "amount": 25,
+        "currency": "USD",
+        "form": "424B2",
+        "tranches": [
+          "FRN 2028",
+          "4.50% 2028",
+          "FRN 2029",
+          "4.625% 2029",
+          "4.875% 2031",
+          "5.20% 2033",
+          "5.45% 2036",
+          "6.25% 2046",
+          "6.375% 2056",
+          "6.50% 2066"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526340264/d32286d424b2.htm"
+      },
+      {
+        "company": "amazon",
+        "date": "2026-07-09",
+        "amount": 25,
+        "currency": "USD",
+        "form": "424B5",
+        "tranches": [
+          "FRN 2029",
+          "4.60% 2029",
+          "4.80% 2031",
+          "5.10% 2033",
+          "5.30% 2036",
+          "6.00% 2046",
+          "6.10% 2056",
+          "6.25% 2066"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000110465926081786/tm2619352-2_424b5.htm"
+      },
+      {
+        "company": "nvidia",
+        "date": "2026-06-15",
+        "amount": 25,
+        "currency": "USD",
+        "form": "FWP",
+        "tranches": [
+          "4.25% 2028",
+          "4.35% 2029",
+          "4.50% 2031",
+          "4.75% 2033",
+          "4.95% 2036",
+          "5.55% 2046",
+          "5.625% 2056"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000119312526273139/d118718d424b5.htm"
+      },
+      {
+        "company": "meta",
+        "date": "2026-05-04",
+        "amount": 25,
+        "currency": "USD",
+        "form": "424B2",
+        "tranches": [
+          "4.55% 2031",
+          "4.875% 2033",
+          "5.25% 2036",
+          "6.20% 2046",
+          "6.30% 2056",
+          "6.45% 2066"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526201738/d109954d424b2.htm"
+      },
+      {
+        "company": "alphabet",
+        "date": "2026-02-13",
+        "amount": 20,
+        "currency": "USD",
+        "form": "424B2",
+        "tranches": [
+          "3.70% 2029",
+          "4.10% 2031",
+          "4.40% 2033",
+          "4.80% 2036",
+          "5.50% 2046",
+          "5.65% 2056",
+          "5.75% 2066"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526046846/d108033d424b2.htm"
+      },
+      {
+        "company": "oracle",
+        "date": "2026-02-05",
+        "amount": 25,
+        "currency": "USD",
+        "form": "424B2",
+        "tranches": [
+          "FRN 2029",
+          "4.55% 2029",
+          "4.95% 2031",
+          "5.35% 2033",
+          "5.70% 2036",
+          "6.55% 2046",
+          "6.70% 2056",
+          "6.85% 2066"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526035603/d33906d424b2.htm"
+      },
+      {
+        "company": "alphabet",
+        "date": "2025-11-06",
+        "amount": 17.5,
+        "currency": "USD",
+        "form": "424B2",
+        "tranches": [
+          "FRN 2028",
+          "3.875% 2028",
+          "4.10% 2030",
+          "4.375% 2032",
+          "4.70% 2035",
+          "5.35% 2045",
+          "5.45% 2055",
+          "5.70% 2075"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000119312525267244/d64361d424b2.htm"
+      },
+      {
+        "company": "meta",
+        "date": "2025-11-03",
+        "amount": 30,
+        "currency": "USD",
+        "form": "424B2",
+        "tranches": [
+          "4.20% 2030",
+          "4.60% 2032",
+          "4.875% 2035",
+          "5.50% 2045",
+          "5.625% 2055",
+          "5.75% 2065"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326801/000119312525261217/d762778d424b2.htm"
+      },
+      {
+        "company": "oracle",
+        "date": "2025-09-01",
+        "datePrecision": "month",
+        "amount": 18,
+        "currency": "USD",
+        "form": "10-Q",
+        "tranches": [
+          "4.45% 2030",
+          "4.80% 2032",
+          "5.20% 2035",
+          "other senior-note tranches"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1341439/000119312525315925/orcl-20251130.htm"
       }
     ]
   }

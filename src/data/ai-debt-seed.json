@@ -1,0 +1,74 @@
+{
+  "scopeStart": "2025-01-01",
+  "methodology": "Verified public senior-note offerings with disclosed principal. USD totals exclude non-USD issues, loans, leases, project finance, preferred stock and equity.",
+  "ignoredSources": [
+    "https://www.sec.gov/Archives/edgar/data/1326801/000119312526436410/d94886d424b5.htm",
+    "https://www.sec.gov/Archives/edgar/data/1341439/000119312526278585/d120346d424b5.htm"
+  ],
+  "companies": [
+    { "id": "meta", "name": "Meta", "ticker": "META", "cik": "0001326801", "color": "#3867d6" },
+    { "id": "alphabet", "name": "Alphabet", "ticker": "GOOGL", "cik": "0001652044", "color": "#21966f" },
+    { "id": "amazon", "name": "Amazon", "ticker": "AMZN", "cik": "0001018724", "color": "#cf862c" },
+    { "id": "nvidia", "name": "NVIDIA", "ticker": "NVDA", "cik": "0001045810", "color": "#76b900" },
+    { "id": "oracle", "name": "Oracle", "ticker": "ORCL", "cik": "0001341439", "color": "#d34d63" },
+    { "id": "microsoft", "name": "Microsoft", "ticker": "MSFT", "cik": "0000789019", "color": "#0071e3", "note": "No new registered senior-note offering is included in the 2025–2026 tracker window." },
+    { "id": "spacex", "name": "SpaceX", "ticker": "PRIVATE", "cik": null, "color": "#68788a", "note": "Private company. No comparable SEC-registered public bond feed; loans and private placements are excluded until primary terms are publicly verifiable." }
+  ],
+  "events": [
+    {
+      "company": "microsoft", "date": "2026-10-29", "amount": null, "currency": "USD", "form": "424B2", "status": "pending",
+      "tranches": ["2 floating-rate tranches", "8 fixed-rate tranches", "amounts and coupons pending"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/789019/000119312526437008/d150456d424b2.htm"
+    },
+    {
+      "company": "amazon", "date": "2026-09-14", "amount": 4.25, "currency": "GBP", "form": "424B5",
+      "tranches": ["5.20% 2029", "5.55% 2032", "6.25% 2038", "6.65% 2045"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000110465926107122/tm2624614-3_424b5.htm"
+    },
+    {
+      "company": "alphabet", "date": "2026-08-10", "amount": 25, "currency": "USD", "form": "424B2",
+      "tranches": ["FRN 2028", "4.50% 2028", "FRN 2029", "4.625% 2029", "4.875% 2031", "5.20% 2033", "5.45% 2036", "6.25% 2046", "6.375% 2056", "6.50% 2066"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526340264/d32286d424b2.htm"
+    },
+    {
+      "company": "amazon", "date": "2026-07-09", "amount": 25, "currency": "USD", "form": "424B5",
+      "tranches": ["FRN 2029", "4.60% 2029", "4.80% 2031", "5.10% 2033", "5.30% 2036", "6.00% 2046", "6.10% 2056", "6.25% 2066"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000110465926081786/tm2619352-2_424b5.htm"
+    },
+    {
+      "company": "nvidia", "date": "2026-06-15", "amount": 25, "currency": "USD", "form": "FWP",
+      "tranches": ["4.25% 2028", "4.35% 2029", "4.50% 2031", "4.75% 2033", "4.95% 2036", "5.55% 2046", "5.625% 2056"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000119312526273139/d118718d424b5.htm"
+    },
+    {
+      "company": "meta", "date": "2026-05-04", "amount": 25, "currency": "USD", "form": "424B2",
+      "tranches": ["4.55% 2031", "4.875% 2033", "5.25% 2036", "6.20% 2046", "6.30% 2056", "6.45% 2066"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526201738/d109954d424b2.htm"
+    },
+    {
+      "company": "oracle", "date": "2026-02-05", "amount": 25, "currency": "USD", "form": "424B2",
+      "tranches": ["FRN 2029", "4.55% 2029", "4.95% 2031", "5.35% 2033", "5.70% 2036", "6.55% 2046", "6.70% 2056", "6.85% 2066"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526035603/d33906d424b2.htm"
+    },
+    {
+      "company": "alphabet", "date": "2026-02-13", "amount": 20, "currency": "USD", "form": "424B2",
+      "tranches": ["3.70% 2029", "4.10% 2031", "4.40% 2033", "4.80% 2036", "5.50% 2046", "5.65% 2056", "5.75% 2066"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526046846/d108033d424b2.htm"
+    },
+    {
+      "company": "alphabet", "date": "2025-11-06", "amount": 17.5, "currency": "USD", "form": "424B2",
+      "tranches": ["FRN 2028", "3.875% 2028", "4.10% 2030", "4.375% 2032", "4.70% 2035", "5.35% 2045", "5.45% 2055", "5.70% 2075"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000119312525267244/d64361d424b2.htm"
+    },
+    {
+      "company": "meta", "date": "2025-11-03", "amount": 30, "currency": "USD", "form": "424B2",
+      "tranches": ["4.20% 2030", "4.60% 2032", "4.875% 2035", "5.50% 2045", "5.625% 2055", "5.75% 2065"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1326801/000119312525261217/d762778d424b2.htm"
+    },
+    {
+      "company": "oracle", "date": "2025-09-01", "datePrecision": "month", "amount": 18, "currency": "USD", "form": "10-Q",
+      "tranches": ["4.45% 2030", "4.80% 2032", "5.20% 2035", "other senior-note tranches"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1341439/000119312525315925/orcl-20251130.htm"
+    }
+  ]
+}
