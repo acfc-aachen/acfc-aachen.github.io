@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-29T16:31:21.377Z",
+  "generatedAt": "2026-10-29T16:38:02.826Z",
   "cnn": {
     "available": true,
     "stale": false,
     "source": "CNN Fear & Greed Index",
     "sourceUrl": "https://www.cnn.com/markets/fear-and-greed",
-    "fetchedAt": "2026-10-29T16:31:21.377Z",
-    "asOf": "2026-10-29T16:30:11.000Z",
+    "fetchedAt": "2026-10-29T16:38:02.826Z",
+    "asOf": "2026-10-29T16:34:03.000Z",
     "score": 35.4,
     "rating": "fear",
     "previousClose": 35.9,
@@ -1270,7 +1270,7 @@
         "rating": "fear"
       },
       {
-        "date": "2026-10-29T16:30:11.000Z",
+        "date": "2026-10-29T16:34:03.000Z",
         "value": 35.4,
         "rating": "fear"
       }
@@ -1282,7 +1282,7 @@
     "source": "Eurostat",
     "sourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table",
     "inflationSourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
-    "fetchedAt": "2026-10-29T16:31:21.377Z",
+    "fetchedAt": "2026-10-29T16:38:02.826Z",
     "region": "EA21",
     "regionName": "Euro area – 21 countries",
     "growth": {
@@ -2382,25 +2382,25 @@
       }
     ],
     "fetchedAt": "2026-10-27T09:00:26.338Z",
-    "lastAttemptAt": "2026-10-29T16:31:21.377Z",
+    "lastAttemptAt": "2026-10-29T16:38:02.826Z",
     "lastError": "Command failed: python C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\nTraceback (most recent call last):\r\n  File \"C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\", line 10, in <module>\r\n    import xlrd\r\nModuleNotFoundError: No module named 'xlrd'\r\n"
   },
   "breadth": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:31:21.377Z",
+    "fetchedAt": "2026-10-29T16:38:02.826Z",
     "source": "Calculated from S&P 500 constituents and delayed daily closes",
     "constituentsSourceUrl": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
     "pricesSourceUrl": "https://finance.yahoo.com/quote/%5EGSPC/history/",
     "date": "2026-10-29",
     "constituentCount": 503,
     "successfulSymbols": 503,
-    "advancers": 391,
-    "decliners": 112,
-    "unchanged": 0,
+    "advancers": 392,
+    "decliners": 110,
+    "unchanged": 1,
     "coverage": 503,
-    "score": 77.7,
-    "netBreadth": 55.5,
+    "score": 78,
+    "netBreadth": 56.1,
     "sp500Change": -0.35,
     "history": [
       {
@@ -3295,12 +3295,12 @@
       },
       {
         "date": "2026-10-29",
-        "advancers": 391,
-        "decliners": 112,
-        "unchanged": 0,
+        "advancers": 392,
+        "decliners": 110,
+        "unchanged": 1,
         "coverage": 503,
-        "score": 77.7,
-        "netBreadth": 55.5,
+        "score": 78,
+        "netBreadth": 56.1,
         "sp500Change": -0.35
       }
     ]
@@ -3308,17 +3308,17 @@
   "goldDebt": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:31:21.377Z",
+    "fetchedAt": "2026-10-29T16:38:02.826Z",
     "source": "Calculated from COMEX gold futures and U.S. Treasury total public debt outstanding",
     "goldSourceUrl": "https://finance.yahoo.com/quote/GC=F/history/",
     "debtSourceUrl": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/",
     "unit": "USD/oz per USD 1tn debt",
     "date": "2026-10-29",
     "debtDate": "2026-10-27",
-    "goldPrice": 4027.5,
+    "goldPrice": 4025.5,
     "debtTrillions": 40.58,
-    "ratio": 99.24,
-    "oneYearChange": -5.98,
+    "ratio": 99.19,
+    "oneYearChange": -6.03,
     "history": [
       {
         "date": "2006-11-01",
@@ -4751,22 +4751,22 @@
       {
         "date": "2026-10-29",
         "debtDate": "2026-10-27",
-        "goldPrice": 4027.5,
+        "goldPrice": 4025.5,
         "debtTrillions": 40.58,
-        "ratio": 99.24
+        "ratio": 99.19
       }
     ]
   },
   "eurUsd": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:31:21.377Z",
+    "fetchedAt": "2026-10-29T16:38:02.826Z",
     "source": "Yahoo Finance delayed daily EUR/USD closes",
     "sourceUrl": "https://finance.yahoo.com/quote/EURUSD%3DX/history/",
     "date": "2026-10-29",
-    "value": 1.1164,
-    "dailyChange": 0.31,
-    "oneYearChange": -4.24,
+    "value": 1.1163,
+    "dailyChange": 0.3,
+    "oneYearChange": -4.25,
     "yearHigh": 1.2018,
     "yearLow": 1.113,
     "history": [
@@ -5808,21 +5808,21 @@
       },
       {
         "date": "2026-10-29",
-        "value": 1.1164
+        "value": 1.1163
       }
     ]
   },
   "qqq": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:31:21.377Z",
+    "fetchedAt": "2026-10-29T16:38:02.826Z",
     "year": 2026,
     "source": "Calculated from Invesco QQQ adjusted daily closes",
     "sourceUrl": "https://finance.yahoo.com/quote/QQQ/history/",
     "date": "2026-10-29",
-    "close": 715.35,
-    "dailyChange": -1.41,
-    "ytdChange": 16.85,
+    "close": 715.52,
+    "dailyChange": -1.39,
+    "ytdChange": 16.87,
     "positiveDays": 110,
     "negativeDays": 97,
     "flatDays": 1,
@@ -7122,16 +7122,1349 @@
       },
       {
         "date": "2026-10-29",
-        "close": 715.35,
-        "adjustedClose": 715.35,
-        "change": -1.41
+        "close": 715.52,
+        "adjustedClose": 715.52,
+        "change": -1.39
+      }
+    ]
+  },
+  "indexYtd": {
+    "available": true,
+    "stale": false,
+    "fetchedAt": "2026-10-29T16:38:02.826Z",
+    "year": 2026,
+    "source": "Yahoo Finance delayed index closes",
+    "sourceUrl": "https://finance.yahoo.com/markets/world-indices/",
+    "methodology": "Previous-year final close = 100; non-trading days are forward-filled for visual alignment.",
+    "series": [
+      {
+        "id": "shanghai",
+        "name": "Shanghai Composite",
+        "symbol": "000001.SS",
+        "sourceUrl": "https://finance.yahoo.com/quote/000001.SS/history/",
+        "baseDate": "2025-12-31",
+        "baseClose": 3968.84,
+        "latest": {
+          "date": "2026-10-28",
+          "close": 3681.47,
+          "value": 92.76,
+          "ytdChange": -7.24
+        }
+      },
+      {
+        "id": "sp500",
+        "name": "S&P 500",
+        "symbol": "^GSPC",
+        "sourceUrl": "https://finance.yahoo.com/quote/%5EGSPC/history/",
+        "baseDate": "2025-12-31",
+        "baseClose": 6845.5,
+        "latest": {
+          "date": "2026-10-29",
+          "close": 7717.07,
+          "value": 112.73,
+          "ytdChange": 12.73
+        }
+      },
+      {
+        "id": "nasdaq100",
+        "name": "Nasdaq-100",
+        "symbol": "^NDX",
+        "sourceUrl": "https://finance.yahoo.com/quote/%5ENDX/history/",
+        "baseDate": "2025-12-31",
+        "baseClose": 25249.85,
+        "latest": {
+          "date": "2026-10-29",
+          "close": 29407.75,
+          "value": 116.47,
+          "ytdChange": 16.47
+        }
+      }
+    ],
+    "history": [
+      {
+        "date": "2026-01-02",
+        "shanghai": 100,
+        "sp500": 100.19,
+        "nasdaq100": 99.83
+      },
+      {
+        "date": "2026-01-05",
+        "shanghai": 101.38,
+        "sp500": 100.83,
+        "nasdaq100": 100.6
+      },
+      {
+        "date": "2026-01-06",
+        "shanghai": 102.89,
+        "sp500": 101.45,
+        "nasdaq100": 101.54
+      },
+      {
+        "date": "2026-01-07",
+        "shanghai": 102.95,
+        "sp500": 101.1,
+        "nasdaq100": 101.6
+      },
+      {
+        "date": "2026-01-08",
+        "shanghai": 102.88,
+        "sp500": 101.11,
+        "nasdaq100": 101.02
+      },
+      {
+        "date": "2026-01-09",
+        "shanghai": 103.82,
+        "sp500": 101.76,
+        "nasdaq100": 102.05
+      },
+      {
+        "date": "2026-01-12",
+        "shanghai": 104.95,
+        "sp500": 101.92,
+        "nasdaq100": 102.13
+      },
+      {
+        "date": "2026-01-13",
+        "shanghai": 104.28,
+        "sp500": 101.73,
+        "nasdaq100": 101.95
+      },
+      {
+        "date": "2026-01-14",
+        "shanghai": 103.96,
+        "sp500": 101.18,
+        "nasdaq100": 100.86
+      },
+      {
+        "date": "2026-01-15",
+        "shanghai": 103.62,
+        "sp500": 101.45,
+        "nasdaq100": 101.18
+      },
+      {
+        "date": "2026-01-16",
+        "shanghai": 103.35,
+        "sp500": 101.38,
+        "nasdaq100": 101.11
+      },
+      {
+        "date": "2026-01-19",
+        "shanghai": 103.66,
+        "sp500": 101.38,
+        "nasdaq100": 101.11
+      },
+      {
+        "date": "2026-01-20",
+        "shanghai": 103.65,
+        "sp500": 99.29,
+        "nasdaq100": 98.96
+      },
+      {
+        "date": "2026-01-21",
+        "shanghai": 103.73,
+        "sp500": 100.44,
+        "nasdaq100": 100.3
+      },
+      {
+        "date": "2026-01-22",
+        "shanghai": 103.87,
+        "sp500": 100.99,
+        "nasdaq100": 101.06
+      },
+      {
+        "date": "2026-01-23",
+        "shanghai": 104.22,
+        "sp500": 101.02,
+        "nasdaq100": 101.41
+      },
+      {
+        "date": "2026-01-26",
+        "shanghai": 104.13,
+        "sp500": 101.53,
+        "nasdaq100": 101.84
+      },
+      {
+        "date": "2026-01-27",
+        "shanghai": 104.31,
+        "sp500": 101.94,
+        "nasdaq100": 102.73
+      },
+      {
+        "date": "2026-01-28",
+        "shanghai": 104.6,
+        "sp500": 101.94,
+        "nasdaq100": 103.06
+      },
+      {
+        "date": "2026-01-29",
+        "shanghai": 104.77,
+        "sp500": 101.8,
+        "nasdaq100": 102.51
+      },
+      {
+        "date": "2026-01-30",
+        "shanghai": 103.76,
+        "sp500": 101.37,
+        "nasdaq100": 101.2
+      },
+      {
+        "date": "2026-02-02",
+        "shanghai": 101.18,
+        "sp500": 101.91,
+        "nasdaq100": 101.94
+      },
+      {
+        "date": "2026-02-03",
+        "shanghai": 102.49,
+        "sp500": 101.06,
+        "nasdaq100": 100.35
+      },
+      {
+        "date": "2026-02-04",
+        "shanghai": 103.36,
+        "sp500": 100.54,
+        "nasdaq100": 98.58
+      },
+      {
+        "date": "2026-02-05",
+        "shanghai": 102.7,
+        "sp500": 99.31,
+        "nasdaq100": 97.22
+      },
+      {
+        "date": "2026-02-06",
+        "shanghai": 102.44,
+        "sp500": 101.27,
+        "nasdaq100": 99.31
+      },
+      {
+        "date": "2026-02-09",
+        "shanghai": 103.89,
+        "sp500": 101.74,
+        "nasdaq100": 100.07
+      },
+      {
+        "date": "2026-02-10",
+        "shanghai": 104.02,
+        "sp500": 101.41,
+        "nasdaq100": 99.52
+      },
+      {
+        "date": "2026-02-11",
+        "shanghai": 104.11,
+        "sp500": 101.4,
+        "nasdaq100": 99.81
+      },
+      {
+        "date": "2026-02-12",
+        "shanghai": 104.16,
+        "sp500": 99.81,
+        "nasdaq100": 97.77
+      },
+      {
+        "date": "2026-02-13",
+        "shanghai": 102.85,
+        "sp500": 99.86,
+        "nasdaq100": 97.95
+      },
+      {
+        "date": "2026-02-17",
+        "shanghai": 102.85,
+        "sp500": 99.97,
+        "nasdaq100": 97.83
+      },
+      {
+        "date": "2026-02-18",
+        "shanghai": 102.85,
+        "sp500": 100.52,
+        "nasdaq100": 98.61
+      },
+      {
+        "date": "2026-02-19",
+        "shanghai": 102.85,
+        "sp500": 100.24,
+        "nasdaq100": 98.21
+      },
+      {
+        "date": "2026-02-20",
+        "shanghai": 102.85,
+        "sp500": 100.94,
+        "nasdaq100": 99.06
+      },
+      {
+        "date": "2026-02-23",
+        "shanghai": 102.85,
+        "sp500": 99.89,
+        "nasdaq100": 97.86
+      },
+      {
+        "date": "2026-02-24",
+        "shanghai": 103.74,
+        "sp500": 100.65,
+        "nasdaq100": 98.92
+      },
+      {
+        "date": "2026-02-25",
+        "shanghai": 104.49,
+        "sp500": 101.47,
+        "nasdaq100": 100.31
+      },
+      {
+        "date": "2026-02-26",
+        "shanghai": 104.48,
+        "sp500": 100.93,
+        "nasdaq100": 99.15
+      },
+      {
+        "date": "2026-02-27",
+        "shanghai": 104.89,
+        "sp500": 100.49,
+        "nasdaq100": 98.85
+      },
+      {
+        "date": "2026-03-02",
+        "shanghai": 105.39,
+        "sp500": 100.53,
+        "nasdaq100": 98.98
+      },
+      {
+        "date": "2026-03-03",
+        "shanghai": 103.88,
+        "sp500": 99.58,
+        "nasdaq100": 97.9
+      },
+      {
+        "date": "2026-03-04",
+        "shanghai": 102.86,
+        "sp500": 100.35,
+        "nasdaq100": 99.38
+      },
+      {
+        "date": "2026-03-05",
+        "shanghai": 103.52,
+        "sp500": 99.78,
+        "nasdaq100": 99.09
+      },
+      {
+        "date": "2026-03-06",
+        "shanghai": 103.91,
+        "sp500": 98.46,
+        "nasdaq100": 97.6
+      },
+      {
+        "date": "2026-03-09",
+        "shanghai": 103.22,
+        "sp500": 99.28,
+        "nasdaq100": 98.88
+      },
+      {
+        "date": "2026-03-10",
+        "shanghai": 103.89,
+        "sp500": 99.06,
+        "nasdaq100": 98.84
+      },
+      {
+        "date": "2026-03-11",
+        "shanghai": 104.15,
+        "sp500": 98.98,
+        "nasdaq100": 98.87
+      },
+      {
+        "date": "2026-03-12",
+        "shanghai": 104.04,
+        "sp500": 97.47,
+        "nasdaq100": 97.16
+      },
+      {
+        "date": "2026-03-13",
+        "shanghai": 103.19,
+        "sp500": 96.88,
+        "nasdaq100": 96.56
+      },
+      {
+        "date": "2026-03-16",
+        "shanghai": 102.92,
+        "sp500": 97.87,
+        "nasdaq100": 97.65
+      },
+      {
+        "date": "2026-03-17",
+        "shanghai": 102.04,
+        "sp500": 98.11,
+        "nasdaq100": 98.14
+      },
+      {
+        "date": "2026-03-18",
+        "shanghai": 102.37,
+        "sp500": 96.77,
+        "nasdaq100": 96.73
+      },
+      {
+        "date": "2026-03-19",
+        "shanghai": 100.95,
+        "sp500": 96.51,
+        "nasdaq100": 96.46
+      },
+      {
+        "date": "2026-03-20",
+        "shanghai": 99.7,
+        "sp500": 95.05,
+        "nasdaq100": 94.65
+      },
+      {
+        "date": "2026-03-23",
+        "shanghai": 96.08,
+        "sp500": 96.14,
+        "nasdaq100": 95.8
+      },
+      {
+        "date": "2026-03-24",
+        "shanghai": 97.79,
+        "sp500": 95.78,
+        "nasdaq100": 95.06
+      },
+      {
+        "date": "2026-03-25",
+        "shanghai": 99.07,
+        "sp500": 96.3,
+        "nasdaq100": 95.7
+      },
+      {
+        "date": "2026-03-26",
+        "shanghai": 97.99,
+        "sp500": 94.62,
+        "nasdaq100": 93.41
+      },
+      {
+        "date": "2026-03-27",
+        "shanghai": 98.61,
+        "sp500": 93.04,
+        "nasdaq100": 91.62
+      },
+      {
+        "date": "2026-03-30",
+        "shanghai": 98.85,
+        "sp500": 92.67,
+        "nasdaq100": 90.91
+      },
+      {
+        "date": "2026-03-31",
+        "shanghai": 98.06,
+        "sp500": 95.37,
+        "nasdaq100": 94.02
+      },
+      {
+        "date": "2026-04-01",
+        "shanghai": 99.49,
+        "sp500": 96.05,
+        "nasdaq100": 95.13
+      },
+      {
+        "date": "2026-04-02",
+        "shanghai": 98.75,
+        "sp500": 96.16,
+        "nasdaq100": 95.23
+      },
+      {
+        "date": "2026-04-03",
+        "shanghai": 97.76,
+        "sp500": 96.16,
+        "nasdaq100": 95.23
+      },
+      {
+        "date": "2026-04-06",
+        "shanghai": 97.76,
+        "sp500": 96.59,
+        "nasdaq100": 95.81
+      },
+      {
+        "date": "2026-04-07",
+        "shanghai": 98.02,
+        "sp500": 96.66,
+        "nasdaq100": 95.85
+      },
+      {
+        "date": "2026-04-08",
+        "shanghai": 100.66,
+        "sp500": 99.08,
+        "nasdaq100": 98.63
+      },
+      {
+        "date": "2026-04-09",
+        "shanghai": 99.93,
+        "sp500": 99.7,
+        "nasdaq100": 99.34
+      },
+      {
+        "date": "2026-04-10",
+        "shanghai": 100.44,
+        "sp500": 99.58,
+        "nasdaq100": 99.47
+      },
+      {
+        "date": "2026-04-13",
+        "shanghai": 100.5,
+        "sp500": 100.6,
+        "nasdaq100": 100.53
+      },
+      {
+        "date": "2026-04-14",
+        "shanghai": 101.46,
+        "sp500": 101.78,
+        "nasdaq100": 102.35
+      },
+      {
+        "date": "2026-04-15",
+        "shanghai": 101.47,
+        "sp500": 102.59,
+        "nasdaq100": 103.78
+      },
+      {
+        "date": "2026-04-16",
+        "shanghai": 102.18,
+        "sp500": 102.86,
+        "nasdaq100": 104.29
+      },
+      {
+        "date": "2026-04-17",
+        "shanghai": 102.08,
+        "sp500": 104.1,
+        "nasdaq100": 105.63
+      },
+      {
+        "date": "2026-04-20",
+        "shanghai": 102.85,
+        "sp500": 103.85,
+        "nasdaq100": 105.31
+      },
+      {
+        "date": "2026-04-21",
+        "shanghai": 102.93,
+        "sp500": 103.19,
+        "nasdaq100": 104.87
+      },
+      {
+        "date": "2026-04-22",
+        "shanghai": 103.46,
+        "sp500": 104.27,
+        "nasdaq100": 106.68
+      },
+      {
+        "date": "2026-04-23",
+        "shanghai": 103.13,
+        "sp500": 103.84,
+        "nasdaq100": 106.07
+      },
+      {
+        "date": "2026-04-24",
+        "shanghai": 102.8,
+        "sp500": 104.67,
+        "nasdaq100": 108.13
+      },
+      {
+        "date": "2026-04-27",
+        "shanghai": 102.96,
+        "sp500": 104.8,
+        "nasdaq100": 108.14
+      },
+      {
+        "date": "2026-04-28",
+        "shanghai": 102.77,
+        "sp500": 104.28,
+        "nasdaq100": 107.05
+      },
+      {
+        "date": "2026-04-29",
+        "shanghai": 103.49,
+        "sp500": 104.24,
+        "nasdaq100": 107.67
+      },
+      {
+        "date": "2026-04-30",
+        "shanghai": 103.61,
+        "sp500": 105.31,
+        "nasdaq100": 108.72
+      },
+      {
+        "date": "2026-05-01",
+        "shanghai": 103.61,
+        "sp500": 105.62,
+        "nasdaq100": 109.74
+      },
+      {
+        "date": "2026-05-04",
+        "shanghai": 103.61,
+        "sp500": 105.19,
+        "nasdaq100": 109.51
+      },
+      {
+        "date": "2026-05-05",
+        "shanghai": 103.61,
+        "sp500": 106.04,
+        "nasdaq100": 110.95
+      },
+      {
+        "date": "2026-05-06",
+        "shanghai": 104.82,
+        "sp500": 107.59,
+        "nasdaq100": 113.26
+      },
+      {
+        "date": "2026-05-07",
+        "shanghai": 105.32,
+        "sp500": 107.18,
+        "nasdaq100": 113.13
+      },
+      {
+        "date": "2026-05-08",
+        "shanghai": 105.32,
+        "sp500": 108.08,
+        "nasdaq100": 115.78
+      },
+      {
+        "date": "2026-05-11",
+        "shanghai": 106.45,
+        "sp500": 108.29,
+        "nasdaq100": 116.12
+      },
+      {
+        "date": "2026-05-12",
+        "shanghai": 106.19,
+        "sp500": 108.11,
+        "nasdaq100": 115.11
+      },
+      {
+        "date": "2026-05-13",
+        "shanghai": 106.9,
+        "sp500": 108.75,
+        "nasdaq100": 116.31
+      },
+      {
+        "date": "2026-05-14",
+        "shanghai": 105.27,
+        "sp500": 109.58,
+        "nasdaq100": 117.15
+      },
+      {
+        "date": "2026-05-15",
+        "shanghai": 104.2,
+        "sp500": 108.22,
+        "nasdaq100": 115.35
+      },
+      {
+        "date": "2026-05-18",
+        "shanghai": 104.1,
+        "sp500": 108.14,
+        "nasdaq100": 114.83
+      },
+      {
+        "date": "2026-05-19",
+        "shanghai": 105.06,
+        "sp500": 107.42,
+        "nasdaq100": 114.13
+      },
+      {
+        "date": "2026-05-20",
+        "shanghai": 104.87,
+        "sp500": 108.58,
+        "nasdaq100": 116.03
+      },
+      {
+        "date": "2026-05-21",
+        "shanghai": 102.73,
+        "sp500": 108.77,
+        "nasdaq100": 116.27
+      },
+      {
+        "date": "2026-05-22",
+        "shanghai": 103.63,
+        "sp500": 109.17,
+        "nasdaq100": 116.76
+      },
+      {
+        "date": "2026-05-25",
+        "shanghai": 104.63,
+        "sp500": 109.17,
+        "nasdaq100": 116.76
+      },
+      {
+        "date": "2026-05-26",
+        "shanghai": 104.45,
+        "sp500": 109.84,
+        "nasdaq100": 118.82
+      },
+      {
+        "date": "2026-05-27",
+        "shanghai": 103.15,
+        "sp500": 109.86,
+        "nasdaq100": 118.71
+      },
+      {
+        "date": "2026-05-28",
+        "shanghai": 103.27,
+        "sp500": 110.49,
+        "nasdaq100": 119.7
+      },
+      {
+        "date": "2026-05-29",
+        "shanghai": 102.51,
+        "sp500": 110.73,
+        "nasdaq100": 120.13
+      },
+      {
+        "date": "2026-06-01",
+        "shanghai": 102.24,
+        "sp500": 111.02,
+        "nasdaq100": 120.85
+      },
+      {
+        "date": "2026-06-02",
+        "shanghai": 102.68,
+        "sp500": 111.16,
+        "nasdaq100": 121.43
+      },
+      {
+        "date": "2026-06-03",
+        "shanghai": 102.9,
+        "sp500": 110.35,
+        "nasdaq100": 121.07
+      },
+      {
+        "date": "2026-06-04",
+        "shanghai": 102.24,
+        "sp500": 110.79,
+        "nasdaq100": 120.43
+      },
+      {
+        "date": "2026-06-05",
+        "shanghai": 101.48,
+        "sp500": 107.86,
+        "nasdaq100": 114.68
+      },
+      {
+        "date": "2026-06-08",
+        "shanghai": 99.76,
+        "sp500": 108.18,
+        "nasdaq100": 116.49
+      },
+      {
+        "date": "2026-06-09",
+        "shanghai": 101.04,
+        "sp500": 107.91,
+        "nasdaq100": 115.19
+      },
+      {
+        "date": "2026-06-10",
+        "shanghai": 100.61,
+        "sp500": 106.16,
+        "nasdaq100": 112.9
+      },
+      {
+        "date": "2026-06-11",
+        "shanghai": 100.46,
+        "sp500": 108.02,
+        "nasdaq100": 116.62
+      },
+      {
+        "date": "2026-06-12",
+        "shanghai": 101.58,
+        "sp500": 108.56,
+        "nasdaq100": 117.37
+      },
+      {
+        "date": "2026-06-15",
+        "shanghai": 103.22,
+        "sp500": 110.35,
+        "nasdaq100": 120.97
+      },
+      {
+        "date": "2026-06-16",
+        "shanghai": 103.1,
+        "sp500": 109.73,
+        "nasdaq100": 118.69
+      },
+      {
+        "date": "2026-06-17",
+        "shanghai": 103.51,
+        "sp500": 108.39,
+        "nasdaq100": 117.51
+      },
+      {
+        "date": "2026-06-18",
+        "shanghai": 103.06,
+        "sp500": 109.57,
+        "nasdaq100": 120.42
+      },
+      {
+        "date": "2026-06-22",
+        "shanghai": 104.89,
+        "sp500": 109.16,
+        "nasdaq100": 120.19
+      },
+      {
+        "date": "2026-06-23",
+        "shanghai": 103.46,
+        "sp500": 107.6,
+        "nasdaq100": 116.23
+      },
+      {
+        "date": "2026-06-24",
+        "shanghai": 103.58,
+        "sp500": 107.49,
+        "nasdaq100": 115.72
+      },
+      {
+        "date": "2026-06-25",
+        "shanghai": 103.82,
+        "sp500": 107.48,
+        "nasdaq100": 116.6
+      },
+      {
+        "date": "2026-06-26",
+        "shanghai": 101.47,
+        "sp500": 107.43,
+        "nasdaq100": 115.32
+      },
+      {
+        "date": "2026-06-29",
+        "shanghai": 102.65,
+        "sp500": 108.69,
+        "nasdaq100": 117.92
+      },
+      {
+        "date": "2026-06-30",
+        "shanghai": 103.16,
+        "sp500": 109.55,
+        "nasdaq100": 119.91
+      },
+      {
+        "date": "2026-07-01",
+        "shanghai": 103.62,
+        "sp500": 109.32,
+        "nasdaq100": 118.06
+      },
+      {
+        "date": "2026-07-02",
+        "shanghai": 101.51,
+        "sp500": 109.32,
+        "nasdaq100": 116.16
+      },
+      {
+        "date": "2026-07-03",
+        "shanghai": 101.88,
+        "sp500": 109.32,
+        "nasdaq100": 116.16
+      },
+      {
+        "date": "2026-07-06",
+        "shanghai": 101.82,
+        "sp500": 110.11,
+        "nasdaq100": 117.62
+      },
+      {
+        "date": "2026-07-07",
+        "shanghai": 100.54,
+        "sp500": 109.62,
+        "nasdaq100": 115.54
+      },
+      {
+        "date": "2026-07-08",
+        "shanghai": 100.05,
+        "sp500": 109.31,
+        "nasdaq100": 115.85
+      },
+      {
+        "date": "2026-07-09",
+        "shanghai": 101.71,
+        "sp500": 110.2,
+        "nasdaq100": 117.73
+      },
+      {
+        "date": "2026-07-10",
+        "shanghai": 100.69,
+        "sp500": 110.66,
+        "nasdaq100": 118.12
+      },
+      {
+        "date": "2026-07-13",
+        "shanghai": 98.61,
+        "sp500": 109.79,
+        "nasdaq100": 115.9
+      },
+      {
+        "date": "2026-07-14",
+        "shanghai": 99.96,
+        "sp500": 110.2,
+        "nasdaq100": 117.17
+      },
+      {
+        "date": "2026-07-15",
+        "shanghai": 99.67,
+        "sp500": 110.62,
+        "nasdaq100": 116.84
+      },
+      {
+        "date": "2026-07-16",
+        "shanghai": 97.82,
+        "sp500": 110.05,
+        "nasdaq100": 114.95
+      },
+      {
+        "date": "2026-07-17",
+        "shanghai": 94.84,
+        "sp500": 108.94,
+        "nasdaq100": 113.24
+      },
+      {
+        "date": "2026-07-20",
+        "shanghai": 95.65,
+        "sp500": 108.73,
+        "nasdaq100": 113.28
+      },
+      {
+        "date": "2026-07-21",
+        "shanghai": 97.37,
+        "sp500": 109.7,
+        "nasdaq100": 115.47
+      },
+      {
+        "date": "2026-07-22",
+        "shanghai": 97.43,
+        "sp500": 109.55,
+        "nasdaq100": 114.84
+      },
+      {
+        "date": "2026-07-23",
+        "shanghai": 97.68,
+        "sp500": 108.22,
+        "nasdaq100": 112.69
+      },
+      {
+        "date": "2026-07-24",
+        "shanghai": 96.1,
+        "sp500": 108.28,
+        "nasdaq100": 111.4
+      },
+      {
+        "date": "2026-07-27",
+        "shanghai": 97.21,
+        "sp500": 108.29,
+        "nasdaq100": 111.05
+      },
+      {
+        "date": "2026-07-28",
+        "shanghai": 96.08,
+        "sp500": 108.52,
+        "nasdaq100": 109.95
+      },
+      {
+        "date": "2026-07-29",
+        "shanghai": 96.46,
+        "sp500": 106.88,
+        "nasdaq100": 107.69
+      },
+      {
+        "date": "2026-07-30",
+        "shanghai": 95.86,
+        "sp500": 108.65,
+        "nasdaq100": 111.31
+      },
+      {
+        "date": "2026-07-31",
+        "shanghai": 96.56,
+        "sp500": 109.41,
+        "nasdaq100": 111.98
+      },
+      {
+        "date": "2026-08-03",
+        "shanghai": 95.99,
+        "sp500": 111.03,
+        "nasdaq100": 113.97
+      },
+      {
+        "date": "2026-08-04",
+        "shanghai": 96.31,
+        "sp500": 113.02,
+        "nasdaq100": 117.76
+      },
+      {
+        "date": "2026-08-05",
+        "shanghai": 97.72,
+        "sp500": 112.83,
+        "nasdaq100": 116.78
+      },
+      {
+        "date": "2026-08-06",
+        "shanghai": 98.27,
+        "sp500": 112.63,
+        "nasdaq100": 116.33
+      },
+      {
+        "date": "2026-08-07",
+        "shanghai": 99.27,
+        "sp500": 113.32,
+        "nasdaq100": 117.71
+      },
+      {
+        "date": "2026-08-10",
+        "shanghai": 99.94,
+        "sp500": 113.26,
+        "nasdaq100": 117.31
+      },
+      {
+        "date": "2026-08-11",
+        "shanghai": 99.12,
+        "sp500": 112.89,
+        "nasdaq100": 116.93
+      },
+      {
+        "date": "2026-08-12",
+        "shanghai": 99.44,
+        "sp500": 113.19,
+        "nasdaq100": 117.79
+      },
+      {
+        "date": "2026-08-13",
+        "shanghai": 98.95,
+        "sp500": 113.93,
+        "nasdaq100": 119.15
+      },
+      {
+        "date": "2026-08-14",
+        "shanghai": 98.95,
+        "sp500": 113.74,
+        "nasdaq100": 119
+      },
+      {
+        "date": "2026-08-17",
+        "shanghai": 100.35,
+        "sp500": 113.14,
+        "nasdaq100": 118.79
+      },
+      {
+        "date": "2026-08-18",
+        "shanghai": 100.54,
+        "sp500": 112.36,
+        "nasdaq100": 116.8
+      },
+      {
+        "date": "2026-08-19",
+        "shanghai": 98.12,
+        "sp500": 112.6,
+        "nasdaq100": 116.54
+      },
+      {
+        "date": "2026-08-20",
+        "shanghai": 98.36,
+        "sp500": 111.62,
+        "nasdaq100": 115.7
+      },
+      {
+        "date": "2026-08-21",
+        "shanghai": 98.4,
+        "sp500": 112.11,
+        "nasdaq100": 116.08
+      },
+      {
+        "date": "2026-08-24",
+        "shanghai": 97.81,
+        "sp500": 111.79,
+        "nasdaq100": 114.94
+      },
+      {
+        "date": "2026-08-25",
+        "shanghai": 98,
+        "sp500": 112.15,
+        "nasdaq100": 115.68
+      },
+      {
+        "date": "2026-08-26",
+        "shanghai": 98.58,
+        "sp500": 112.13,
+        "nasdaq100": 115.74
+      },
+      {
+        "date": "2026-08-27",
+        "shanghai": 99.69,
+        "sp500": 112.94,
+        "nasdaq100": 117.39
+      },
+      {
+        "date": "2026-08-28",
+        "shanghai": 99.58,
+        "sp500": 112.65,
+        "nasdaq100": 116.57
+      },
+      {
+        "date": "2026-08-31",
+        "shanghai": 100.44,
+        "sp500": 112.28,
+        "nasdaq100": 116.66
+      },
+      {
+        "date": "2026-09-01",
+        "shanghai": 100.28,
+        "sp500": 111.48,
+        "nasdaq100": 115.16
+      },
+      {
+        "date": "2026-09-02",
+        "shanghai": 99.31,
+        "sp500": 111.99,
+        "nasdaq100": 115.42
+      },
+      {
+        "date": "2026-09-03",
+        "shanghai": 99.33,
+        "sp500": 113.18,
+        "nasdaq100": 116.76
+      },
+      {
+        "date": "2026-09-04",
+        "shanghai": 99.02,
+        "sp500": 112.75,
+        "nasdaq100": 117.01
+      },
+      {
+        "date": "2026-09-07",
+        "shanghai": 99.09,
+        "sp500": 112.75,
+        "nasdaq100": 117.01
+      },
+      {
+        "date": "2026-09-08",
+        "shanghai": 99.29,
+        "sp500": 112.1,
+        "nasdaq100": 116.86
+      },
+      {
+        "date": "2026-09-09",
+        "shanghai": 99.56,
+        "sp500": 111.55,
+        "nasdaq100": 116.52
+      },
+      {
+        "date": "2026-09-10",
+        "shanghai": 99.13,
+        "sp500": 110.9,
+        "nasdaq100": 115.26
+      },
+      {
+        "date": "2026-09-11",
+        "shanghai": 97.97,
+        "sp500": 111.85,
+        "nasdaq100": 116.31
+      },
+      {
+        "date": "2026-09-14",
+        "shanghai": 97.9,
+        "sp500": 111.31,
+        "nasdaq100": 115.36
+      },
+      {
+        "date": "2026-09-15",
+        "shanghai": 97.37,
+        "sp500": 110.81,
+        "nasdaq100": 114.61
+      },
+      {
+        "date": "2026-09-16",
+        "shanghai": 98.05,
+        "sp500": 110.32,
+        "nasdaq100": 114.63
+      },
+      {
+        "date": "2026-09-17",
+        "shanghai": 97.65,
+        "sp500": 111.57,
+        "nasdaq100": 116.62
+      },
+      {
+        "date": "2026-09-18",
+        "shanghai": 98.56,
+        "sp500": 111.76,
+        "nasdaq100": 117.4
+      },
+      {
+        "date": "2026-09-21",
+        "shanghai": 99.52,
+        "sp500": 113.43,
+        "nasdaq100": 120.72
+      },
+      {
+        "date": "2026-09-22",
+        "shanghai": 99.58,
+        "sp500": 113.43,
+        "nasdaq100": 121.71
+      },
+      {
+        "date": "2026-09-23",
+        "shanghai": 99.19,
+        "sp500": 112.57,
+        "nasdaq100": 120.68
+      },
+      {
+        "date": "2026-09-24",
+        "shanghai": 97.97,
+        "sp500": 112.54,
+        "nasdaq100": 120.71
+      },
+      {
+        "date": "2026-09-25",
+        "shanghai": 97.97,
+        "sp500": 113.12,
+        "nasdaq100": 121.22
+      },
+      {
+        "date": "2026-09-28",
+        "shanghai": 96.34,
+        "sp500": 112.24,
+        "nasdaq100": 119.91
+      },
+      {
+        "date": "2026-09-29",
+        "shanghai": 96.51,
+        "sp500": 112.06,
+        "nasdaq100": 120.16
+      },
+      {
+        "date": "2026-09-30",
+        "shanghai": 96.81,
+        "sp500": 111.77,
+        "nasdaq100": 120.43
+      },
+      {
+        "date": "2026-10-01",
+        "shanghai": 96.81,
+        "sp500": 111.99,
+        "nasdaq100": 120.8
+      },
+      {
+        "date": "2026-10-02",
+        "shanghai": 96.81,
+        "sp500": 112.81,
+        "nasdaq100": 122.01
+      },
+      {
+        "date": "2026-10-05",
+        "shanghai": 96.81,
+        "sp500": 113.56,
+        "nasdaq100": 123.08
+      },
+      {
+        "date": "2026-10-06",
+        "shanghai": 96.81,
+        "sp500": 114.22,
+        "nasdaq100": 123.66
+      },
+      {
+        "date": "2026-10-07",
+        "shanghai": 96.81,
+        "sp500": 113.97,
+        "nasdaq100": 123.41
+      },
+      {
+        "date": "2026-10-08",
+        "shanghai": 96.05,
+        "sp500": 113.44,
+        "nasdaq100": 121.69
+      },
+      {
+        "date": "2026-10-09",
+        "shanghai": 96.09,
+        "sp500": 114.11,
+        "nasdaq100": 122.31
+      },
+      {
+        "date": "2026-10-12",
+        "shanghai": 95.68,
+        "sp500": 114.05,
+        "nasdaq100": 121.45
+      },
+      {
+        "date": "2026-10-13",
+        "shanghai": 95.77,
+        "sp500": 114.02,
+        "nasdaq100": 121.07
+      },
+      {
+        "date": "2026-10-14",
+        "shanghai": 94.92,
+        "sp500": 112.76,
+        "nasdaq100": 118.62
+      },
+      {
+        "date": "2026-10-15",
+        "shanghai": 93.41,
+        "sp500": 113.13,
+        "nasdaq100": 118.56
+      },
+      {
+        "date": "2026-10-16",
+        "shanghai": 93.64,
+        "sp500": 111.89,
+        "nasdaq100": 115.59
+      },
+      {
+        "date": "2026-10-19",
+        "shanghai": 94.01,
+        "sp500": 112.35,
+        "nasdaq100": 116.95
+      },
+      {
+        "date": "2026-10-20",
+        "shanghai": 94.12,
+        "sp500": 112.67,
+        "nasdaq100": 116.79
+      },
+      {
+        "date": "2026-10-21",
+        "shanghai": 93.55,
+        "sp500": 113.32,
+        "nasdaq100": 118.11
+      },
+      {
+        "date": "2026-10-22",
+        "shanghai": 92.17,
+        "sp500": 111.95,
+        "nasdaq100": 114.69
+      },
+      {
+        "date": "2026-10-23",
+        "shanghai": 92.99,
+        "sp500": 111.37,
+        "nasdaq100": 114.68
+      },
+      {
+        "date": "2026-10-26",
+        "shanghai": 93.16,
+        "sp500": 112.14,
+        "nasdaq100": 115.93
+      },
+      {
+        "date": "2026-10-27",
+        "shanghai": 91.92,
+        "sp500": 112.81,
+        "nasdaq100": 117.43
+      },
+      {
+        "date": "2026-10-28",
+        "shanghai": 92.76,
+        "sp500": 113.13,
+        "nasdaq100": 118.07
+      },
+      {
+        "date": "2026-10-29",
+        "shanghai": 92.76,
+        "sp500": 112.73,
+        "nasdaq100": 116.47
       }
     ]
   },
   "aiDebt": {
     "available": true,
     "stale": false,
-    "checkedAt": "2026-10-29T16:31:21.377Z",
+    "checkedAt": "2026-10-29T16:38:02.826Z",
     "source": "SEC EDGAR prospectus supplements and issuer filings",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
     "scopeStart": "2025-01-01",

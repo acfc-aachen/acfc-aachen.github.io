@@ -108,7 +108,7 @@ const fetchConstituents = async () => {
 };
 
 const fetchYahooChart = async (symbol, range = '6mo') => {
-  const yahooSymbol = symbol.replaceAll('.', '-');
+  const yahooSymbol = symbol.endsWith('.SS') ? symbol : symbol.replaceAll('.', '-');
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=${range}&interval=1d&events=history`;
   let lastError;
   for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -173,6 +173,58 @@ const fetchQqqCalendar = async () => {
     worstDay: daily.reduce((worst, point) => point.change < worst.change ? point : worst, daily[0]),
     bins,
     history: daily,
+  };
+};
+
+const fetchIndexYtdComparison = async () => {
+  const year = new Date(fetchedAt).getUTCFullYear();
+  const definitions = [
+    { id: 'shanghai', name: 'Shanghai Composite', symbol: '000001.SS', sourceUrl: 'https://finance.yahoo.com/quote/000001.SS/history/' },
+    { id: 'sp500', name: 'S&P 500', symbol: '^GSPC', sourceUrl: 'https://finance.yahoo.com/quote/%5EGSPC/history/' },
+    { id: 'nasdaq100', name: 'Nasdaq-100', symbol: '^NDX', sourceUrl: 'https://finance.yahoo.com/quote/%5ENDX/history/' },
+  ];
+  const charts = await Promise.all(definitions.map(async (definition) => ({
+    ...definition,
+    chart: await fetchYahooChart(definition.symbol, '2y'),
+  })));
+  const series = charts.map(({ chart, ...definition }) => {
+    const observations = chart.timestamps.map((timestamp, index) => ({
+      date: new Date(timestamp * 1000).toISOString().slice(0, 10),
+      close: rounded2(chart.closes[index]),
+    })).filter((point) => point.close !== null && point.close > 0);
+    const firstCurrentIndex = observations.findIndex((point) => point.date.startsWith(`${year}-`));
+    if (firstCurrentIndex < 1) throw new Error(`${definition.name} chart did not include a prior-year base close`);
+    const base = observations[firstCurrentIndex - 1];
+    const history = observations.slice(firstCurrentIndex).map((point) => ({
+      date: point.date,
+      close: point.close,
+      value: rounded2(point.close / base.close * 100),
+      ytdChange: rounded2((point.close / base.close - 1) * 100),
+    }));
+    if (!history.length) throw new Error(`${definition.name} chart did not include current-year observations`);
+    return { ...definition, baseDate: base.date, baseClose: base.close, history, latest: history.at(-1) };
+  });
+  const dates = [...new Set(series.flatMap((item) => item.history.map((point) => point.date)))].sort();
+  const positions = Object.fromEntries(series.map((item) => [item.id, 0]));
+  const lastValues = Object.fromEntries(series.map((item) => [item.id, 100]));
+  const history = dates.map((date) => {
+    const point = { date };
+    series.forEach((item) => {
+      while (positions[item.id] < item.history.length && item.history[positions[item.id]].date <= date) {
+        lastValues[item.id] = item.history[positions[item.id]].value;
+        positions[item.id] += 1;
+      }
+      point[item.id] = lastValues[item.id];
+    });
+    return point;
+  });
+  return {
+    available: true, stale: false, fetchedAt, year,
+    source: 'Yahoo Finance delayed index closes',
+    sourceUrl: 'https://finance.yahoo.com/markets/world-indices/',
+    methodology: 'Previous-year final close = 100; non-trading days are forward-filled for visual alignment.',
+    series: series.map(({ history: _history, ...item }) => item),
+    history,
   };
 };
 
@@ -418,6 +470,15 @@ try {
   console.warn(`QQQ calendar update unavailable; preserved fallback: ${qqq.lastError}`);
 }
 
+let indexYtd;
+try {
+  indexYtd = await fetchIndexYtdComparison();
+  console.log(`Updated index YTD comparison: ${indexYtd.series.map((item) => `${item.symbol} ${item.latest.ytdChange}%`).join(' / ')}`);
+} catch (error) {
+  indexYtd = preserve(previous.indexYtd, 'Yahoo Finance delayed index closes', error);
+  console.warn(`Index YTD comparison unavailable; preserved fallback: ${indexYtd.lastError}`);
+}
+
 let aiDebt;
 try {
   aiDebt = await fetchAiDebtMonitor();
@@ -427,4 +488,4 @@ try {
   console.warn(`AI debt monitor unavailable; preserved fallback: ${aiDebt.lastError}`);
 }
 
-await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt, eurUsd, qqq, aiDebt }, null, 2)}\n`, 'utf8');
+await fs.writeFile(outputPath, `${JSON.stringify({ generatedAt: fetchedAt, cnn, macro, shillerCape, breadth, goldDebt, eurUsd, qqq, indexYtd, aiDebt }, null, 2)}\n`, 'utf8');

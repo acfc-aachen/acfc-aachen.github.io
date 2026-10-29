@@ -12,6 +12,7 @@ const breadth = marketData.breadth ?? {};
 const goldDebt = marketData.goldDebt ?? {};
 const eurUsd = marketData.eurUsd ?? {};
 const qqq = marketData.qqq ?? {};
+const indexYtd = marketData.indexYtd ?? {};
 const aiDebt = marketData.aiDebt ?? {};
 const t = en ? {
   home:'Back to ACFC', language:'中文', eyebrow:'ACFC / VERIFIED DATA', title:'Market Watch',
@@ -28,6 +29,7 @@ const t = en ? {
   breadthTitle:'S&P 500 market breadth', breadthSub:'Advancing and declining constituent securities · daily close', breadthHistory:'Recent 60 sessions', advancers:'Advancing', decliners:'Declining', unchanged:'Unchanged', coverage:'Coverage',
   goldDebtTitle:'Gold price / U.S. debt', goldDebtSub:'COMEX gold price relative to total U.S. public debt', goldDebtHistory:'Gold/debt ratio history', goldPrice:'Gold price', usDebt:'Total U.S. debt', oneYearChange:'One-year change', ratioUnit:'USD/oz per USD 1tn debt',
   qqqTitle:'QQQ daily return calendar', qqqSub:'Nasdaq-100 ETF · year-to-date adjusted-close returns', qqqDistribution:'Daily return distribution', tradingDays:'Trading days', positiveRate:'Positive-day rate', averageDaily:'Average daily return', bestDay:'Best day', worstDay:'Worst day',
+  indexTitle:'Three-index YTD comparison', indexSub:'Shanghai Composite · S&P 500 · Nasdaq-100, rebased to 100', indexHistory:'Normalized YTD performance', indexBase:'Previous-year final close = 100',
   debtTitle:'AI debt financing monitor', debtSub:'Verified corporate bond issuance events linked to the AI infrastructure cycle', debtTracked:'Tracked USD issuance', debtLatest:'Latest verified issue', debtCompanies:'Companies monitored', debtTimeline:'Issuance timeline', debtAmount:'Principal', debtTranches:'Tranches / maturities', debtFiling:'Primary filing', debtScan:'SEC filing scan', debtNoRecent:'No recent public issue', debtPrivate:'Private · limited disclosure', debtMethod:'Coverage methodology',
   fxTitle:'EUR/USD trend', fxSub:'Euro exchange rate against the U.S. dollar · delayed daily close', currentRate:'Current rate', dailyChange:'Daily change', yearChange:'One-year change', yearRange:'52-week range', fxHistory:'One-year EUR/USD history',
   source:'Source', dataPeriod:'Data period', footer:'ACFC Market Watch · Verified public data', legal:'Not investment advice',
@@ -46,6 +48,7 @@ const t = en ? {
   breadthTitle:'标普 500 市场广度', breadthSub:'成分证券上涨与下跌家数 · 每日收盘', breadthHistory:'近 60 个交易日', advancers:'上涨', decliners:'下跌', unchanged:'平盘', coverage:'覆盖',
   goldDebtTitle:'黄金价格与美债总量的比值', goldDebtSub:'COMEX 黄金价格相对于美国公共债务总额', goldDebtHistory:'黄金/美债比值历史', goldPrice:'黄金价格', usDebt:'美国债务总额', oneYearChange:'一年变化', ratioUnit:'美元/盎司 ÷ 每万亿美元债务',
   qqqTitle:'QQQ 每日涨跌日历', qqqSub:'纳斯达克 100 ETF · 年初至今复权收盘日收益', qqqDistribution:'每日收益分布', tradingDays:'交易日', positiveRate:'上涨日占比', averageDaily:'日均涨跌', bestDay:'最佳单日', worstDay:'最差单日',
+  indexTitle:'三大指数 YTD 对比', indexSub:'上证指数 · 标普 500 · 纳斯达克 100，统一归一化为 100', indexHistory:'年内归一化走势', indexBase:'以上一年最后收盘日为 100',
   debtTitle:'AI 债券融资监控', debtSub:'追踪 AI 基础设施周期中的公司公开债券发行事件', debtTracked:'已追踪美元发行额', debtLatest:'最近核验发行', debtCompanies:'监控公司', debtTimeline:'债券发行时间线', debtAmount:'发行本金', debtTranches:'期限与票息', debtFiling:'原始文件', debtScan:'SEC 文件扫描', debtNoRecent:'近期无公开新发行', debtPrivate:'私营公司 · 披露有限', debtMethod:'统计口径',
   fxTitle:'欧元兑美元走势', fxSub:'欧元相对美元汇率 · 延迟日收盘数据', currentRate:'当前汇率', dailyChange:'当日变化', yearChange:'一年变化', yearRange:'52 周区间', fxHistory:'近一年 EUR/USD 走势',
   source:'来源', dataPeriod:'统计期', footer:'ACFC Market Watch · 可核验公开数据', legal:'不构成投资建议',
@@ -171,6 +174,26 @@ const qqqBins = (qqq.bins ?? []).map((bin) => ({
   label:({ down2:en ? '< −2%' : '< −2%', down1:'−2% – −1%', down0:'−1% – 0%', up0:'0% – +1%', up1:'+1% – +2%', up2:en ? '> +2%' : '> +2%' })[bin.id] ?? bin.id,
 }));
 const qqqBinMax = Math.max(1, ...qqqBins.map((bin) => Number(bin.count) || 0));
+const indexYtdHistory = indexYtd.history ?? [];
+const indexYtdWidth = 920;
+const indexYtdHeight = 220;
+const indexYtdValues = indexYtdHistory.flatMap((point) => ['shanghai','sp500','nasdaq100'].map((key) => Number(point[key]))).filter(Number.isFinite);
+const indexYtdRawMin = indexYtdValues.length ? Math.min(...indexYtdValues) : 90;
+const indexYtdRawMax = indexYtdValues.length ? Math.max(...indexYtdValues) : 110;
+const indexYtdMin = Math.floor((indexYtdRawMin - 2) / 5) * 5;
+const indexYtdMax = Math.max(indexYtdMin + 10, Math.ceil((indexYtdRawMax + 2) / 5) * 5);
+const indexYtdTicks = Array.from({ length:Math.round((indexYtdMax - indexYtdMin) / 5) + 1 }, (_, index) => indexYtdMax - index * 5);
+const indexYtdXTicks = axisTicks(indexYtdHistory);
+const indexPaths = {
+  shanghai:linePath(indexYtdHistory, 'shanghai', indexYtdWidth, indexYtdHeight, indexYtdMin, indexYtdMax),
+  sp500:linePath(indexYtdHistory, 'sp500', indexYtdWidth, indexYtdHeight, indexYtdMin, indexYtdMax),
+  nasdaq100:linePath(indexYtdHistory, 'nasdaq100', indexYtdWidth, indexYtdHeight, indexYtdMin, indexYtdMax),
+};
+const indexSeries = (indexYtd.series ?? []).map((series) => ({
+  ...series,
+  displayName:({ shanghai:en ? 'Shanghai Composite' : '上证指数', sp500:'S&P 500', nasdaq100:en ? 'Nasdaq-100' : '纳斯达克 100' })[series.id] ?? series.name,
+  color:({ shanghai:'#d34d63', sp500:'#21966f', nasdaq100:'#3867d6' })[series.id] ?? '#68788a',
+}));
 const debtEvents = aiDebt.events ?? [];
 const debtCompanies = (aiDebt.companies ?? []).map((company) => {
   const events = debtEvents.filter((event) => event.company === company.id && event.currency === 'USD');
@@ -332,7 +355,39 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
       </article>
       </div>
 
-      <div class="section-label qqq-label"><span>03</span><h2>{en ? 'QQQ year to date' : 'QQQ 年内表现'}</h2><div></div></div>
+      <div class="section-label qqq-label"><span>03</span><h2>{en ? 'Index performance' : '指数年内表现'}</h2><div></div></div>
+      <article class="panel index-compare-panel">
+        <div class="panel-heading">
+          <div><span class="panel-kicker">GLOBAL INDICES / YTD</span><h2>{t.indexTitle}</h2><p>{t.indexSub}</p></div>
+          <div class="fear-source"><span class:list={{ stale:indexYtd.stale }}>{indexYtd.stale ? t.lastGood : t.daily}</span><a href={indexYtd.sourceUrl} target="_blank" rel="noreferrer">YAHOO FINANCE ↗</a></div>
+        </div>
+        {indexYtd.available && indexYtdHistory.length ? <>
+          <div class="index-ytd-cards">
+            {indexSeries.map((series) => <a href={series.sourceUrl} target="_blank" rel="noreferrer" style={`--index-color:${series.color}`}>
+              <span><i></i>{series.displayName}<small>{series.symbol}</small></span>
+              <strong class:list={{ positive:Number(series.latest?.ytdChange) >= 0, negative:Number(series.latest?.ytdChange) < 0 }}>{Number(series.latest?.ytdChange) >= 0 ? '+' : ''}{Number(series.latest?.ytdChange).toFixed(2)}%</strong>
+              <em>{en ? `Through ${series.latest?.date}` : `截至 ${series.latest?.date}`}</em>
+            </a>)}
+          </div>
+          <div class="index-ytd-chart">
+            <div class="chart-heading"><span>{t.indexHistory}<small>{indexYtd.year} YTD · {t.indexBase}</small></span><div>{indexSeries.map((series) => <span class="index-legend"><i style={`background:${series.color}`}></i>{series.displayName}</span>)}</div></div>
+            <div class="axis-chart-shell index-axis-shell">
+              <div class="value-axis">{indexYtdTicks.map((value) => <span>{value.toFixed(0)}</span>)}</div>
+              <div class="axis-plot">
+                <div class="interactive-chart" data-chart="index-ytd" data-points={JSON.stringify(indexYtdHistory)} data-y-min={indexYtdMin} data-y-max={indexYtdMax} tabindex="0">
+                  <svg viewBox={`0 0 ${indexYtdWidth} ${indexYtdHeight}`} preserveAspectRatio="none" role="img" aria-label={en ? 'Interactive normalized YTD comparison of Shanghai Composite, S&P 500 and Nasdaq-100' : '可交互的上证指数、标普 500 与纳斯达克 100 年内归一化走势对比'}>
+                    {indexYtdTicks.map((value) => <line class:list={{ 'axis-grid':true, baseline:value === 100 }} x1="0" y1={indexYtdHeight - (value - indexYtdMin) / (indexYtdMax - indexYtdMin) * indexYtdHeight} x2={indexYtdWidth} y2={indexYtdHeight - (value - indexYtdMin) / (indexYtdMax - indexYtdMin) * indexYtdHeight}/>) }
+                    <path class="index-line shanghai" d={indexPaths.shanghai}/><path class="index-line sp500" d={indexPaths.sp500}/><path class="index-line nasdaq100" d={indexPaths.nasdaq100}/>
+                  </svg>
+                  <div class="chart-crosshair"></div><div class="chart-dot primary"></div><div class="chart-dot secondary"></div><div class="chart-dot tertiary"></div><div class="chart-tooltip" role="status"></div>
+                </div>
+                <div class="chart-axis detailed-axis">{indexYtdXTicks.map((point) => <span>{point.date.slice(0,7)}</span>)}</div>
+              </div>
+            </div>
+          </div>
+          <p class="fear-caption">{en ? 'Each index is rebased to 100 at its final close of the previous year. Values are forward-filled on local market holidays so differently timed trading calendars can be compared on one line chart. Delayed closing data.' : '三个指数均以上一年最后一个交易日收盘值为 100；遇到各市场休市日时沿用最近收盘值，以便在同一时间轴比较。行情为延迟收盘数据。'}</p>
+        </> : <div class="fear-unavailable">{en ? 'Index comparison data is temporarily unavailable.' : '指数对比数据暂时不可用。'}</div>}
+      </article>
       <article class="panel qqq-panel">
         <div class="panel-heading">
           <div><span class="panel-kicker">NASDAQ-100 / INVESCO QQQ</span><h2>{t.qqqTitle}</h2><p>{t.qqqSub}</p></div>
@@ -518,6 +573,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
           const crosshair = chart.querySelector('.chart-crosshair');
           const primary = chart.querySelector('.chart-dot.primary');
           const secondary = chart.querySelector('.chart-dot.secondary');
+          const tertiary = chart.querySelector('.chart-dot.tertiary');
           const tooltip = chart.querySelector('.chart-tooltip');
           const valueY = (value, min, max, height) => height - (Math.min(max, Math.max(min, Number(value))) - min) / (max - min) * height;
           const render = (index) => {
@@ -528,6 +584,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
             const x = points.length > 1 ? index / (points.length - 1) * rect.width : rect.width / 2;
             let y = rect.height / 2;
             let secondY = null;
+            let thirdY = null;
             let title = point.date || point.period || '—';
             let rows = [];
             let primaryColor = '#0071e3';
@@ -560,6 +617,18 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
               y = valueY(point.value, Number(chart.dataset.yMin), Number(chart.dataset.yMax), rect.height);
               rows = [[zh ? '欧元兑美元' : 'EUR/USD', number(point.value, 4)]];
               primaryColor = '#3867d6';
+            } else if (type === 'index-ytd') {
+              const min = Number(chart.dataset.yMin);
+              const max = Number(chart.dataset.yMax);
+              y = valueY(point.shanghai, min, max, rect.height);
+              secondY = valueY(point.sp500, min, max, rect.height);
+              thirdY = valueY(point.nasdaq100, min, max, rect.height);
+              rows = [
+                [zh ? '上证指数' : 'Shanghai', signed(Number(point.shanghai) - 100, 2), Number(point.shanghai) >= 100 ? 'up' : 'down'],
+                ['S&P 500', signed(Number(point.sp500) - 100, 2), Number(point.sp500) >= 100 ? 'up' : 'down'],
+                [zh ? '纳斯达克 100' : 'Nasdaq-100', signed(Number(point.nasdaq100) - 100, 2), Number(point.nasdaq100) >= 100 ? 'up' : 'down'],
+              ];
+              primaryColor = '#d34d63';
             }
             title = dateLabel(title);
             crosshair.style.left = `${x}px`;
@@ -569,6 +638,12 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
             if (secondary && secondY !== null) {
               secondary.style.left = `${x}px`;
               secondary.style.top = `${secondY}px`;
+              secondary.style.background = type === 'index-ytd' ? '#21966f' : '';
+            }
+            if (tertiary && thirdY !== null) {
+              tertiary.style.left = `${x}px`;
+              tertiary.style.top = `${thirdY}px`;
+              tertiary.style.background = '#3867d6';
             }
             makeTooltip(tooltip, title, rows);
             chart.classList.add('is-active');
@@ -653,9 +728,10 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
   @media(max-width:800px){.fx-layout{grid-template-columns:1fr}.fx-readout>strong{font-size:46px}.fx-axis-shell .value-axis{height:170px}.fx-chart svg{height:170px}.macro-fx-section>.panel-heading{flex-direction:column}}
   .range-chart-panel[hidden]{display:none}.fear-history-top>span small{display:block;margin-top:5px}.chart-range-tabs{display:inline-flex!important;align-items:center;overflow:hidden;border:1px solid var(--watch-line);border-radius:4px;background:#fff}.chart-range-tabs button{appearance:none;border:0;border-right:1px solid var(--watch-line);background:transparent;color:var(--watch-muted);padding:5px 7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px;line-height:1;cursor:pointer}.chart-range-tabs button:last-child{border-right:0}.chart-range-tabs button:hover{color:var(--watch-cyan)}.chart-range-tabs button.active{background:var(--watch-cyan);color:#fff}.chart-heading-actions{display:flex;align-items:center;gap:12px!important}.chart-legend{display:flex;align-items:center;gap:6px;white-space:nowrap}.chart-legend i{margin-left:0}.gold-debt-chart .range-chart-group{min-height:188px}
   @media(max-width:700px){.chart-heading-actions{width:100%;justify-content:space-between}.chart-range-tabs button{padding:6px 8px}.fear-history-top{align-items:flex-start}.top-indicator-grid .fear-history-top{flex-direction:row;align-items:flex-start}.gold-debt-chart .range-chart-group{min-height:173px}}
-  .qqq-label{margin-top:44px}.qqq-panel{padding:22px;overflow:hidden}.qqq-body-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(350px,.8fr);gap:20px;align-items:start;margin-top:22px}.qqq-side{min-width:0}.qqq-hero{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--watch-line);border-radius:6px;overflow:hidden;background:var(--watch-line)}.qqq-hero>div{min-height:88px;padding:15px;background:linear-gradient(145deg,#fff,#f7fafc);display:flex;flex-direction:column;justify-content:center}.qqq-hero>div:first-child{grid-column:1/-1;min-height:115px}.qqq-hero span{color:var(--watch-muted);font-size:9px;letter-spacing:.4px}.qqq-hero strong{font-size:45px;line-height:1;margin:11px 0 6px;letter-spacing:-2px}.qqq-hero small{color:var(--watch-muted);font-size:8px}.qqq-stat b{display:block;font-size:25px;margin:8px 0 5px}.qqq-calendar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.qqq-month{padding:9px;border:1px solid var(--watch-line);border-radius:6px;background:rgba(255,255,255,.65)}.qqq-month h3{display:flex;align-items:baseline;gap:6px;margin:0 0 7px;font-size:10px}.qqq-month h3 span{color:var(--watch-cyan);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px}.qqq-weekdays,.qqq-month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}.qqq-weekdays{margin-bottom:3px}.qqq-weekdays span{text-align:center;color:var(--watch-muted);font-size:6px}.qqq-day{position:relative;aspect-ratio:1;min-width:0;border:1px solid rgba(164,183,201,.28);border-radius:3px;background:#f0f3f6;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;color:#526272}.qqq-day small{position:absolute;left:2px;top:1px;font-size:5px;opacity:.66}.qqq-day strong{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:clamp(5px,.43vw,7px);line-height:1;letter-spacing:-.3px}.qqq-day.up{background:rgba(33,150,111,var(--day-strength));border-color:rgba(20,116,83,.25);color:#fff}.qqq-day.down{background:rgba(211,77,99,var(--day-strength));border-color:rgba(157,43,63,.25);color:#fff}.qqq-day.flat{background:#dfe5ea}.qqq-day.empty{background:repeating-linear-gradient(135deg,#f7f9fb,#f7f9fb 3px,#f1f4f7 3px,#f1f4f7 6px);color:#8f9aa6}.qqq-day.spacer{visibility:hidden}.qqq-analysis{margin-top:18px;padding-top:18px;border-top:1px solid var(--watch-line)}.legend-down{background:var(--watch-red)}.distribution-bars{display:grid;gap:14px}.distribution-row{display:grid;grid-template-columns:75px minmax(0,1fr) 65px;gap:10px;align-items:center}.distribution-row>span{color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}.distribution-row>div{height:11px;border-radius:999px;background:#e8edf2;overflow:hidden}.distribution-row i{display:block;height:100%;border-radius:999px}.distribution-row.up i{background:linear-gradient(90deg,#79c5a8,var(--watch-green))}.distribution-row.down i{background:linear-gradient(90deg,#e89aa8,var(--watch-red))}.distribution-row>b{font-size:12px}.distribution-row>b small{color:var(--watch-muted);font-size:8px;font-weight:400}.qqq-extremes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}.shock-card{padding:15px;border:1px solid var(--watch-line);border-radius:6px}.shock-card.down{background:rgba(211,77,99,.06)}.shock-card.up{background:rgba(33,150,111,.07)}.shock-card span,.shock-card small,.extreme-line span,.extreme-line small{display:block;color:var(--watch-muted);font-size:8px}.shock-card strong{display:block;font-size:32px;margin:9px 0 5px}.shock-card.down strong{color:var(--watch-red)}.shock-card.up strong{color:var(--watch-green)}.extreme-line{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:12px 13px;border:1px solid var(--watch-line);border-radius:5px}.extreme-line b{grid-column:2;grid-row:1/3;font-size:15px}.extreme-line small{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.qqq-panel>.fear-caption{padding-top:16px;border-top:1px solid var(--watch-line)}
+  .qqq-label{margin-top:44px}.index-compare-panel{padding:22px;margin-bottom:14px;overflow:hidden}.index-ytd-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:22px;border:1px solid var(--watch-line);border-radius:6px;overflow:hidden;background:var(--watch-line)}.index-ytd-cards>a{display:grid;grid-template-columns:1fr auto;gap:6px 14px;padding:16px 18px;background:linear-gradient(145deg,#fff,#f7fafc)}.index-ytd-cards span{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700}.index-ytd-cards span i,.index-legend i{width:8px;height:8px;border-radius:50%;background:var(--index-color)}.index-ytd-cards span small{color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px;font-weight:400}.index-ytd-cards strong{grid-column:2;grid-row:1/3;align-self:center;font-size:25px}.index-ytd-cards em{color:var(--watch-muted);font-size:8px;font-style:normal}.index-ytd-chart{margin-top:24px}.index-ytd-chart .chart-heading>span small{display:block;margin-top:5px}.index-ytd-chart .chart-heading>div{display:flex;flex-wrap:wrap;gap:12px}.index-legend{display:flex;align-items:center;gap:5px;color:var(--watch-muted);font-size:8px}.index-legend i{display:inline-block}.index-axis-shell .value-axis{height:220px}.index-axis-shell svg{display:block;width:100%;height:220px}.index-line{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.index-line.shanghai{stroke:#d34d63}.index-line.sp500{stroke:#21966f}.index-line.nasdaq100{stroke:#3867d6}.axis-grid.baseline{stroke:#6f7f90;stroke-dasharray:5 4}.chart-dot.tertiary{background:#3867d6}.index-compare-panel>.fear-caption{padding-top:14px;border-top:1px solid var(--watch-line)}.qqq-panel{padding:22px;overflow:hidden}.qqq-body-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(350px,.8fr);gap:20px;align-items:start;margin-top:22px}.qqq-side{min-width:0}.qqq-hero{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--watch-line);border-radius:6px;overflow:hidden;background:var(--watch-line)}.qqq-hero>div{min-height:88px;padding:15px;background:linear-gradient(145deg,#fff,#f7fafc);display:flex;flex-direction:column;justify-content:center}.qqq-hero>div:first-child{grid-column:1/-1;min-height:115px}.qqq-hero span{color:var(--watch-muted);font-size:9px;letter-spacing:.4px}.qqq-hero strong{font-size:45px;line-height:1;margin:11px 0 6px;letter-spacing:-2px}.qqq-hero small{color:var(--watch-muted);font-size:8px}.qqq-stat b{display:block;font-size:25px;margin:8px 0 5px}.qqq-calendar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.qqq-month{padding:9px;border:1px solid var(--watch-line);border-radius:6px;background:rgba(255,255,255,.65)}.qqq-month h3{display:flex;align-items:baseline;gap:6px;margin:0 0 7px;font-size:10px}.qqq-month h3 span{color:var(--watch-cyan);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:7px}.qqq-weekdays,.qqq-month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}.qqq-weekdays{margin-bottom:3px}.qqq-weekdays span{text-align:center;color:var(--watch-muted);font-size:6px}.qqq-day{position:relative;aspect-ratio:1;min-width:0;border:1px solid rgba(164,183,201,.28);border-radius:3px;background:#f0f3f6;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;color:#526272}.qqq-day small{position:absolute;left:2px;top:1px;font-size:5px;opacity:.66}.qqq-day strong{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:clamp(5px,.43vw,7px);line-height:1;letter-spacing:-.3px}.qqq-day.up{background:rgba(33,150,111,var(--day-strength));border-color:rgba(20,116,83,.25);color:#fff}.qqq-day.down{background:rgba(211,77,99,var(--day-strength));border-color:rgba(157,43,63,.25);color:#fff}.qqq-day.flat{background:#dfe5ea}.qqq-day.empty{background:repeating-linear-gradient(135deg,#f7f9fb,#f7f9fb 3px,#f1f4f7 3px,#f1f4f7 6px);color:#8f9aa6}.qqq-day.spacer{visibility:hidden}.qqq-analysis{margin-top:18px;padding-top:18px;border-top:1px solid var(--watch-line)}.legend-down{background:var(--watch-red)}.distribution-bars{display:grid;gap:14px}.distribution-row{display:grid;grid-template-columns:75px minmax(0,1fr) 65px;gap:10px;align-items:center}.distribution-row>span{color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}.distribution-row>div{height:11px;border-radius:999px;background:#e8edf2;overflow:hidden}.distribution-row i{display:block;height:100%;border-radius:999px}.distribution-row.up i{background:linear-gradient(90deg,#79c5a8,var(--watch-green))}.distribution-row.down i{background:linear-gradient(90deg,#e89aa8,var(--watch-red))}.distribution-row>b{font-size:12px}.distribution-row>b small{color:var(--watch-muted);font-size:8px;font-weight:400}.qqq-extremes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}.shock-card{padding:15px;border:1px solid var(--watch-line);border-radius:6px}.shock-card.down{background:rgba(211,77,99,.06)}.shock-card.up{background:rgba(33,150,111,.07)}.shock-card span,.shock-card small,.extreme-line span,.extreme-line small{display:block;color:var(--watch-muted);font-size:8px}.shock-card strong{display:block;font-size:32px;margin:9px 0 5px}.shock-card.down strong{color:var(--watch-red)}.shock-card.up strong{color:var(--watch-green)}.extreme-line{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:12px 13px;border:1px solid var(--watch-line);border-radius:5px}.extreme-line b{grid-column:2;grid-row:1/3;font-size:15px}.extreme-line small{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.qqq-panel>.fear-caption{padding-top:16px;border-top:1px solid var(--watch-line)}
   @media(max-width:1150px){.qqq-body-grid{grid-template-columns:1fr}.qqq-calendar{grid-template-columns:repeat(4,minmax(0,1fr))}.qqq-side{display:grid;grid-template-columns:minmax(280px,.75fr) minmax(0,1.25fr);gap:20px}.qqq-analysis{margin-top:0;padding:0 0 0 20px;border-top:0;border-left:1px solid var(--watch-line)}.qqq-day strong{font-size:clamp(6px,.7vw,8px)}}
   @media(max-width:800px){.qqq-calendar{grid-template-columns:repeat(3,minmax(0,1fr))}.qqq-side{display:block}.qqq-analysis{margin-top:18px;padding:18px 0 0;border-top:1px solid var(--watch-line);border-left:0}.qqq-day strong{font-size:clamp(6px,1vw,9px)}}
+  @media(max-width:700px){.index-compare-panel{padding:16px}.index-compare-panel>.panel-heading{flex-direction:column}.index-ytd-cards{grid-template-columns:1fr}.index-ytd-cards>a{padding:14px}.index-ytd-chart .chart-heading>div{margin-left:0}.index-axis-shell .value-axis,.index-axis-shell svg{height:180px}}
   @media(max-width:700px){.qqq-label{margin-top:36px}.qqq-panel{padding:16px}.qqq-panel>.panel-heading{flex-direction:column}.qqq-body-grid{gap:16px}.qqq-hero>div{min-height:82px;padding:13px}.qqq-hero>div:first-child{min-height:105px}.qqq-calendar{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.qqq-month{padding:8px}.qqq-weekdays,.qqq-month-grid{gap:3px}.qqq-day strong{font-size:clamp(6px,1.8vw,9px)}.distribution-row{grid-template-columns:72px minmax(0,1fr) 65px;gap:8px}}
   @media(max-width:420px){.qqq-calendar{grid-template-columns:1fr}.qqq-day strong{font-size:clamp(7px,2.3vw,10px)}}
   .debt-label{margin-top:44px}.ai-debt-panel{padding:22px;overflow:hidden}.debt-summary{display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:1px;margin-top:22px;border:1px solid var(--watch-line);border-radius:6px;overflow:hidden;background:var(--watch-line)}.debt-summary>div{min-height:112px;padding:18px;background:linear-gradient(145deg,#fff,#f7fafc);display:flex;flex-direction:column;justify-content:center}.debt-summary span,.debt-summary small{color:var(--watch-muted);font-size:8px}.debt-summary b{font-size:20px;margin:12px 0 7px}.debt-total strong{font-size:43px;line-height:1;letter-spacing:-2px;margin:12px 0 8px}.debt-total strong small{font-size:15px;margin-left:4px}.debt-total em{color:var(--watch-cyan);font-size:8px;font-style:normal}.debt-company-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:22px}.debt-company{min-width:0;padding:14px;border:1px solid var(--watch-line);border-radius:6px;background:rgba(255,255,255,.7)}.debt-company-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.debt-company-head div strong,.debt-company-head div span{display:block}.debt-company-head div strong{font-size:13px}.debt-company-head div span{color:var(--watch-muted);font-size:7px;margin-top:4px}.debt-company-head>b{font-size:17px}.debt-company-bar{height:5px;margin-top:13px;border-radius:999px;background:#e8edf2;overflow:hidden}.debt-company-bar i{display:block;height:100%;border-radius:999px;background:var(--company-color)}.debt-company p{min-height:28px;margin:10px 0;color:var(--watch-muted);font-size:8px;line-height:1.55}.debt-company>a,.debt-monitor-empty{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid var(--watch-line);color:var(--watch-muted);font-size:7px}.debt-company>a em{color:var(--watch-green);font-style:normal}.debt-company>a em.review{color:var(--watch-amber)}.debt-company>a em.excluded{color:var(--watch-muted)}.debt-company.private{background:repeating-linear-gradient(135deg,#fff,#fff 8px,#f7f9fb 8px,#f7f9fb 16px)}.debt-timeline{margin-top:28px;padding-top:24px;border-top:1px solid var(--watch-line)}.debt-table{border:1px solid var(--watch-line);border-radius:6px;overflow:hidden}.debt-row{display:grid;grid-template-columns:105px 110px 100px minmax(0,1fr) 70px;gap:14px;align-items:center;min-height:64px;padding:11px 14px;border-top:1px solid var(--watch-line);font-size:9px}.debt-row:first-child{border-top:0}.debt-table-head{min-height:34px;background:#f5f8fb;color:var(--watch-muted);font-size:7px;letter-spacing:.6px;text-transform:uppercase}.debt-row time{color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.debt-row>strong{display:flex;align-items:center;gap:7px}.debt-row>strong i{width:7px;height:7px;border-radius:50%;background:var(--company-color)}.debt-row>b{font-size:13px}.debt-row>a{color:var(--watch-cyan);text-align:right}.debt-tranches{display:flex;flex-wrap:wrap;gap:5px}.debt-tranches span{padding:4px 5px;border:1px solid var(--watch-line);border-radius:3px;background:#fff;color:var(--watch-muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:6px}.debt-method{display:grid;grid-template-columns:28px 1fr 28px 1fr;gap:12px 16px;margin-top:20px;padding:18px;border:1px solid var(--watch-line);border-radius:6px;background:#f8fafc}.debt-method>span{color:var(--watch-cyan);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px}.debt-method strong{font-size:11px}.debt-method p{margin:7px 0 0;color:var(--watch-muted);font-size:9px;line-height:1.65}
