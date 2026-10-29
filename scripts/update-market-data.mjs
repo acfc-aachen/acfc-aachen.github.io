@@ -190,7 +190,8 @@ const fetchAiDebtMonitor = async () => {
       });
       const recent = submissions?.filings?.recent ?? {};
       const forms = recent.form ?? [];
-      const index = forms.findIndex((form) => monitoredForms.has(form));
+      const companyMonitoredForms = new Set([...monitoredForms, ...(company.monitoredForms ?? [])]);
+      const index = forms.findIndex((form) => companyMonitoredForms.has(form));
       if (index < 0) return { ...company, monitor: { available: true, latest: null } };
       const accession = recent.accessionNumber[index];
       const primaryDocument = recent.primaryDocument[index];

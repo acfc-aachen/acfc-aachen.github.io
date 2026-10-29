@@ -391,7 +391,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
           <div class="debt-summary">
             <div class="debt-total"><span>{t.debtTracked}</span><strong>${debtTotalUsd.toFixed(1)}<small>bn</small></strong><em>{en ? 'Verified USD public notes since 2025' : '2025 年以来已核验美元公开债券'}</em></div>
             <div><span>{t.debtLatest}</span><b>{debtCompanyMap.get(debtLatestEvent?.company)?.name ?? '—'}</b><small>{debtLatestEvent ? `${debtDate(debtLatestEvent)} · ${debtLatestEvent.status === 'pending' ? (en ? 'terms pending' : '等待定价') : `${debtLatestEvent.currency === 'USD' ? '$' : `${debtLatestEvent.currency} `}${Number(debtLatestEvent.amount).toFixed(1)}bn`}` : '—'}</small></div>
-            <div><span>{t.debtCompanies}</span><b>{debtCompanies.length}</b><small>{en ? '6 SEC issuers + SpaceX' : '6 家 SEC 发行人 + SpaceX'}</small></div>
+            <div><span>{t.debtCompanies}</span><b>{debtCompanies.length}</b><small>{en ? '7 SEC-reporting issuers' : '7 家 SEC 申报公司'}</small></div>
             <div><span>{t.debtScan}</span><b>{debtCheckedAt}</b><small>{en ? 'Offering filings checked daily' : '每日检查债券发行文件'}</small></div>
           </div>
 
@@ -420,7 +420,7 @@ const macroLabel = growthValue === null || inflationValue === null ? (en ? 'Data
 
           <div class="debt-method">
             <span>01</span><div><strong>{t.debtMethod}</strong><p>{en ? 'Totals include verified principal of public senior-note offerings in USD from 2025 onward. Non-USD bonds, bank loans, leases, project finance, preferred stock and equity are excluded from the headline total.' : '总额仅包含 2025 年以来已核验的美元公开高级债券本金。外币债、银行贷款、租赁、项目融资、优先股和普通股不计入头部总额。'}</p></div>
-            <span>02</span><div><strong>{en ? 'Automatic monitoring' : '自动监控方式'}</strong><p>{en ? 'The daily build scans each public issuer’s latest SEC 424B2, 424B5 and FWP filings. A new unmatched filing is marked for review before its amount is added, preventing structured notes linked to the stock from being mistaken for company debt.' : '每日构建会扫描各上市公司的最新 SEC 424B2、424B5 与 FWP 文件。新文件先标记“待核验”，核对发行人和本金后才计入，以免把挂钩公司股票的第三方结构性票据误算为公司债。'}</p></div>
+            <span>02</span><div><strong>{en ? 'Automatic monitoring' : '自动监控方式'}</strong><p>{en ? 'The daily build scans SEC 424B2, 424B5 and FWP filings, plus SpaceX 8-K filings used for its note offering. A new unmatched filing is reviewed before its amount is added, preventing equity, leases or structured notes from being mistaken for company debt.' : '每日构建会扫描 SEC 424B2、424B5 与 FWP 文件，并额外检查 SpaceX 用于披露债券发行的 8-K。新文件核验后才计入，以免把股票、租赁或结构性票据误算成公司债。'}</p></div>
           </div>
         </> : <div class="fear-unavailable">{en ? 'AI debt financing data is temporarily unavailable.' : 'AI 债券融资数据暂时不可用。'}</div>}
       </article>

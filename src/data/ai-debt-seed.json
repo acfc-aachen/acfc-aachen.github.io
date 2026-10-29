@@ -3,7 +3,8 @@
   "methodology": "Verified public senior-note offerings with disclosed principal. USD totals exclude non-USD issues, loans, leases, project finance, preferred stock and equity.",
   "ignoredSources": [
     "https://www.sec.gov/Archives/edgar/data/1326801/000119312526436410/d94886d424b5.htm",
-    "https://www.sec.gov/Archives/edgar/data/1341439/000119312526278585/d120346d424b5.htm"
+    "https://www.sec.gov/Archives/edgar/data/1341439/000119312526278585/d120346d424b5.htm",
+    "https://www.sec.gov/Archives/edgar/data/1181412/000110465926118614/tm2628247d1_8k.htm"
   ],
   "companies": [
     { "id": "meta", "name": "Meta", "ticker": "META", "cik": "0001326801", "color": "#3867d6" },
@@ -12,7 +13,7 @@
     { "id": "nvidia", "name": "NVIDIA", "ticker": "NVDA", "cik": "0001045810", "color": "#76b900" },
     { "id": "oracle", "name": "Oracle", "ticker": "ORCL", "cik": "0001341439", "color": "#d34d63" },
     { "id": "microsoft", "name": "Microsoft", "ticker": "MSFT", "cik": "0000789019", "color": "#0071e3", "note": "No new registered senior-note offering is included in the 2025–2026 tracker window." },
-    { "id": "spacex", "name": "SpaceX", "ticker": "PRIVATE", "cik": null, "color": "#68788a", "note": "Private company. No comparable SEC-registered public bond feed; loans and private placements are excluded until primary terms are publicly verifiable." }
+    { "id": "spacex", "name": "SpaceX", "ticker": "SPCX", "cik": "0001181412", "color": "#68788a", "monitoredForms": ["8-K"], "note": "Nasdaq-listed issuer. The tracker includes verified public senior notes and excludes equipment leases and other non-bond financing." }
   ],
   "events": [
     {
@@ -39,6 +40,11 @@
       "company": "nvidia", "date": "2026-06-15", "amount": 25, "currency": "USD", "form": "FWP",
       "tranches": ["4.25% 2028", "4.35% 2029", "4.50% 2031", "4.75% 2033", "4.95% 2036", "5.55% 2046", "5.625% 2056"],
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000119312526273139/d118718d424b5.htm"
+    },
+    {
+      "company": "spacex", "date": "2026-06-23", "amount": 25, "currency": "USD", "form": "8-K",
+      "tranches": ["5.35% 2031", "5.65% 2033", "5.875% 2036", "6.60% 2046", "6.65% 2056"],
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026044955/spcx-pricing8xk.htm"
     },
     {
       "company": "meta", "date": "2026-05-04", "amount": 25, "currency": "USD", "form": "424B2",

@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-29T16:09:52.895Z",
+  "generatedAt": "2026-10-29T16:31:21.377Z",
   "cnn": {
     "available": true,
     "stale": false,
     "source": "CNN Fear & Greed Index",
     "sourceUrl": "https://www.cnn.com/markets/fear-and-greed",
-    "fetchedAt": "2026-10-29T16:09:52.895Z",
-    "asOf": "2026-10-29T16:05:27.000Z",
-    "score": 35.7,
+    "fetchedAt": "2026-10-29T16:31:21.377Z",
+    "asOf": "2026-10-29T16:30:11.000Z",
+    "score": 35.4,
     "rating": "fear",
     "previousClose": 35.9,
     "previousWeek": 20,
@@ -1266,12 +1266,12 @@
       },
       {
         "date": "2026-10-29T00:00:00.000Z",
-        "value": 35.6,
+        "value": 35.4,
         "rating": "fear"
       },
       {
-        "date": "2026-10-29T16:05:27.000Z",
-        "value": 35.7,
+        "date": "2026-10-29T16:30:11.000Z",
+        "value": 35.4,
         "rating": "fear"
       }
     ]
@@ -1282,7 +1282,7 @@
     "source": "Eurostat",
     "sourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/namq_10_gdp/default/table",
     "inflationSourceUrl": "https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_minr/default/table",
-    "fetchedAt": "2026-10-29T16:09:52.895Z",
+    "fetchedAt": "2026-10-29T16:31:21.377Z",
     "region": "EA21",
     "regionName": "Euro area – 21 countries",
     "growth": {
@@ -2382,26 +2382,26 @@
       }
     ],
     "fetchedAt": "2026-10-27T09:00:26.338Z",
-    "lastAttemptAt": "2026-10-29T16:09:52.895Z",
+    "lastAttemptAt": "2026-10-29T16:31:21.377Z",
     "lastError": "Command failed: python C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\nTraceback (most recent call last):\r\n  File \"C:\\Users\\li\\Desktop\\ACFC\\WS26\\acfc-aachen.github.io\\scripts\\read-shiller.py\", line 10, in <module>\r\n    import xlrd\r\nModuleNotFoundError: No module named 'xlrd'\r\n"
   },
   "breadth": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:09:52.895Z",
+    "fetchedAt": "2026-10-29T16:31:21.377Z",
     "source": "Calculated from S&P 500 constituents and delayed daily closes",
     "constituentsSourceUrl": "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
     "pricesSourceUrl": "https://finance.yahoo.com/quote/%5EGSPC/history/",
     "date": "2026-10-29",
     "constituentCount": 503,
     "successfulSymbols": 503,
-    "advancers": 393,
-    "decliners": 110,
+    "advancers": 391,
+    "decliners": 112,
     "unchanged": 0,
     "coverage": 503,
-    "score": 78.1,
-    "netBreadth": 56.3,
-    "sp500Change": -0.31,
+    "score": 77.7,
+    "netBreadth": 55.5,
+    "sp500Change": -0.35,
     "history": [
       {
         "date": "2026-06-24",
@@ -3295,30 +3295,30 @@
       },
       {
         "date": "2026-10-29",
-        "advancers": 393,
-        "decliners": 110,
+        "advancers": 391,
+        "decliners": 112,
         "unchanged": 0,
         "coverage": 503,
-        "score": 78.1,
-        "netBreadth": 56.3,
-        "sp500Change": -0.31
+        "score": 77.7,
+        "netBreadth": 55.5,
+        "sp500Change": -0.35
       }
     ]
   },
   "goldDebt": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:09:52.895Z",
+    "fetchedAt": "2026-10-29T16:31:21.377Z",
     "source": "Calculated from COMEX gold futures and U.S. Treasury total public debt outstanding",
     "goldSourceUrl": "https://finance.yahoo.com/quote/GC=F/history/",
     "debtSourceUrl": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/",
     "unit": "USD/oz per USD 1tn debt",
     "date": "2026-10-29",
     "debtDate": "2026-10-27",
-    "goldPrice": 4034.9,
+    "goldPrice": 4027.5,
     "debtTrillions": 40.58,
-    "ratio": 99.43,
-    "oneYearChange": -5.8,
+    "ratio": 99.24,
+    "oneYearChange": -5.98,
     "history": [
       {
         "date": "2006-11-01",
@@ -4751,22 +4751,22 @@
       {
         "date": "2026-10-29",
         "debtDate": "2026-10-27",
-        "goldPrice": 4034.9,
+        "goldPrice": 4027.5,
         "debtTrillions": 40.58,
-        "ratio": 99.43
+        "ratio": 99.24
       }
     ]
   },
   "eurUsd": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:09:52.895Z",
+    "fetchedAt": "2026-10-29T16:31:21.377Z",
     "source": "Yahoo Finance delayed daily EUR/USD closes",
     "sourceUrl": "https://finance.yahoo.com/quote/EURUSD%3DX/history/",
     "date": "2026-10-29",
-    "value": 1.1168,
-    "dailyChange": 0.34,
-    "oneYearChange": -4.2,
+    "value": 1.1164,
+    "dailyChange": 0.31,
+    "oneYearChange": -4.24,
     "yearHigh": 1.2018,
     "yearLow": 1.113,
     "history": [
@@ -5808,21 +5808,21 @@
       },
       {
         "date": "2026-10-29",
-        "value": 1.1168
+        "value": 1.1164
       }
     ]
   },
   "qqq": {
     "available": true,
     "stale": false,
-    "fetchedAt": "2026-10-29T16:09:52.895Z",
+    "fetchedAt": "2026-10-29T16:31:21.377Z",
     "year": 2026,
     "source": "Calculated from Invesco QQQ adjusted daily closes",
     "sourceUrl": "https://finance.yahoo.com/quote/QQQ/history/",
     "date": "2026-10-29",
-    "close": 715.99,
-    "dailyChange": -1.33,
-    "ytdChange": 16.95,
+    "close": 715.35,
+    "dailyChange": -1.41,
+    "ytdChange": 16.85,
     "positiveDays": 110,
     "negativeDays": 97,
     "flatDays": 1,
@@ -7122,16 +7122,16 @@
       },
       {
         "date": "2026-10-29",
-        "close": 715.99,
-        "adjustedClose": 715.99,
-        "change": -1.33
+        "close": 715.35,
+        "adjustedClose": 715.35,
+        "change": -1.41
       }
     ]
   },
   "aiDebt": {
     "available": true,
     "stale": false,
-    "checkedAt": "2026-10-29T16:09:52.895Z",
+    "checkedAt": "2026-10-29T16:31:21.377Z",
     "source": "SEC EDGAR prospectus supplements and issuer filings",
     "sourceUrl": "https://www.sec.gov/edgar/search/",
     "scopeStart": "2025-01-01",
@@ -7249,13 +7249,23 @@
       {
         "id": "spacex",
         "name": "SpaceX",
-        "ticker": "PRIVATE",
-        "cik": null,
+        "ticker": "SPCX",
+        "cik": "0001181412",
         "color": "#68788a",
-        "note": "Private company. No comparable SEC-registered public bond feed; loans and private placements are excluded until primary terms are publicly verifiable.",
+        "monitoredForms": [
+          "8-K"
+        ],
+        "note": "Nasdaq-listed issuer. The tracker includes verified public senior notes and excludes equipment leases and other non-bond financing.",
         "monitor": {
-          "available": false,
-          "reason": "private"
+          "available": true,
+          "latest": {
+            "form": "8-K",
+            "filedAt": "2026-10-26",
+            "accession": "0001104659-26-118614",
+            "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1181412/000110465926118614/tm2628247d1_8k.htm"
+          },
+          "needsReview": false,
+          "classification": "excluded"
         }
       }
     ],
@@ -7325,6 +7335,21 @@
           "6.25% 2066"
         ],
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000110465926081786/tm2619352-2_424b5.htm"
+      },
+      {
+        "company": "spacex",
+        "date": "2026-06-23",
+        "amount": 25,
+        "currency": "USD",
+        "form": "8-K",
+        "tranches": [
+          "5.35% 2031",
+          "5.65% 2033",
+          "5.875% 2036",
+          "6.60% 2046",
+          "6.65% 2056"
+        ],
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026044955/spcx-pricing8xk.htm"
       },
       {
         "company": "nvidia",
