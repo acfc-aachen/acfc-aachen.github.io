@@ -8,9 +8,9 @@ const t = en ? {
   discover:'Discover ACFC', join:'Join the conversation', location:'Aachen, Germany',
   about:'Curiosity brings us together.', aboutText:'ACFC is Aachen Chinese Finance Club. We bring an interest in finance into a shared space for learning, thoughtful questions and open conversation.',
   values:[['01','Learn with clarity.','Start with the fundamentals. Build a clearer understanding of finance and the economic world around us.'],['02','Think independently.','Ask better questions, compare perspectives and develop your own judgment.'],['03','Connect through ideas.','Meet people who share your curiosity and make learning a conversation.']],
-  events:'Ideas worth gathering for.', eventText:'Our next chapter starts with a conversation. Confirmed dates and participation details will be published here.',
-  soon:'To be announced', eventTitle:'The next ACFC event', eventBody:'The programme, venue and registration details are being prepared. Check back for the official announcement.',
-  note:'No registration is open at the moment.',
+  events:'Ideas worth gathering for.', eventText:'The next gathering now has a date. Programme and participation details will be published here as they are confirmed.',
+  soon:'31 OCT 2026', eventTitle:'The next ACFC event', eventBody:'The next ACFC event will take place on Saturday, 31 October 2026. The topic, venue and registration details will be announced soon.',
+  dateMeta:'OCT / 2026', note:'The date is confirmed; registration is not open yet.',
   joinTitle:'Your curiosity belongs here.', joinText:'Interested in learning, exchanging ideas or helping shape ACFC? Contact us by email to learn about joining or collaboration.', joinStatus:'Joining details coming soon',
   faq:'A few things to know.', questions:[['Do I need a finance background?','You can explore the website without prior knowledge. Any requirements for a specific event will appear in its announcement.'],['Where can I find the next event?','Confirmed events will be listed in the Events section, together with the date, venue and official registration link.'],['How can I join or collaborate?','Contact us at aachen_acfc@126.com about joining or collaboration. Event registration is announced separately.']],
   photo:'Aachen photograph by Daniel von Appen · CC0', footer:'Learning starts with a question.', home:'ACFC home', menu:'Menu',
@@ -20,8 +20,8 @@ const t = en ? {
   discover:'认识 ACFC', join:'一起参与', location:'德国 · 亚琛',
   about:'以好奇心为起点。', aboutText:'ACFC，Aachen Chinese Finance Club。我们希望把对金融的兴趣，变成共同学习、认真提问与开放交流的空间。',
   values:[['01','把知识，理解透。','从基础出发，理解金融与身边的经济世界，让每一次学习都多一点清晰。'],['02','把问题，想深入。','保持提问，交换不同视角，在讨论中形成自己的判断。'],['03','把想法，连接起来。','认识同样好奇的人，让学习成为一场可以持续的对话。']],
-  events:'让想法，在这里相遇。', eventText:'下一次交流，正在酝酿。确认后的时间与参与方式将在这里公布。',
-  soon:'即将公布', eventTitle:'下一场 ACFC 活动', eventBody:'活动主题、地点与报名信息正在准备中，请以之后发布的正式公告为准。', note:'目前暂无开放报名的活动。',
+  events:'让想法，在这里相遇。', eventText:'下一次交流已经定下日期，活动内容与参与方式将在确认后继续更新。',
+  soon:'2026年10月31日', eventTitle:'下一场 ACFC 活动', eventBody:'下一场 ACFC 活动将于 2026 年 10 月 31 日（周六）举行。活动主题、地点与报名方式稍后公布。', dateMeta:'10月 / 2026', note:'活动日期已经公布，报名暂未开放。',
   joinTitle:'带着好奇心，加入我们。', joinText:'想一起学习、交流想法，或参与 ACFC 的建设？欢迎通过邮件咨询加入或合作。', joinStatus:'加入方式 · 待公布',
   faq:'你可能想知道。', questions:[['需要金融背景吗？','你可以从了解 ACFC 开始，无需预备知识。具体活动如有参与要求，会在正式公告中说明。'],['在哪里查看下一场活动？','已确认的活动将发布在本页活动区，包括时间、地点与正式报名链接。'],['如何加入或开展合作？','你可以发送邮件至 aachen_acfc@126.com 咨询加入或合作，具体活动报名方式会另行公布。']],
   photo:'亚琛摄影：Daniel von Appen · CC0', footer:'每一次学习，都从一个问题开始。', home:'ACFC 首页', menu:'菜单',
@@ -65,7 +65,7 @@ const navHrefs = en ? ['#about','#events','/en/market-watch/','#join'] : ['#abou
       </section>
       <section class="events-bg" id="events"><div class="section wrap">
         <p class="eyebrow">02 / EVENTS</p><div class="section-heading"><h2>{t.events}</h2><p>{t.eventText}</p></div>
-        <article class="event"><div class="date-block" aria-hidden="true">—<span>ACFC / NEXT</span></div><div class="event-body"><span class="pill">{t.soon}</span><h3>{t.eventTitle}</h3><p>{t.eventBody}</p></div><span class="event-arrow" aria-hidden="true">↗</span></article>
+        <article class="event"><div class="date-block"><time datetime="2026-10-31">31</time><span>{t.dateMeta}</span></div><div class="event-body"><span class="pill">{t.soon}</span><h3>{t.eventTitle}</h3><p>{t.eventBody}</p></div><span class="event-arrow" aria-hidden="true">↗</span></article>
         <p class="small">{t.note}</p>
       </div></section>
       <section class="join-section wrap" id="join"><p class="eyebrow">03 / JOIN ACFC</p><h2>{t.joinTitle}</h2><p>{t.joinText}</p><a class="button" href="mailto:aachen_acfc@126.com">{en ? 'Contact ACFC' : '邮件联系 ACFC'} <span aria-hidden="true">↗</span></a></section>
